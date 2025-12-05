@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title>童童勇闯东南亚</title>
+  <title>小东勇闯东南亚</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * {
@@ -13,7 +13,7 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: radial-gradient(circle at top, #ffe0b2, #120b24);
+      background: #120b24;
       color: #fdfdfd;
       min-height: 100vh;
       display: flex;
@@ -25,8 +25,8 @@
     #lock-screen {
       position: fixed;
       inset: 0;
-      backdrop-filter: blur(14px);
-      background: linear-gradient(135deg, rgba(10, 5, 30, 0.95), rgba(60, 20, 80, 0.95));
+      backdrop-filter: blur(8px);
+      background: rgba(10, 5, 30, 0.96);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -36,16 +36,15 @@
     .lock-box {
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 24px;
-      padding: 32px 28px;
-      max-width: 380px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      max-width: 360px;
       width: 90%;
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.5);
       text-align: center;
     }
 
     .lock-title {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
       margin-bottom: 6px;
     }
@@ -53,12 +52,12 @@
     .lock-sub {
       font-size: 13px;
       opacity: 0.8;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
     }
 
     .lock-input {
       width: 100%;
-      padding: 10px 12px;
+      padding: 9px 10px;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.3);
       background: rgba(0, 0, 0, 0.25);
@@ -66,7 +65,7 @@
       outline: none;
       font-size: 14px;
       text-align: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .lock-input::placeholder {
@@ -77,19 +76,12 @@
       width: 100%;
       border: none;
       border-radius: 999px;
-      padding: 10px 0;
+      padding: 9px 0;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      background: linear-gradient(135deg, #ffb74d, #ff7043);
+      background: #ffb74d;
       color: #201326;
-      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
-    }
-
-    .lock-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
-      opacity: 0.95;
     }
 
     .lock-error {
@@ -102,113 +94,88 @@
     /* 主体内容 */
     .page {
       width: 100%;
-      max-width: 1100px;
-      margin: 24px;
-      border-radius: 28px;
-      background: linear-gradient(135deg, rgba(10, 8, 30, 0.96), rgba(35, 15, 55, 0.96));
+      max-width: 900px;
+      margin: 20px;
+      border-radius: 20px;
+      background: #1b1028;
       overflow: hidden;
-      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       display: none; /* 默认锁住，输入密码后显示 */
     }
 
     header {
-      padding: 28px 28px 10px;
+      padding: 20px 18px 10px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 18px;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .title-block {
-      flex: 1 1 250px;
     }
 
     .main-title {
-      font-size: 30px;
+      font-size: 26px;
       font-weight: 800;
+      margin-bottom: 8px;
       letter-spacing: 2px;
-      margin-bottom: 4px;
-      text-shadow: 0 0 16px rgba(255, 204, 128, 0.6);
     }
 
-    .subtitle {
-      font-size: 13px;
-      opacity: 0.85;
-    }
-
-    .tag-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .tag {
-      font-size: 11px;
-      padding: 4px 10px;
+    /* 顶部流动文字 */
+    .flow-row {
+      position: relative;
+      overflow: hidden;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(0, 0, 0, 0.45);
+      height: 30px;
+      margin-bottom: 10px;
+    }
+
+    .flow-track {
+      position: absolute;
+      white-space: nowrap;
+      will-change: transform;
+      animation: flow 15s linear infinite;
+      font-size: 13px;
+      padding-left: 100%;
+      line-height: 30px;
       opacity: 0.9;
     }
 
-    .top-image {
-      flex: 0 0 220px;
-      max-width: 260px;
-      border-radius: 22px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.18);
+    @keyframes flow {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-100%);
+      }
     }
 
-    .top-image img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
+    /* 诗词卡片 */
+    .poem-card {
+      margin-top: 4px;
+      border-radius: 12px;
+      border: 1px dashed rgba(255, 255, 255, 0.28);
+      background: radial-gradient(circle at top left, rgba(255, 224, 178, 0.12), rgba(0, 0, 0, 0.6));
+      padding: 10px 12px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .poem-title {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-bottom: 4px;
+    }
+
+    .poem-line {
+      margin-left: 4px;
     }
 
     main {
-      padding: 18px 24px 26px;
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
-      gap: 18px;
-    }
-
-    @media (max-width: 840px) {
-      main {
-        grid-template-columns: 1fr;
-      }
-
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .top-image {
-        width: 100%;
-      }
-    }
-
-    /* 左侧：网站链接 */
-    .card {
-      background: radial-gradient(circle at top left, rgba(255, 224, 178, 0.15), rgba(0, 0, 0, 0.7));
-      border-radius: 20px;
-      padding: 16px 16px 18px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-
-    .card h2 {
-      font-size: 16px;
-      margin-bottom: 10px;
+      padding: 14px 16px 18px;
     }
 
     .link-list {
       display: flex;
       flex-direction: column;
       gap: 8px;
-      margin-top: 6px;
+      margin-top: 8px;
     }
 
     .link-item {
@@ -216,11 +183,10 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      padding: 9px 10px;
-      border-radius: 14px;
-      background: rgba(0, 0, 0, 0.4);
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.35);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
     }
 
     .link-left {
@@ -259,7 +225,7 @@
 
     .link-open {
       font-size: 11px;
-      padding: 5px 10px;
+      padding: 4px 9px;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.2);
       background: rgba(255, 255, 255, 0.06);
@@ -267,98 +233,8 @@
       flex-shrink: 0;
     }
 
-    .link-item:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6);
-      background: rgba(255, 255, 255, 0.04);
-    }
-
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .mini-btn {
-      font-size: 11px;
-      padding: 5px 10px;
-      border-radius: 999px;
-      border: 1px dashed rgba(255, 255, 255, 0.3);
-      background: rgba(0, 0, 0, 0.4);
-      cursor: pointer;
-    }
-
-    /* 右侧：图片 / 心情 / 小工具  */
-    .gallery {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .gallery-main {
-      border-radius: 20px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      background: rgba(0, 0, 0, 0.4);
-    }
-
-    .gallery-main img {
-      width: 100%;
-      display: block;
-      max-height: 260px;
-      object-fit: cover;
-    }
-
-    .gallery-thumbs {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 6px;
-    }
-
-    .thumb {
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      cursor: pointer;
-    }
-
-    .thumb img {
-      width: 100%;
-      height: 70px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .mood-card {
-      margin-top: 8px;
-      border-radius: 18px;
-      border: 1px dashed rgba(255, 255, 255, 0.25);
-      padding: 10px 12px;
-      font-size: 12px;
-      background: rgba(0, 0, 0, 0.45);
-    }
-
-    .mood-title {
-      font-size: 12px;
-      opacity: 0.85;
-      margin-bottom: 4px;
-    }
-
-    .mood-text {
-      font-size: 12px;
-      line-height: 1.5;
-      opacity: 0.9;
-    }
-
-    .time-row {
-      font-size: 11px;
-      opacity: 0.75;
-      margin-top: 4px;
-    }
-
     footer {
-      padding: 8px 22px 14px;
+      padding: 8px 14px 12px;
       font-size: 11px;
       opacity: 0.7;
       text-align: right;
@@ -376,7 +252,7 @@
   <div id="lock-screen">
     <div class="lock-box">
       <div class="lock-title">输入通关暗号</div>
-      <div class="lock-sub">只有真正的自己，才知道这一串数字的意义。</div>
+      <div class="lock-sub">只有知道这串数字的人，才配看到后面的世界。</div>
       <input
         id="password-input"
         type="password"
@@ -391,151 +267,96 @@
   <!-- 主内容 -->
   <div class="page" id="page">
     <header>
-      <div class="title-block">
-        <div class="main-title">童童勇闯东南亚</div>
-        <div class="subtitle">
-          世界很吵，我只想把好看的图、好玩的事、还有未来的小计划悄悄收进这里。
-        </div>
-        <div class="tag-row">
-          <span class="tag">收藏夹升级版</span>
-          <span class="tag">加密小天地</span>
-          <span class="tag">只给懂密码的人看</span>
+      <div class="main-title">小东勇闯东南亚</div>
+
+      <!-- 顶部流动两句 -->
+      <div class="flow-row">
+        <div class="flow-track">
+          小东勇闯东南亚 · 小东闯东南亚失败 · 小东勇闯东南亚 · 小东闯东南亚失败 · 小东勇闯东南亚 · 小东闯东南亚失败 ·
         </div>
       </div>
 
-      <!-- 顶部主图：把 src 换成你的图片地址 -->
-      <div class="top-image">
-        <img
-          src="https://images.pexels.com/photos/2589455/pexels-photo-2589455.jpeg"
-          alt="Top Image"
-        />
+      <!-- 诗词美化 -->
+      <div class="poem-card">
+        <div class="poem-title">随手记下的两句心事：</div>
+        <div class="poem-line">春风若有怜花意，可否许我再少年。</div>
+        <div class="poem-line">我本将心向明月，奈何明月照沟渠。</div>
       </div>
     </header>
 
     <main>
-      <!-- 左侧：常用网站 -->
-      <section class="card">
-        <h2>常用网站 · 一键直达</h2>
-
-        <div class="link-list">
-          <div class="link-item" data-url="https://ru.pinterest.com/">
-            <div class="link-left">
-              <div class="link-icon">🖼️</div>
-              <div class="link-text">
-                <div class="link-name">图天下 · Pinterest</div>
-                <div class="link-url">https://ru.pinterest.com/</div>
-              </div>
+      <h2 style="font-size:14px;margin-bottom:6px;">常用网站 · 一键直达</h2>
+      <div class="link-list">
+        <div class="link-item">
+          <div class="link-left">
+            <div class="link-icon">🖼️</div>
+            <div class="link-text">
+              <div class="link-name">图天下 · Pinterest</div>
+              <div class="link-url">https://ru.pinterest.com/</div>
             </div>
-            <button class="link-open" onclick="openLink(this)">打开</button>
           </div>
-
-          <div class="link-item" data-url="https://yandex.com/">
-            <div class="link-left">
-              <div class="link-icon">🗂️</div>
-              <div class="link-text">
-                <div class="link-name">图库 · Yandex</div>
-                <div class="link-url">https://yandex.com/</div>
-              </div>
-            </div>
-            <button class="link-open" onclick="openLink(this)">打开</button>
-          </div>
-
-          <div class="link-item" data-url="https://dashboard.thordata.com/">
-            <div class="link-left">
-              <div class="link-icon">🌐</div>
-              <div class="link-text">
-                <div class="link-name">IP 购买 · Thordata</div>
-                <div class="link-url">https://dashboard.thordata.com/</div>
-              </div>
-            </div>
-            <button class="link-open" onclick="openLink(this)">打开</button>
-          </div>
-
-          <div class="link-item" data-url="https://porkbun.com/account/domainsSpeedy">
-            <div class="link-left">
-              <div class="link-icon">🔑</div>
-              <div class="link-text">
-                <div class="link-name">域名管理 · Porkbun</div>
-                <div class="link-url">https://porkbun.com/account/domainsSpeedy</div>
-              </div>
-            </div>
-            <button class="link-open" onclick="openLink(this)">打开</button>
-          </div>
-
-          <div class="link-item" data-url="https://github.com/dh6598726-stack/woaibixia">
-            <div class="link-left">
-              <div class="link-icon">📦</div>
-              <div class="link-text">
-                <div class="link-name">仓库 · GitHub</div>
-                <div class="link-url">https://github.com/dh6598726-stack/woaibixia</div>
-              </div>
-            </div>
-            <button class="link-open" onclick="openLink(this)">打开</button>
-          </div>
-
-          <div class="link-item" data-url="https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq">
-            <div class="link-left">
-              <div class="link-icon">📲</div>
-              <div class="link-text">
-                <div class="link-name">二步验证 · 2FA</div>
-                <div class="link-url">https://2fa.live/...</div>
-              </div>
-            </div>
-            <button class="link-open" onclick="openLink(this)">打开</button>
-          </div>
+          <button class="link-open" onclick="window.open('https://ru.pinterest.com/', '_blank')">打开</button>
         </div>
 
-        <div class="btn-row">
-          <button class="mini-btn" onclick="openAll()">一键打开全部</button>
-          <button class="mini-btn" onclick="scrollToGallery()">跳到图片区</button>
-        </div>
-      </section>
-
-      <!-- 右侧：图片 & 小心情 -->
-      <section class="gallery" id="gallery">
-        <div class="gallery-main">
-          <!-- 大图：这里也可以换成你喜欢的图 -->
-          <img
-            id="main-image"
-            src="https://images.pexels.com/photos/346885/pexels-photo-346885.jpeg"
-            alt="Gallery Main"
-          />
+        <div class="link-item">
+          <div class="link-left">
+            <div class="link-icon">🗂️</div>
+            <div class="link-text">
+              <div class="link-name">图库 · Yandex</div>
+              <div class="link-url">https://yandex.com/</div>
+            </div>
+          </div>
+          <button class="link-open" onclick="window.open('https://yandex.com/', '_blank')">打开</button>
         </div>
 
-        <div class="gallery-thumbs">
-          <!-- 三张缩略图：把 src 换成你的图片链接就行 -->
-          <div class="thumb" onclick="swapImage(this)">
-            <img
-              src="https://images.pexels.com/photos/2403200/pexels-photo-2403200.jpeg"
-              alt="thumb1"
-            />
+        <div class="link-item">
+          <div class="link-left">
+            <div class="link-icon">🌐</div>
+            <div class="link-text">
+              <div class="link-name">IP 购买 · Thordata</div>
+              <div class="link-url">https://dashboard.thordata.com/</div>
+            </div>
           </div>
-          <div class="thumb" onclick="swapImage(this)">
-            <img
-              src="https://images.pexels.com/photos/237272/pexels-photo-237272.jpeg"
-              alt="thumb2"
-            />
-          </div>
-          <div class="thumb" onclick="swapImage(this)">
-            <img
-              src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg"
-              alt="thumb3"
-            />
-          </div>
+          <button class="link-open" onclick="window.open('https://dashboard.thordata.com/', '_blank')">打开</button>
         </div>
 
-        <div class="mood-card">
-          <div class="mood-title">今日心情备忘</div>
-          <div class="mood-text" id="mood-text">
-            今天也要往前走一小步，不一定要很厉害，但要让明天的自己，稍微羡慕一下今天。
+        <div class="link-item">
+          <div class="link-left">
+            <div class="link-icon">🔑</div>
+            <div class="link-text">
+              <div class="link-name">域名管理 · Porkbun</div>
+              <div class="link-url">https://porkbun.com/account/domainsSpeedy</div>
+            </div>
           </div>
-          <div class="time-row" id="time-row"></div>
+          <button class="link-open" onclick="window.open('https://porkbun.com/account/domainsSpeedy', '_blank')">打开</button>
         </div>
-      </section>
+
+        <div class="link-item">
+          <div class="link-left">
+            <div class="link-icon">📦</div>
+            <div class="link-text">
+              <div class="link-name">仓库 · GitHub</div>
+              <div class="link-url">https://github.com/dh6598726-stack/woaibixia</div>
+            </div>
+          </div>
+          <button class="link-open" onclick="window.open('https://github.com/dh6598726-stack/woaibixia', '_blank')">打开</button>
+        </div>
+
+        <div class="link-item">
+          <div class="link-left">
+            <div class="link-icon">📲</div>
+            <div class="link-text">
+              <div class="link-name">二步验证 · 2FA</div>
+              <div class="link-url">https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq</div>
+            </div>
+          </div>
+          <button class="link-open" onclick="window.open('https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq', '_blank')">打开</button>
+        </div>
+      </div>
     </main>
 
     <footer>
-      这个页面只给自己看得懂。—— 童童私藏小宇宙
+      这个页面只给自己看得懂。
     </footer>
   </div>
 
@@ -565,56 +386,6 @@
           checkPassword();
         }
       });
-
-    function openLink(btn) {
-      const item = btn.closest(".link-item");
-      const url = item.getAttribute("data-url");
-      if (url) {
-        window.open(url, "_blank");
-      }
-    }
-
-    function openAll() {
-      const items = document.querySelectorAll(".link-item");
-      items.forEach((item) => {
-        const url = item.getAttribute("data-url");
-        if (url) {
-          window.open(url, "_blank");
-        }
-      });
-    }
-
-    function swapImage(thumb) {
-      const img = thumb.querySelector("img");
-      const main = document.getElementById("main-image");
-      if (img && main) {
-        const temp = main.src;
-        main.src = img.src;
-        img.src = temp; // 互换一下，也方便来回切
-      }
-    }
-
-    function scrollToGallery() {
-      const g = document.getElementById("gallery");
-      if (g) {
-        g.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }
-
-    // 显示当前时间
-    function updateTime() {
-      const el = document.getElementById("time-row");
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, "0");
-      const day = String(now.getDate()).padStart(2, "0");
-      const hour = String(now.getHours()).padStart(2, "0");
-      const min = String(now.getMinutes()).padStart(2, "0");
-      el.textContent = `新加坡时间：${year}-${month}-${day} ${hour}:${min}`;
-    }
-
-    updateTime();
-    setInterval(updateTime, 60000);
   </script>
 </body>
 </html>
