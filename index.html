@@ -44,12 +44,15 @@
     }
 
     /* 粒子星光背景 */
-  #star-bg {
+ #star-bg {
   position: fixed;
   inset: 0;
   z-index: -1;
   background:
+    radial-gradient(circle at 10% 0%, rgba(0,0,0,0.6) 0, rgba(0,0,0,0.9) 55%),
     url("LL.jpg") center center / cover fixed no-repeat;
+}
+
 }
 
     }
@@ -1308,4 +1311,5 @@ document.getElementById("password-input").addEventListener("keydown", e => {
 
 </body>
 </html>
+
 
