@@ -311,6 +311,281 @@
       background: linear-gradient(90deg, var(--accent), var(--accent-2));
     }
 
+    /* 访问数据条 */
+    .stats-bar {
+      margin: 16px 0 14px;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(30,64,175,0.8));
+      border: 1px solid rgba(148,163,184,0.5);
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .stats-item {
+      min-width: 0;
+    }
+
+    .stats-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: rgba(226,232,240,0.75);
+      margin-bottom: 2px;
+    }
+
+    .stats-value {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .stats-value-accent {
+      color: #facc15;
+    }
+
+    /* 紫微斗数运势区 */
+    .fortune-section {
+      margin-top: 6px;
+      margin-bottom: 18px;
+    }
+
+    .fortune-card {
+      border-radius: var(--radius-md);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(129, 140, 248, 0.28), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(251, 191, 36, 0.2), transparent 60%),
+        rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148,163,184,0.7);
+      padding: 12px 14px 12px;
+      box-shadow: 0 16px 40px rgba(15,23,42,0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .fortune-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(248,250,252,0.18), transparent 55%),
+        radial-gradient(circle at 90% 100%, rgba(248,250,252,0.16), transparent 55%);
+      opacity: 0.7;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    .fortune-inner {
+      position: relative;
+    }
+
+    .fortune-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 12px;
+    }
+
+    .fortune-star {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(248,250,252,0.6);
+      font-size: 12px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      background: rgba(15,23,42,0.7);
+    }
+
+    .fortune-score {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .fortune-score-label {
+      color: rgba(226,232,240,0.8);
+    }
+
+    .fortune-score-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: #facc15;
+      text-shadow: 0 0 16px rgba(250,204,21,0.7);
+    }
+
+    .fortune-body {
+      display: grid;
+      gap: 5px;
+      margin-top: 4px;
+    }
+
+    .fortune-row {
+      display: grid;
+      grid-template-columns: 52px minmax(0,1fr);
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .fortune-tag {
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.8);
+      text-align: center;
+      white-space: nowrap;
+      background: rgba(15,23,42,0.7);
+    }
+
+    .fortune-text {
+      font-size: 12px;
+      line-height: 1.7;
+      color: rgba(226,232,240,0.92);
+    }
+
+    .fortune-foot {
+      margin-top: 8px;
+      font-size: 12px;
+      color: rgba(248,250,252,0.85);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .fortune-level {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(250,204,21,0.7);
+      font-size: 11px;
+      background: radial-gradient(circle at 0 0, rgba(250,204,21,0.25), transparent 60%);
+    }
+
+    .fortune-note {
+      font-size: 11px;
+      color: rgba(148,163,184,0.9);
+    }
+
+    /* 八字展示块 */
+    .bazi-block {
+      margin: 4px 0 18px;
+      padding: 10px 12px 9px;
+      border-radius: var(--radius-md);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(56,189,248,0.18), transparent 65%),
+        rgba(15,23,42,0.92);
+      border: 1px solid rgba(148,163,184,0.7);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .bazi-title {
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      color: rgba(226,232,240,0.9);
+    }
+
+    .bazi-content {
+      font-size: 13px;
+      color: rgba(248,250,252,0.96);
+      line-height: 1.8;
+    }
+
+    .bazi-tagline {
+      margin-top: 4px;
+      font-size: 11px;
+      color: rgba(148,163,184,0.9);
+    }
+
+    /* 本周运势时间线 */
+    .week-section {
+      margin-bottom: 20px;
+    }
+
+    .week-wrap {
+      border-radius: var(--radius-md);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(56,189,248,0.16), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(129,140,248,0.18), transparent 60%),
+        rgba(15,23,42,0.96);
+      border: 1px solid rgba(148,163,184,0.8);
+      padding: 10px 12px 8px;
+      box-shadow: 0 16px 40px rgba(15,23,42,0.9);
+    }
+
+    .week-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 10px;
+      height: 78px;
+      margin-bottom: 6px;
+    }
+
+    .week-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .week-bar-line {
+      width: 8px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #facc15, #f97316);
+      box-shadow: 0 0 0 1px rgba(15,23,42,0.8);
+      min-height: 10px;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .week-label {
+      font-size: 11px;
+      color: rgba(226,232,240,0.8);
+    }
+
+    .week-score-small {
+      font-size: 11px;
+      color: rgba(148,163,184,0.95);
+    }
+
+    .week-today .week-bar-line {
+      box-shadow:
+        0 0 0 1px rgba(250,250,250,0.7),
+        0 0 24px rgba(250,204,21,0.9);
+      transform: translateY(-2px);
+    }
+
+    .week-today .week-label {
+      color: #facc15;
+      font-weight: 600;
+    }
+
+    .week-today .week-score-small {
+      color: rgba(250,204,21,0.95);
+      font-weight: 500;
+    }
+
+    .week-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: rgba(148,163,184,0.92);
+      flex-wrap: wrap;
+    }
+
+    .week-foot-sub {
+      opacity: 0.9;
+    }
+
     /* 链接区：网格卡片布局 */
     .link-grid {
       display: grid;
@@ -538,6 +813,19 @@
         right: 16px;
         bottom: 16px;
       }
+
+      .stats-bar {
+        gap: 10px;
+        padding-inline: 10px;
+      }
+
+      .fortune-row {
+        grid-template-columns: 48px minmax(0,1fr);
+      }
+
+      .week-row {
+        height: 70px;
+      }
     }
   </style>
 </head>
@@ -637,6 +925,91 @@ document.getElementById("password-input").addEventListener("keydown", e => {
   </header>
 
   <main>
+
+    <!-- 访问数据 -->
+    <div class="stats-bar">
+      <div class="stats-item">
+        <div class="stats-label">TODAY</div>
+        <div class="stats-value" id="visit-date">----</div>
+      </div>
+      <div class="stats-item">
+        <div class="stats-label">今日访问</div>
+        <div class="stats-value stats-value-accent" id="visit-today">0</div>
+      </div>
+      <div class="stats-item">
+        <div class="stats-label">累计访问（本机）</div>
+        <div class="stats-value" id="visit-total">0</div>
+      </div>
+    </div>
+
+    <!-- 紫微斗数运势 -->
+    <div class="fortune-section">
+      <div class="section-title">今日紫微斗数 · 吉凶简报</div>
+      <div class="fortune-card">
+        <div class="fortune-inner">
+          <div class="fortune-header">
+            <div class="fortune-star" id="fortune-main-star">紫微 · 命宫</div>
+            <div class="fortune-score">
+              <span class="fortune-score-label">综合指数</span>
+              <span class="fortune-score-value" id="fortune-score">80</span>
+            </div>
+          </div>
+          <div class="fortune-body">
+            <div class="fortune-row">
+              <div class="fortune-tag">整体</div>
+              <div class="fortune-text" id="fortune-overall">
+                运行加载中……
+              </div>
+            </div>
+            <div class="fortune-row">
+              <div class="fortune-tag">财运</div>
+              <div class="fortune-text" id="fortune-money">
+                运行加载中……
+              </div>
+            </div>
+            <div class="fortune-row">
+              <div class="fortune-tag">情感</div>
+              <div class="fortune-text" id="fortune-love">
+                运行加载中……
+              </div>
+            </div>
+            <div class="fortune-row">
+              <div class="fortune-tag">行动</div>
+              <div class="fortune-text" id="fortune-action">
+                运行加载中……
+              </div>
+            </div>
+          </div>
+          <div class="fortune-foot">
+            <div class="fortune-level" id="fortune-luck-level">今日气场：平</div>
+            <div class="fortune-note">※ 仅作心情参考，所有决定以清醒为主。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 命盘 / 八字摘要 -->
+    <div class="bazi-block">
+      <div class="bazi-title">命盘底色 · 八字摘要</div>
+      <div class="bazi-content" id="bazi-text">
+        正在加载……
+      </div>
+      <div class="bazi-tagline">
+        （此处为固定八字，不随日期变化，用来作为本页紫微推运与本周时间线的底色参考。）
+      </div>
+    </div>
+
+    <!-- 本周运势时间线 -->
+    <div class="week-section">
+      <div class="section-title">本周运势 · 时间线视图</div>
+      <div class="week-wrap">
+        <div class="week-row" id="week-bar"></div>
+        <div class="week-foot">
+          <span class="week-foot-main">柱子越高，当天「可动用」的好运与能量越多。</span>
+          <span class="week-foot-sub">黄色高亮为今天。</span>
+        </div>
+      </div>
+    </div>
 
     <div class="section-title">常用网站 · 一键直达</div>
 
@@ -792,8 +1165,201 @@ document.getElementById("password-input").addEventListener("keydown", e => {
 
 <!-- 悬浮太极图标 -->
 <div class="floating-orb" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
-  <img src="taiji.jpg" alt="太极图标">
+  <img src="taiji.jpg" alt="回到顶部">
 </div>
+
+<!-- 访问统计 & 紫微斗数 & 八字时间线脚本 -->
+<script>
+  // 访问统计（本设备）
+  (function(){
+    try {
+      const todayStr = new Date().toISOString().slice(0,10);
+      const totalKey = "xd_total_visits";
+      const todayKey = "xd_visits_" + todayStr;
+
+      let total = parseInt(localStorage.getItem(totalKey) || "0", 10) + 1;
+      localStorage.setItem(totalKey, total);
+
+      let today = parseInt(localStorage.getItem(todayKey) || "0", 10) + 1;
+      localStorage.setItem(todayKey, today);
+
+      const dateSpan = document.getElementById("visit-date");
+      const todaySpan = document.getElementById("visit-today");
+      const totalSpan = document.getElementById("visit-total");
+
+      if (dateSpan) dateSpan.textContent = todayStr;
+      if (todaySpan) todaySpan.textContent = today;
+      if (totalSpan) totalSpan.textContent = total;
+    } catch (e) {
+      // 部分浏览器无 localStorage 权限时静默失败
+    }
+  })();
+
+  // 简单种子与随机
+  function createSeed(str){
+    let h = 0;
+    for (let i = 0; i < str.length; i++){
+      h = (h * 31 + str.charCodeAt(i)) >>> 0;
+    }
+    return h >>> 0;
+  }
+
+  function nextRand(seedObj){
+    seedObj.value = (seedObj.value * 1664525 + 1013904223) >>> 0;
+    return seedObj.value;
+  }
+
+  function pick(list, seedObj){
+    const r = nextRand(seedObj);
+    const idx = r % list.length;
+    return list[idx];
+  }
+
+  // 今日紫微斗数
+  (function(){
+    const today = new Date();
+    const dStr = today.toISOString().slice(0,10); // YYYY-MM-DD
+    const seedObj = { value: createSeed("ziwei-" + dStr) };
+
+    const stars = [
+      "紫微 · 命宫",
+      "天府 · 财帛",
+      "武曲 · 行动",
+      "天同 · 福德",
+      "廉贞 · 决断",
+      "贪狼 · 欲望",
+      "天相 · 资源",
+      "天机 · 思路"
+    ];
+
+    const overallList = [
+      "气场偏稳，适合按原计划推进，少折腾，多打磨细节。",
+      "贵人气场在线，遇事多沟通，有人会在关键节点给你托一把。",
+      "略有暗流，心中有数就好，别被外界情绪带着跑。",
+      "心有一点散，适合处理机械性事务，把大决定往后放。",
+      "状态在线，适合做一点突破型尝试，但记得给自己留余地。",
+      "杂事稍多，宜给自己划清边界，什么都答应反而拖累节奏。"
+    ];
+
+    const moneyList = [
+      "财星平稳，偏向守成型，适合结算、对账、收回之前的投入。",
+      "有小财机会，信息比本金更重要，多留意渠道与细节。",
+      "不宜冲动消费，更不宜冲动投资，看不懂的标的一律先放过。",
+      "适合整理账本，理清现金流，比单纯追利润更重要。",
+      "有一点「人情财」，花出去的可能换来之后的资源与好感。"
+    ];
+
+    const loveList = [
+      "情绪略敏感，说话留一点余地，很多误会只是语气的问题。",
+      "适合温和交流，多听少评判，关系在细水长流里升温。",
+      "旧事可能被翻出来，笑着带过即可，不必再一次解释人生。",
+      "心里有话不妨委婉点说出来，憋着反而乱想。",
+      "适合一个人待一会儿，整理心情再去面对人群。"
+    ];
+
+    const actionList = [
+      "选一件最重要的事情，今天给它完整的 90 分钟深度推进。",
+      "列一张三件事清单，完成就收工，别逼自己做完所有。",
+      "减少无意识刷屏，给大脑一点真正的空窗时间。",
+      "适合微调路线而不是推倒重来，小改动也能改变走向。",
+      "把卡住的那件小事先解决掉，会带动后面一整排效率。"
+    ];
+
+    const luckLevels = [
+      { label: "今日气场：小吉", note: "顺势而为，小步慢走，已足够。"},
+      { label: "今日气场：中吉", note: "可适度主动一点，但保留 B 案。"},
+      { label: "今日气场：平", note: "平常心最好，该做什么就做什么。"},
+      { label: "今日气场：微偏劳", note: "别透支体力和情绪，收放适度。"}
+    ];
+
+    const scoreBase = 70;
+    const scoreFloat = (nextRand(seedObj) % 21) - 10; // -10 ~ +10
+    let score = scoreBase + scoreFloat;
+    if (score < 55) score = 55;
+    if (score > 95) score = 95;
+
+    const star = pick(stars, seedObj);
+    const overall = pick(overallList, seedObj);
+    const money = pick(moneyList, seedObj);
+    const love = pick(loveList, seedObj);
+    const action = pick(actionList, seedObj);
+    const level = pick(luckLevels, seedObj);
+
+    const starEl = document.getElementById("fortune-main-star");
+    const scoreEl = document.getElementById("fortune-score");
+    const oEl = document.getElementById("fortune-overall");
+    const mEl = document.getElementById("fortune-money");
+    const lEl = document.getElementById("fortune-love");
+    const aEl = document.getElementById("fortune-action");
+    const levelEl = document.getElementById("fortune-luck-level");
+    const noteEl = document.querySelector(".fortune-note");
+
+    if (starEl) starEl.textContent = star;
+    if (scoreEl) scoreEl.textContent = score;
+    if (oEl) oEl.textContent = overall;
+    if (mEl) mEl.textContent = money;
+    if (lEl) lEl.textContent = love;
+    if (aEl) aEl.textContent = action;
+    if (levelEl) levelEl.textContent = level.label;
+    if (noteEl && level.note) noteEl.textContent = "※ " + level.note + "，所有决定以清醒为主。";
+  })();
+
+  // 八字 & 本周运势时间线
+  (function(){
+    // ★★★ 这里把你的八字写进去 ★★★
+    // 比如： "庚辰年 · 丁丑月 · 壬午日 · 乙亥时"
+    const BAZI_TEXT = "在这里写上你的八字：例）庚辰年 · 丁丑月 · 壬午日 · 乙亥时";
+
+    const baziEl = document.getElementById("bazi-text");
+    if (baziEl) {
+      baziEl.textContent = BAZI_TEXT;
+    }
+
+    const weekContainer = document.getElementById("week-bar");
+    if (!weekContainer) return;
+
+    const today = new Date();
+    const weekdays = ["一","二","三","四","五","六","日"];
+
+    // 让运势与八字绑定：用八字 + 本周所在年周数做种子
+    const year = today.getFullYear();
+    const weekSeedStr = year + "-w-" + BAZI_TEXT;
+    const baseSeedVal = createSeed(weekSeedStr);
+
+    // 把今天标出来：0=周一 ... 6=周日
+    let todayIdx = today.getDay(); // 0=周日
+    todayIdx = (todayIdx + 6) % 7; // 转成 0=周一
+
+    for (let i = 0; i < 7; i++){
+      const localSeed = { value: (baseSeedVal + i * 97) >>> 0 };
+      // 粗略算一个 40~98 之间的强度
+      let score = 60 + ((nextRand(localSeed) % 41) - 20);
+      if (score < 40) score = 40;
+      if (score > 98) score = 98;
+
+      const col = document.createElement("div");
+      col.className = "week-col" + (i === todayIdx ? " week-today" : "");
+
+      const bar = document.createElement("div");
+      bar.className = "week-bar-line";
+      // 显示高度：基础 30 再加权重
+      bar.style.height = (30 + (score - 40) * 0.7) + "px";
+
+      const label = document.createElement("div");
+      label.className = "week-label";
+      label.textContent = "周" + weekdays[i];
+
+      const scoreEl = document.createElement("div");
+      scoreEl.className = "week-score-small";
+      scoreEl.textContent = score;
+
+      col.appendChild(bar);
+      col.appendChild(label);
+      col.appendChild(scoreEl);
+      weekContainer.appendChild(col);
+    }
+  })();
+</script>
 
 </body>
 </html>
