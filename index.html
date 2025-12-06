@@ -3,23 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <title>小东勇闯东南亚</title>
-  <!-- 浏览器标签小图标 -->
-<link rel="icon" href="15b9b60a0ba705830bb7b1c79a1a5b5c.jpg" type="image/jpeg">
-<link rel="shortcut icon" href="15b9b60a0ba705830bb7b1c79a1a5b5c.jpg" type="image/jpeg">
+
+  <!-- 浏览器标签小图标（已换成 J.png） -->
+  <link rel="icon" href="J.png" type="image/png">
+  <link rel="shortcut icon" href="J.png" type="image/png">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- 全站样式 -->
   <style>
     * {
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
+    }
+
+    :root {
+      --bg-main: #070312;
+      --bg-panel: rgba(19, 16, 46, 0.9);
+      --glass-light: rgba(255,255,255,0.06);
+      --glass-strong: rgba(255,255,255,0.12);
+      --accent: #ffb85c;
+      --accent-2: #5cc6ff;
+      --text-main: #ffffff;
+      --text-sub: rgba(255,255,255,0.75);
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --shadow-strong: 0 18px 45px rgba(0,0,0,0.55);
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.4);
     }
 
     body {
       font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: #0e0718;
-      color: #fff;
+      background: radial-gradient(circle at 10% 0%, #2b1648 0, #070312 45%) fixed;
+      color: var(--text-main);
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -30,15 +48,15 @@
       position: fixed;
       inset: 0;
       z-index: -1;
-      background: #0e0718;
+      background: #070312;
     }
 
     /* 锁屏 */
     #lock-screen {
       position: fixed;
       inset: 0;
-      background: rgba(20, 10, 40, 0.9);
-      backdrop-filter: blur(12px);
+      background: rgba(5, 3, 20, 0.92);
+      backdrop-filter: blur(16px);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -47,30 +65,60 @@
 
     .lock-box {
       width: 320px;
-      padding: 25px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 18px;
+      padding: 25px 24px 22px;
+      background: linear-gradient(145deg, rgba(35, 26, 74, 0.96), rgba(9, 9, 32, 0.96));
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
       text-align: center;
-      box-shadow: 0 10px 35px rgba(0,0,0,0.4);
+      box-shadow: var(--shadow-strong);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lock-box::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      opacity: 0.4;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,216,145,0.4), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(132,203,255,0.3), transparent 55%);
+      mix-blend-mode: screen;
+      pointer-events: none;
     }
 
     .lock-title {
       font-size: 20px;
       font-weight: 700;
-      margin-bottom: 6px;
+      margin-bottom: 10px;
+      position: relative;
+      letter-spacing: 1px;
+    }
+
+    .lock-sub {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-bottom: 12px;
+      position: relative;
     }
 
     .lock-input {
       width: 100%;
       margin-top: 12px;
-      padding: 10px;
-      border-radius: 30px;
-      background: rgba(255,255,255,0.1);
+      padding: 11px 12px;
+      border-radius: 999px;
+      background: rgba(9,9,29,0.9);
       border: 1px solid rgba(255,255,255,0.25);
       text-align: center;
       color: #fff;
       font-size: 15px;
+      outline: none;
+      position: relative;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.4);
+    }
+
+    .lock-input::placeholder {
+      color: rgba(255,255,255,0.4);
     }
 
     .lock-btn {
@@ -78,45 +126,115 @@
       width: 100%;
       padding: 9px 0;
       border: none;
-      border-radius: 30px;
+      border-radius: 999px;
       background: linear-gradient(135deg,#ffce7a,#ff9a46);
       color: #000;
       font-weight: 600;
       cursor: pointer;
+      font-size: 14px;
+      letter-spacing: 1px;
+      position: relative;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      box-shadow: 0 8px 25px rgba(255,191,115,0.35);
+    }
+
+    .lock-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(255,191,115,0.45);
+    }
+
+    .lock-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 5px 18px rgba(255,191,115,0.3);
     }
 
     /* 主内容容器 */
     .page {
       display: none;
       width: 100%;
-      max-width: 900px;
-      margin: 20px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 22px;
-      border: 1px solid rgba(255,255,255,0.15);
-      box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+      max-width: 980px;
+      margin: 26px 18px;
+      background: radial-gradient(circle at 15% 0%, rgba(92, 198, 255, 0.12), transparent 55%),
+                  radial-gradient(circle at 85% 100%, rgba(255, 184, 92, 0.12), transparent 55%),
+                  rgba(10, 7, 32, 0.92);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: var(--shadow-strong);
       overflow: hidden;
+      backdrop-filter: blur(18px);
     }
 
     header {
-      padding: 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.12);
+      padding: 22px 24px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      inset-inline: 24px;
+      bottom: 0;
+      border-radius: 999px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      opacity: 0.4;
+    }
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .title-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .title-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 30%;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,0.6), transparent 60%),
+        #2956a3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: #fff;
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.1);
     }
 
     .main-title {
-      font-size: 30px;
+      font-size: 26px;
       font-weight: 800;
       letter-spacing: 2px;
-      margin-bottom: 10px;
       text-shadow: 0 0 12px rgba(255,200,120,0.5);
+      white-space: nowrap;
     }
 
-    /* 顶部流动字幕 */
+    .title-tag {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.22);
+      color: var(--text-sub);
+      backdrop-filter: blur(12px);
+      background: rgba(0,0,0,0.26);
+      white-space: nowrap;
+    }
+
     .flow-row {
       overflow: hidden;
-      border-radius: 30px;
-      background: rgba(0,0,0,0.35);
-      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 999px;
+      background: radial-gradient(circle at 0% 50%, rgba(255, 206, 122, 0.22), transparent 55%),
+                  rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.18);
       height: 34px;
       margin-bottom: 12px;
     }
@@ -135,47 +253,185 @@
       to { transform: translateX(-100%); }
     }
 
-    /* 诗词卡片 */
     .poem-card {
-      margin-top: 5px;
-      padding: 12px;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.08);
-      border: 1px dashed rgba(255,255,255,0.28);
+      margin-top: 4px;
+      padding: 10px 12px 11px;
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,0.06);
+      border: 1px dashed rgba(255,255,255,0.26);
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.7;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .poem-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      opacity: 0.35;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,255,255,0.3), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(255,184,92,0.25), transparent 55%);
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    .poem-inner {
+      position: relative;
     }
 
     .poem-title {
-      opacity: 0.75;
-      margin-bottom: 4px;
+      opacity: 0.8;
+      margin-bottom: 3px;
       font-size: 13px;
+      letter-spacing: 1px;
     }
 
     main {
-      padding: 20px;
+      padding: 18px 22px 22px;
     }
 
-    /* 链接列表 */
-    .link-item {
+    .section-title {
+      font-size: 15px;
+      margin-bottom: 10px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      background: rgba(255,255,255,0.08);
+      gap: 8px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    .section-title::before {
+      content: "";
+      width: 16px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    /* 链接区：网格卡片布局 */
+    .link-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .link-card {
+      position: relative;
+      padding: 11px 12px 11px;
+      border-radius: var(--radius-md);
+      background: radial-gradient(circle at 0% 0%, rgba(92,198,255,0.18), transparent 55%),
+                  radial-gradient(circle at 100% 100%, rgba(255,184,92,0.14), transparent 55%),
+                  rgba(7, 8, 28, 0.9);
       border: 1px solid rgba(255,255,255,0.12);
-      padding: 10px 14px;
-      border-radius: 14px;
-      margin-bottom: 8px;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      overflow: hidden;
+      cursor: default;
+      transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease;
+    }
+
+    .link-card::after {
+      content: "";
+      position: absolute;
+      inset-inline: -40%;
+      bottom: -45%;
+      height: 60%;
+      background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.14), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.18s ease;
+    }
+
+    .link-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 38px rgba(0,0,0,0.55);
+      border-color: rgba(255,255,255,0.26);
+    }
+
+    .link-card:hover::after {
+      opacity: 1;
+    }
+
+    .link-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .link-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.18);
+    }
+
+    .link-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .link-title {
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .link-sub {
+      font-size: 11px;
+      color: var(--text-sub);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
 
     .link-open {
       padding: 6px 12px;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.15);
-      border: none;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
       cursor: pointer;
       color: #fff;
-      font-size: 12px;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.14s ease, transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .link-open span {
+      font-size: 13px;
+    }
+
+    .link-open:hover {
+      background: linear-gradient(135deg, rgba(255,206,122,0.9), rgba(255,154,70,0.9));
+      color: #000;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(255,191,115,0.35);
+    }
+
+    .link-open:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 14px rgba(255,191,115,0.25);
     }
 
     /* 留言区标题动效 */
@@ -197,24 +453,27 @@
 
     /* 留言区外框磨砂 */
     .giscus-frame {
-      backdrop-filter: blur(16px) !important;
-      background: rgba(255,255,255,0.05) !important;
-      border-radius: 16px !important;
-      border: 1px solid rgba(255,255,255,0.15) !important;
-      box-shadow: 0 10px 35px rgba(0,0,0,0.35);
-      padding: 8px !important;
-      transition: 0.25s ease;
+      backdrop-filter: blur(18px) !important;
+      background: rgba(5,5,15,0.72) !important;
+      border-radius: var(--radius-md) !important;
+      border: 1px solid rgba(255,255,255,0.18) !important;
+      box-shadow: var(--shadow-soft);
+      padding: 10px !important;
+      transition: 0.22s ease;
+      margin-top: 26px;
     }
 
-    .giscus-frame:active {
-      transform: scale(0.98);
+    .giscus-frame:hover {
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+      border-color: rgba(255,255,255,0.3);
     }
 
     footer {
-      padding: 15px;
+      padding: 14px 22px 16px;
       text-align: right;
-      opacity: 0.7;
+      opacity: 0.75;
       font-size: 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
     }
 
     /* 悬浮太极图标 */
@@ -228,13 +487,13 @@
       overflow: hidden;
       cursor: pointer;
       z-index: 50;
-      box-shadow: 0 0 20px rgba(255,255,255,0.35);
+      box-shadow: 0 0 22px rgba(255,255,255,0.4);
       background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.45), transparent 60%),
                   radial-gradient(circle at 70% 80%, rgba(96,165,250,0.35), transparent 60%),
                   rgba(0,0,0,0.9);
       border: 1px solid rgba(255,255,255,0.3);
       backdrop-filter: blur(10px);
-      animation: orbFloat 3.5s ease-in-out infinite;
+      animation: orbFloat 3.2s ease-in-out infinite;
     }
 
     .floating-orb img {
@@ -247,11 +506,32 @@
 
     @keyframes orbFloat {
       0%   { transform: translateY(0); }
-      50%  { transform: translateY(-6px); }
+      50%  { transform: translateY(-7px); }
       100% { transform: translateY(0); }
     }
 
     @media (max-width: 600px) {
+      .page {
+        margin: 18px 12px;
+      }
+
+      header {
+        padding: 18px 16px 14px;
+      }
+
+      main {
+        padding: 16px;
+      }
+
+      .top-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .main-title {
+        font-size: 22px;
+      }
+
       .floating-orb {
         width: 54px;
         height: 54px;
@@ -270,27 +550,32 @@
 const canvas = document.getElementById("star-bg");
 const ctx = canvas.getContext("2d");
 
-function resize(){ canvas.width=innerWidth; canvas.height=innerHeight; }
-resize(); onresize=resize;
+function resize(){
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+}
+resize();
+onresize = resize;
 
-let stars = [...Array(130)].map(()=>({
-  x: Math.random()*canvas.width,
-  y: Math.random()*canvas.height,
-  r: Math.random()*1.4+0.2,
-  dx:(Math.random()-0.5)*0.3,
-  dy:(Math.random()-0.5)*0.3
+let stars = [...Array(130)].map(() => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height,
+  r: Math.random() * 1.4 + 0.2,
+  dx: (Math.random() - 0.5) * 0.3,
+  dy: (Math.random() - 0.5) * 0.3
 }));
 
 function draw(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  stars.forEach(s=>{
+  stars.forEach(s => {
     ctx.beginPath();
-    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-    ctx.fillStyle="rgba(255,255,255,"+(0.5+Math.random()*0.5)+")";
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(255,255,255," + (0.5 + Math.random() * 0.5) + ")";
     ctx.fill();
-    s.x+=s.dx; s.y+=s.dy;
-    if(s.x<0||s.x>canvas.width) s.dx*=-1;
-    if(s.y<0||s.y>canvas.height) s.dy*=-1;
+    s.x += s.dx;
+    s.y += s.dy;
+    if (s.x < 0 || s.x > canvas.width) s.dx *= -1;
+    if (s.y < 0 || s.y > canvas.height) s.dy *= -1;
   });
   requestAnimationFrame(draw);
 }
@@ -301,122 +586,207 @@ draw();
 <div id="lock-screen">
   <div class="lock-box">
     <div class="lock-title">输入通关暗号</div>
+    <div class="lock-sub">这里是小东的私人航线，只给懂的人看。</div>
     <input id="password-input" class="lock-input" placeholder="请输入密码" />
     <button class="lock-btn" onclick="checkPassword()">进入</button>
-    <div id="lock-error" style="margin-top:6px;color:#ff9999;"></div>
+    <div id="lock-error" style="margin-top:6px;color:#ff9999;position:relative;"></div>
   </div>
 </div>
 
 <script>
-const PASSWORD="180999";
+const PASSWORD = "180999";
 function checkPassword(){
-  const v=document.getElementById("password-input").value.trim();
-  if(v===PASSWORD){
-    document.getElementById("lock-screen").style.display="none";
-    document.querySelector(".page").style.display="block";
-  }else{
-    document.getElementById("lock-error").innerText="密码不对，再想想～";
+  const v = document.getElementById("password-input").value.trim();
+  if (v === PASSWORD){
+    document.getElementById("lock-screen").style.display = "none";
+    document.querySelector(".page").style.display = "block";
+  } else {
+    document.getElementById("lock-error").innerText = "密码不对，再想想～";
   }
 }
-document.getElementById("password-input").addEventListener("keydown",e=>{
-  if(e.key==="Enter") checkPassword();
+document.getElementById("password-input").addEventListener("keydown", e => {
+  if (e.key === "Enter") checkPassword();
 });
 </script>
 
 <!-- 主内容 -->
 <div class="page">
 
-<header>
-  <div class="main-title">小东勇闯东南亚</div>
-
-  <div class="flow-row">
-    <div class="flow-track">
-      小东勇闯东南亚 · 小东闯东南亚失败 · 小东勇闯东南亚 · 小东闯东南亚失败 ·
+  <header>
+    <div class="top-row">
+      <div class="title-block">
+        <div class="title-logo">J</div>
+        <div class="main-title">小东勇闯东南亚</div>
+      </div>
+      <div class="title-tag">日常操作台 · 私人书签</div>
     </div>
-  </div>
 
-  <div class="poem-card">
-    <div class="poem-title">心底的两句：</div>
-    <div>一种相思，两处闲愁。</div>
-    <div>此情无计可消除，才下眉头，却上心头。</div>
-  </div>
-</header>
+    <div class="flow-row">
+      <div class="flow-track">
+        小东勇闯东南亚 · 小东闯东南亚失败 · 小东勇闯东南亚 · 小东闯东南亚失败 ·
+      </div>
+    </div>
 
-<main>
+    <div class="poem-card">
+      <div class="poem-inner">
+        <div class="poem-title">心底的两句：</div>
+        <div>一种相思，两处闲愁。</div>
+        <div>此情无计可消除，才下眉头，却上心头。</div>
+      </div>
+    </div>
+  </header>
 
-  <h2 style="font-size:15px;margin-bottom:10px;">常用网站 · 一键直达</h2>
+  <main>
 
-  <div class="link-item">
-    <span>🖼️ Pinterest 图库</span>
-    <button class="link-open" onclick="window.open('https://ru.pinterest.com/')">打开</button>
-  </div>
+    <div class="section-title">常用网站 · 一键直达</div>
 
-  <div class="link-item">
-    <span>🗂️ Yandex 图库</span>
-    <button class="link-open" onclick="window.open('https://yandex.com/')">打开</button>
-  </div>
+    <div class="link-grid">
 
-  <div class="link-item">
-    <span>🌐 Thordata 购买 IP</span>
-    <button class="link-open" onclick="window.open('https://dashboard.thordata.com/')">打开</button>
-  </div>
+      <div class="link-card">
+        <div class="link-main">
+          <div class="link-icon">🖼️</div>
+          <div class="link-text">
+            <div class="link-title">Pinterest 图库</div>
+            <div class="link-sub">灵感图墙 · ru.pinterest.com</div>
+          </div>
+        </div>
+        <button class="link-open" onclick="window.open('https://ru.pinterest.com/')">
+          打开 <span>↗</span>
+        </button>
+      </div>
 
-  <div class="link-item">
-    <span>🔑 Porkbun 域名管理</span>
-    <button class="link-open" onclick="window.open('https://porkbun.com/account/domainsSpeedy')">打开</button>
-  </div>
+      <div class="link-card">
+        <div class="link-main">
+          <div class="link-icon">🗂️</div>
+          <div class="link-text">
+            <div class="link-title">Yandex 图库</div>
+            <div class="link-sub">以图搜图 · yandex.com</div>
+          </div>
+        </div>
+        <button class="link-open" onclick="window.open('https://yandex.com/')">
+          打开 <span>↗</span>
+        </button>
+      </div>
 
-  <div class="link-item">
-    <span>📦 GitHub 仓库</span>
-    <button class="link-open" onclick="window.open('https://github.com/dh6598726-stack/woaibixia')">打开</button>
-  </div>
+      <div class="link-card">
+        <div class="link-main">
+          <div class="link-icon">🌐</div>
+          <div class="link-text">
+            <div class="link-title">Thordata 购买 IP</div>
+            <div class="link-sub">多地节点管理 · dashboard.thordata.com</div>
+          </div>
+        </div>
+        <button class="link-open" onclick="window.open('https://dashboard.thordata.com/')">
+          打开 <span>↗</span>
+        </button>
+      </div>
 
-  <div class="link-item">
-    <span>📲 二步验证</span>
-    <button class="link-open" onclick="window.open('https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq')">打开</button>
-  </div>
+      <div class="link-card">
+        <div class="link-main">
+          <div class="link-icon">🔑</div>
+          <div class="link-text">
+            <div class="link-title">Porkbun 域名管理</div>
+            <div class="link-sub">bixia 的根基 · porkbun.com</div>
+          </div>
+        </div>
+        <button class="link-open" onclick="window.open('https://porkbun.com/account/domainsSpeedy')">
+          打开 <span>↗</span>
+        </button>
+      </div>
 
-  <div class="link-item">
-    <span>🎬 银河录像局 · nf.video</span>
-    <button class="link-open" onclick="window.open('https://nf.video/银河录像局')">打开</button>
-  </div>
+      <div class="link-card">
+        <div class="link-main">
+          <div class="link-icon">📦</div>
+          <div class="link-text">
+            <div class="link-title">GitHub 仓库</div>
+            <div class="link-sub">woaibixia · 代码与版本</div>
+          </div>
+        </div>
+        <button class="link-open" onclick="window.open('https://github.com/dh6598726-stack/woaibixia')">
+          打开 <span>↗</span>
+        </button>
+      </div>
 
-  <div class="link-item">
-    <span>🤖 Grok · grok.com 格洛克</span>
-    <button class="link-open" onclick="window.open('https://grok.com')">打开</button>
-  </div>
+      <div class="link-card">
+        <div class="link-main">
+          <div class="link-icon">📲</div>
+          <div class="link-text">
+            <div class="link-title">二步验证</div>
+            <div class="link-sub">安全令牌 · 2fa.live</div>
+          </div>
+        </div>
+        <button class="link-open" onclick="window.open('https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq')">
+          打开 <span>↗</span>
+        </button>
+      </div>
 
-  <div class="link-item">
-    <span>🧠 ChatGPT · chatgpt.com</span>
-    <button class="link-open" onclick="window.open('https://chatgpt.com')">打开</button>
-  </div>
+      <div class="link-card">
+        <div class="link-main">
+          <div class="link-icon">🎬</div>
+          <div class="link-text">
+            <div class="link-title">银河录像局 · nf.video</div>
+            <div class="link-sub">深夜电影清单 · nf.video</div>
+          </div>
+        </div>
+        <button class="link-open" onclick="window.open('https://nf.video/银河录像局')">
+          打开 <span>↗</span>
+        </button>
+      </div>
 
-  <!-- 留言区 -->
-  <div class="giscus-frame" style="margin-top:25px;">
-    <div class="comment-title">💬 留言板</div>
+      <div class="link-card">
+        <div class="link-main">
+          <div class="link-icon">🤖</div>
+          <div class="link-text">
+            <div class="link-title">Grok · grok.com</div>
+            <div class="link-sub">马斯克系 AI · grok.com</div>
+          </div>
+        </div>
+        <button class="link-open" onclick="window.open('https://grok.com')">
+          打开 <span>↗</span>
+        </button>
+      </div>
 
-    <script src="https://giscus.app/client.js"
-      data-repo="dh6598726-stack/woaibixia"
-      data-repo-id="R_kgDOMO-z-w"
-      data-category="General"
-      data-category-id="DIC_kwDOMO-z-84CjLim"
-      data-mapping="pathname"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="bottom"
-      data-theme="dark"
-      data-lang="zh-CN"
-      crossorigin="anonymous"
-      async>
-    </script>
-  </div>
+      <div class="link-card">
+        <div class="link-main">
+          <div class="link-icon">🧠</div>
+          <div class="link-text">
+            <div class="link-title">ChatGPT · chatgpt.com</div>
+            <div class="link-sub">主力智囊 · chatgpt.com</div>
+          </div>
+        </div>
+        <button class="link-open" onclick="window.open('https://chatgpt.com')">
+          打开 <span>↗</span>
+        </button>
+      </div>
 
-</main>
+    </div>
 
-<footer>
-  这个页面，只给看得懂的人看。
-</footer>
+    <!-- 留言区 -->
+    <div class="giscus-frame">
+      <div class="comment-title">💬 留言板</div>
+
+      <script src="https://giscus.app/client.js"
+        data-repo="dh6598726-stack/woaibixia"
+        data-repo-id="R_kgDOMO-z-w"
+        data-category="General"
+        data-category-id="DIC_kwDOMO-z-84CjLim"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="dark"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </div>
+
+  </main>
+
+  <footer>
+    这个页面，只给看得懂的人看。
+  </footer>
 
 </div>
 
@@ -427,4 +797,3 @@ document.getElementById("password-input").addEventListener("keydown",e=>{
 
 </body>
 </html>
-
