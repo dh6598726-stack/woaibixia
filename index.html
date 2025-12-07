@@ -43,8 +43,8 @@
       justify-content: center;
     }
 
-    /* 粒子星光背景 */
- #star-bg {
+ /* 粒子星光背景 */
+#star-bg {
   position: fixed;
   inset: 0;
   z-index: -1;
@@ -53,9 +53,6 @@
     url("LL.jpg") center center / cover fixed no-repeat;
 }
 
-}
-
-    }
 
     /* 锁屏 */
     #lock-screen {
@@ -901,42 +898,57 @@ draw();
 const PASSWORD = "180999";
 const UNLOCK_KEY = "xd_console_unlocked";
 
+// 关锁屏 + 显示所有 .page
 function unlockPage() {
   const lock = document.getElementById("lock-screen");
-  const page = document.querySelector(".page");
   if (lock) lock.style.display = "none";
-  if (page) page.style.display = "block";
+  document.querySelectorAll(".page").forEach(p => {
+    p.style.display = "block";
+  });
 }
 
+// 点击“进入”按钮时调用
 function checkPassword(){
-  const v = document.getElementById("password-input").value.trim();
+  const input = document.getElementById("password-input");
+  const v = (input?.value || "").trim();
   if (v === PASSWORD){
     try {
       localStorage.setItem(UNLOCK_KEY, "1");
     } catch (e) {}
     unlockPage();
   } else {
-    document.getElementById("lock-error").innerText = "密码不匹配，请确认后再试。";
+    const err = document.getElementById("lock-error");
+    if (err) err.innerText = "密码不匹配，请确认后再试。";
   }
 }
 
-document.getElementById("password-input").addEventListener("keydown", e => {
-  if (e.key === "Enter") checkPassword();
-});
+// 等整个页面元素都加载好，再去绑定事件 & 自动解锁
+document.addEventListener("DOMContentLoaded", function () {
+  const input = document.getElementById("password-input");
+  if (input) {
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") checkPassword();
+    });
+  }
 
-// 页面加载时检查是否已解锁
-(function(){
+  // 页面加载时检查是否已解锁
   try {
     const flag = localStorage.getItem(UNLOCK_KEY);
     if (flag === "1") {
+      // 之前输过正确密码，直接解锁
       unlockPage();
-      return;
+    } else {
+      // 没解锁就显示锁屏
+      const lock = document.getElementById("lock-screen");
+      if (lock) lock.style.display = "flex";
     }
-  } catch (e) {}
-  // 未解锁则显示锁屏
-  document.getElementById("lock-screen").style.display = "flex";
-})();
+  } catch (e) {
+    const lock = document.getElementById("lock-screen");
+    if (lock) lock.style.display = "flex";
+  }
+});
 </script>
+
 
 <!-- 主内容 -->
 <div class="page">
@@ -1311,5 +1323,6 @@ document.getElementById("password-input").addEventListener("keydown", e => {
 
 </body>
 </html>
+
 
 
