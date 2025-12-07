@@ -655,6 +655,37 @@
       opacity: 0.9;
     }
 
+    /* 术数术语卡片 */
+    .terms-section {
+      margin-bottom: 20px;
+    }
+
+    .terms-card {
+      border-radius: var(--radius-md);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(224,242,254,0.98), transparent 60%),
+        #ffffff;
+      border: 1px dashed rgba(191,219,254,0.95);
+      padding: 10px 12px 8px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .terms-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 10px;
+    }
+
+    .term-pill {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px dashed rgba(148,163,184,0.85);
+      background: rgba(239,246,255,0.96);
+      color: rgba(30,64,175,0.95);
+      white-space: nowrap;
+    }
+
     /* 常用网站卡片：白底蓝边 iOS 风 */
     .link-grid {
       display: grid;
@@ -992,7 +1023,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <a href="index.html" class="nav-link nav-active">首页 / 命盘</a>
       <a href="yunshi.html" class="nav-link">每日运势</a>
       <a href="links.html" class="nav-link">常用链接</a>
-      <a href="talk.html" class="nav-link">互动留言</a>
+      <!-- 互动留言已删除，避免 404 -->
     </nav>
 
     <div class="flow-row">
@@ -1068,7 +1099,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
           <div class="fortune-foot">
             <div class="fortune-level" id="fortune-luck-level">今日格局：平盘</div>
-            <div class="fortune-note">※ 紫微斗数属术数推演，用作结构观察与节奏判断参考。</div>
+            <div class="fortune-note">※ 术数格局层观察，不作绝对吉凶。</div>
           </div>
         </div>
       </div>
@@ -1081,7 +1112,7 @@ document.addEventListener("DOMContentLoaded", function () {
         正在加载……
       </div>
       <div class="bazi-tagline">
-        （四柱为固定底盘，不随日期变化，用作流日与时间线推演的基底。）
+        四柱为固定底盘，用作流日与时间线推演的基底。
       </div>
     </div>
 
@@ -1094,6 +1125,14 @@ document.addEventListener("DOMContentLoaded", function () {
           <span class="week-foot-main">柱体高度对应当日可动用的气场强度。</span>
           <span class="week-foot-sub">黄色高亮标记为今天。</span>
         </div>
+      </div>
+    </div>
+
+    <!-- 术数术语 · 当日摘记 -->
+    <div class="terms-section">
+      <div class="section-title">术数术语 · 当日摘记</div>
+      <div class="terms-card">
+        <div class="terms-list" id="term-list"></div>
       </div>
     </div>
 
@@ -1203,7 +1242,61 @@ document.addEventListener("DOMContentLoaded", function () {
     return list[idx];
   }
 
-  // 今日紫微斗数（专业术语版）
+  // 术数术语池（你给的专业术语）
+  const TERM_POOL = [
+    "截空亡而贵格成",
+    "真从格彻弃日主",
+    "假从格根苗未尽",
+    "身旺无依大凶",
+    "身弱无根必夭",
+    "胎元犯祖上血光煞",
+    "将星华盖三奇加会",
+    "天罗地网锁命",
+    "魁罡镇局四柱独贵",
+    "六秀三元月德叠逢",
+    "马星入墓突发横祸",
+    "伤官入墓子息刑伤",
+    "空亡切换人生剧变",
+    "斗君羊陀火铃夹命",
+    "三奇驾虎奇门至贵",
+    "伏吟天芮入墓大凶",
+    "六阴朝阳桩桩桃花",
+    "六阴乱局女命孤贫",
+    "倒冲禄马暴富暴败",
+    "井栏叉一生挫折",
+    "九丑大败刑妻害子",
+    "官印相生透干会局无破",
+    "伤官配印富贵双全",
+    "枭印制伤生财亿万",
+    "金神入火乡而发",
+    "曲直格纯青不杂",
+    "炎上格一燎千里",
+    "稼穑格厚重如山",
+    "杂气印绶藏而不透",
+    "拱禄拱贵暗中成格",
+    "专旺格势如破竹",
+    "时上偏官坐空亡子息刑",
+    "命宫身宫同躔凶煞祖坟灾",
+    "禄马同位交冲突起",
+    "劫财羊刃架凶杀重",
+    "七杀制伏太过反成贵",
+    "食神制杀福厚寿高",
+    "建禄月劫时逢七杀主大权",
+    "阴阳差错日孤独刑克",
+    "魁罡贵人带刀不断",
+    "天乙贵人三合会照主逢凶化吉",
+    "太极贵人压百邪",
+    "亡神劫煞并临牢狱之灾",
+    "流年冲起墓库开棺破祖",
+    "大运并临伤官见官官非牢狱",
+    "胎宫遇劫祖业飘零",
+    "身宫坐空一生奔波",
+    "紫微天府同宫帝王之相",
+    "左辅右弼夹命庙堂之器",
+    "武曲化忌入财帛帷幄之富"
+  ];
+
+  // 今日紫微斗数（术语化）
   (function(){
     const today = new Date();
     const dStr = today.toISOString().slice(0,10); // YYYY-MM-DD
@@ -1220,44 +1313,25 @@ document.addEventListener("DOMContentLoaded", function () {
       "天机旺动 · 思路多变"
     ];
 
-    const overallList = [
-      "命宫三方四正会吉曜，煞星退居他宫，流日四化多落命身轴，主当值之日气场集中，心神易守不易散。",
-      "身命同宫得助，官禄线轻受制，盘面呈「身强事杂」之象，事务纵多，仍在命身可控范围之内。",
-      "命宫受化权、化科照临，主判断与应变能力上提，星曜结构利于先观大势，再落细则。",
-      "命迁线成夹，内外之气同时发动，为「人在局中、不易旁观」格局，中宫自守为主。",
-      "福德宫旺而煞星在三合位，心性稳住，外缘起伏不至伤及命盘根本，可视作流日层级之波动。"
-    ];
-
-    const moneyList = [
-      "财帛宫三方会禄存及吉曜，煞星处边宫轻夹，主财星运行以守成为主，偏向稳定盘整之象。",
-      "流日化忌轻触财帛线，财帛宫有泄耗之象，宜视为「整理期」结构，多在核算、归档层面体现。",
-      "田宅宫与财帛宫成气，资金动向多联动布局与架构，属「动结构不动根本」的财帛运行。",
-      "偏财星有讯而不当令，主消息层面较为活跃，实质落袋仍需参考本命格与大限格局。",
-      "财帛宫受煞不重而连线拉长，财务议题易被放大，宜在数字与条款层面多作覆盘检视。"
-    ];
-
-    const loveList = [
-      "夫妻宫受吉煞并临，三方四正成轻刑合之局，主关系宫位气场有波动但具调和空间。",
-      "福德宫得气而夫妻宫受制不深，属「心性可安、人事有动」格局，情绪起伏不改底盘。",
-      "命迁线与夫妻宫交会，外缘讯号容易牵动关系宫位，属社交信息放大的流日结构。",
-      "子女宫牵引夫妻位，家庭与现实事务易并入情感宫位，盘主需自辨事件层与情绪层。",
-      "桃花星动且煞曜同度，主缘分气场活跃而带耗，边界感以本命格与行运阶段为裁决。"
-    ];
-
-    const actionList = [
-      "官禄宫见刚星会煞，主行事节奏偏刚，推进力实，阻力亦实，为典型「官禄带煞」之象。",
-      "官禄与迁移互发，外务、出行、对接宫位同动，当值之日多体现于对外交涉与流程衔接。",
-      "三方四正星曜杂沓，事务节点偏多，盘面对「轻重缓急」之排序有较高要求。",
-      "流日化权、化科若落事业轴线，主文书、数据、策略层面具理顺契机，可藉此调整结构。",
-      "化忌若触及官禄或迁移位，则示签约、变动、决策宜再审条款，以免形成结构性负担。"
-    ];
-
     const luckLevels = [
-      { label: "今日格局：禄权并见", note: "命宫与官禄线承接度佳，属可用之日，可按原规划推演要事。" },
-      { label: "今日格局：吉中带煞", note: "吉星当令而煞曜不退，属「可成事、需用力」之盘面结构。" },
-      { label: "今日格局：平盘运行", note: "星曜力道平均，重在执行细节，不在造势求变。" },
-      { label: "今日格局：劳心劳力", note: "事业轴线星曜多动，身心耗损略重，节奏与边界需在盘主掌控之内。" }
+      { label: "今日格局：禄权并见" },
+      { label: "今日格局：吉中带煞" },
+      { label: "今日格局：平盘运行" },
+      { label: "今日格局：劳心劳力" }
     ];
+
+    function comboTerms(seedObj, count){
+      const used = new Set();
+      const parts = [];
+      while (parts.length < count && used.size < TERM_POOL.length) {
+        const t = pick(TERM_POOL, seedObj);
+        if (!used.has(t)) {
+          used.add(t);
+          parts.push(t);
+        }
+      }
+      return parts.join("；");
+    }
 
     const scoreBase = 70;
     const scoreFloat = (nextRand(seedObj) % 21) - 10; // -10 ~ +10
@@ -1266,10 +1340,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (score > 95) score = 95;
 
     const star = pick(stars, seedObj);
-    const overall = pick(overallList, seedObj);
-    const money = pick(moneyList, seedObj);
-    const love = pick(loveList, seedObj);
-    const action = pick(actionList, seedObj);
+    const overall = comboTerms(seedObj, 3);
+    const money = comboTerms(seedObj, 2);
+    const love = comboTerms(seedObj, 2);
+    const action = comboTerms(seedObj, 2);
     const level = pick(luckLevels, seedObj);
 
     const starEl = document.getElementById("fortune-main-star");
@@ -1288,8 +1362,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (lEl) lEl.textContent = love;
     if (aEl) aEl.textContent = action;
     if (levelEl) levelEl.textContent = level.label;
-    if (noteEl && level.note) {
-      noteEl.textContent = "※ " + level.note + " 紫微斗数属术数推演，请配合理性判断与现实盘面。";
+    if (noteEl) {
+      noteEl.textContent = "※ 术数格局层观察，不作绝对吉凶。";
     }
   })();
 
@@ -1341,6 +1415,34 @@ document.addEventListener("DOMContentLoaded", function () {
       col.appendChild(label);
       col.appendChild(scoreEl);
       weekContainer.appendChild(col);
+    }
+  })();
+
+  // 术数术语摘记：每日随机抽取若干条
+  (function(){
+    const container = document.getElementById("term-list");
+    if (!container) return;
+
+    const dStr = new Date().toISOString().slice(0,10);
+    const seedObj = { value: createSeed("terms-" + dStr) };
+
+    const used = new Set();
+    const count = Math.min(14, TERM_POOL.length);
+
+    for (let i = 0; i < count; i++) {
+      let t;
+      let tries = 0;
+      do {
+        t = pick(TERM_POOL, seedObj);
+        tries++;
+      } while (used.has(t) && tries < 20);
+      used.add(t);
+
+      const pill = document.createElement("div");
+      pill.className = "term-pill";
+      const index = TERM_POOL.indexOf(t) + 1;
+      pill.textContent = index + ". " + t;
+      container.appendChild(pill);
     }
   })();
 </script>
