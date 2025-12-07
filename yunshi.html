@@ -1,601 +1,260 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>紫微斗数 · 流日运势记录</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>紫微斗数 · 流日运势记录</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="icon" href="J.png" type="image/png">
-  <link rel="shortcut icon" href="J.png" type="image/png">
+<link rel="icon" href="J.png" type="image/png">
+<link rel="shortcut icon" href="J.png" type="image/png">
 
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+background:linear-gradient(180deg,#e0f2fe,#ffffff);
+color:#0f172a;
+min-height:100vh;
+display:flex;
+justify-content:center;
+}
 
-    :root {
-      --bg-main: #e0f2fe;
-      --bg-panel: rgba(255,255,255,0.98);
-      --text-main: #0f172a;
-      --text-sub: rgba(15,23,42,0.65);
-      --accent: #0ea5e9;
-      --accent-2: #38bdf8;
-      --radius-lg: 24px;
-      --radius-md: 18px;
-      --shadow-strong: 0 24px 60px rgba(15,23,42,0.18);
-      --shadow-soft: 0 14px 32px rgba(148,163,184,0.35);
-    }
+#lock-screen{
+position:fixed;inset:0;
+background:rgba(148,163,184,.25);
+backdrop-filter:blur(20px);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:99;
+}
 
-    body {
-      font-family: "PingFang SC","Microsoft YaHei",sans-serif;
-      background:
-        radial-gradient(circle at 22% 8%, rgba(191,219,254,0.95), transparent 55%),
-        radial-gradient(circle at 80% 80%, rgba(224,242,254,0.95), transparent 55%),
-        linear-gradient(180deg,#e0f2fe,#ffffff);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: stretch;
-    }
+.lock-box{
+width:320px;
+padding:24px;
+background:#fff;
+border-radius:20px;
+text-align:center;
+box-shadow:0 20px 50px rgba(0,0,0,.2);
+}
 
-    /* 锁屏 · 蓝天白云玻璃风 */
-    #lock-screen {
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(circle at 20% 0%, rgba(191,219,254,0.8), transparent 55%),
-        radial-gradient(circle at 80% 100%, rgba(224,242,254,0.9), transparent 55%),
-        rgba(148,163,184,0.25);
-      backdrop-filter: blur(22px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 99;
-    }
+.lock-input{
+width:100%;
+margin-top:10px;
+padding:10px;
+border-radius:999px;
+border:1px solid #94a3b8;
+text-align:center;
+font-size:15px;
+}
 
-    .lock-box {
-      width: 320px;
-      padding: 24px 22px 20px;
-      background: rgba(255,255,255,0.96);
-      border-radius: 22px;
-      border: 1px solid rgba(191,219,254,0.95);
-      text-align: center;
-      box-shadow: var(--shadow-strong);
-      position: relative;
-      overflow: hidden;
-    }
+.lock-btn{
+margin-top:10px;
+width:100%;
+padding:9px;
+border:none;
+border-radius:999px;
+background:linear-gradient(135deg,#7dd3fc,#38bdf8);
+color:#fff;
+font-weight:600;
+cursor:pointer;
+}
 
-    .lock-box::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      opacity: .55;
-      background:
-        radial-gradient(circle at 0% 0%, rgba(191,219,254,0.9), transparent 52%),
-        radial-gradient(circle at 100% 100%, rgba(125,211,252,0.8), transparent 55%);
-      mix-blend-mode: screen;
-      pointer-events: none;
-    }
+.page{
+display:none;
+width:100%;
+max-width:900px;
+margin:20px;
+background:#fff;
+border-radius:24px;
+box-shadow:0 20px 50px rgba(0,0,0,.15);
+overflow:hidden;
+}
 
-    .lock-title {
-      position: relative;
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 6px;
-      letter-spacing: 1px;
-      color: var(--text-main);
-    }
+header{
+padding:18px 20px;
+border-bottom:1px solid #e5e7eb;
+}
 
-    .lock-sub {
-      position: relative;
-      font-size: 13px;
-      color: var(--text-sub);
-      margin-bottom: 10px;
-    }
+nav{
+margin-top:10px;
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
 
-    .lock-input {
-      position: relative;
-      width: 100%;
-      margin-top: 10px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.9);
-      background: rgba(248,250,252,0.98);
-      color: var(--text-main);
-      font-size: 15px;
-      text-align: center;
-      outline: none;
-      box-shadow: 0 0 0 1px rgba(203,213,225,0.7);
-    }
+nav a{
+padding:6px 12px;
+border-radius:999px;
+border:1px solid #38bdf8;
+font-size:12px;
+text-decoration:none;
+color:#0369a1;
+}
 
-    .lock-input::placeholder {
-      color: rgba(148,163,184,0.95);
-    }
+nav a.active{
+background:linear-gradient(135deg,#38bdf8,#0ea5e9);
+color:#fff;
+}
 
-    .lock-btn {
-      margin-top: 10px;
-      width: 100%;
-      padding: 9px 0;
-      border-radius: 999px;
-      border: none;
-      background: linear-gradient(135deg,#7dd3fc,#38bdf8);
-      color: #fff;
-      font-weight: 600;
-      font-size: 14px;
-      letter-spacing: 1px;
-      cursor: pointer;
-      box-shadow: 0 10px 26px rgba(56,189,248,0.55);
-      transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
-    }
+main{
+padding:18px;
+display:flex;
+flex-direction:column;
+gap:16px;
+}
 
-    .lock-btn:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.03);
-    }
+.section{
+border-radius:16px;
+padding:14px;
+border:1px solid #c7d2fe;
+background:#f8fafc;
+font-size:13px;
+line-height:1.8;
+}
 
-    .lock-btn:active {
-      transform: translateY(0);
-      box-shadow: 0 6px 18px rgba(56,189,248,0.45);
-    }
+.section-title{
+font-size:14px;
+font-weight:600;
+margin-bottom:6px;
+letter-spacing:.1em;
+}
 
-    #lock-error {
-      position: relative;
-      margin-top: 6px;
-      font-size: 12px;
-      color: #b91c1c;
-      min-height: 16px;
-    }
+.terms{
+display:flex;
+flex-wrap:wrap;
+gap:6px 10px;
+}
 
-    /* 主内容 · iOS 卡片风 */
-    .page {
-      display: none;
-      width: 100%;
-      max-width: 960px;
-      margin: 22px 16px;
-      background:
-        radial-gradient(circle at 8% 0%, rgba(191,219,254,0.45), transparent 60%),
-        radial-gradient(circle at 92% 100%, rgba(224,242,254,0.45), transparent 60%),
-        var(--bg-panel);
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(191,219,254,0.95);
-      box-shadow: var(--shadow-strong);
-      overflow: hidden;
-      backdrop-filter: blur(22px);
-    }
+.term{
+font-size:11px;
+padding:3px 8px;
+border-radius:999px;
+border:1px dashed #94a3b8;
+background:#eef2ff;
+}
 
-    header {
-      padding: 18px 20px 14px;
-      border-bottom: 1px solid rgba(226,232,240,0.9);
-    }
-
-    .top-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 8px;
-      flex-wrap: wrap;
-    }
-
-    .logo-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo-row img {
-      width: 32px;
-      height: 32px;
-      border-radius: 30%;
-      object-fit: cover;
-      box-shadow: 0 0 0 2px rgba(255,255,255,0.85);
-    }
-
-    .logo-title {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: var(--text-main);
-    }
-
-    .logo-sub {
-      font-size: 12px;
-      color: var(--text-sub);
-      margin-top: 2px;
-    }
-
-    .small-tag {
-      font-size: 12px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.9);
-      background: rgba(239,246,255,0.96);
-      color: var(--text-sub);
-      white-space: nowrap;
-    }
-
-    nav {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 6px;
-    }
-
-    nav a {
-      font-size: 12px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(125,211,252,0.9);
-      text-decoration: none;
-      color: #0369a1;
-      background: rgba(224,242,254,0.96);
-      backdrop-filter: blur(10px);
-      transition: 0.16s ease;
-    }
-
-    nav a:hover {
-      background: linear-gradient(135deg,#7dd3fc,#38bdf8);
-      color: #fff;
-      border-color: transparent;
-      box-shadow: 0 10px 24px rgba(56,189,248,0.5);
-    }
-
-    nav a.active {
-      background: linear-gradient(135deg,#38bdf8,#0ea5e9);
-      color: #fff;
-      border-color: transparent;
-      box-shadow: 0 10px 24px rgba(56,189,248,0.6);
-    }
-
-    main {
-      padding: 16px 18px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .section-title {
-      font-size: 14px;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--text-sub);
-    }
-
-    .section-title::before {
-      content: "";
-      width: 16px;
-      height: 2px;
-      border-radius: 999px;
-      background: linear-gradient(90deg,var(--accent),var(--accent-2));
-    }
-
-    .date-bar {
-      border-radius: 14px;
-      padding: 10px 12px;
-      background: rgba(248,250,252,0.98);
-      border: 1px solid rgba(191,219,254,0.95);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      font-size: 13px;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .date-main {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .date-main strong {
-      font-size: 15px;
-      color: var(--text-main);
-    }
-
-    .date-sub {
-      font-size: 12px;
-      color: var(--text-sub);
-    }
-
-    .date-extra {
-      font-size: 12px;
-      color: var(--text-sub);
-    }
-
-    .card {
-      border-radius: var(--radius-md);
-      padding: 12px 13px 13px;
-      background: rgba(255,255,255,0.98);
-      border: 1px solid rgba(191,219,254,0.95);
-      box-shadow: var(--shadow-soft);
-      font-size: 13px;
-      line-height: 1.8;
-      color: var(--text-main);
-    }
-
-    .card + .card { margin-top: 8px; }
-
-    .card-label {
-      font-size: 11px;
-      color: var(--text-sub);
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-
-    .card-title {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: var(--text-main);
-    }
-
-    .small-note {
-      margin-top: 6px;
-      font-size: 11px;
-      color: var(--text-sub);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 6px;
-      font-size: 12px;
-    }
-
-    th, td {
-      border-bottom: 1px solid rgba(203,213,225,0.9);
-      padding: 6px 4px;
-      text-align: left;
-    }
-
-    th {
-      color: var(--text-sub);
-      font-weight: 500;
-      white-space: nowrap;
-    }
-
-    tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    footer {
-      padding: 10px 18px 14px;
-      border-top: 1px solid rgba(226,232,240,0.9);
-      font-size: 11px;
-      color: var(--text-sub);
-      text-align: right;
-      background: rgba(248,250,252,0.98);
-    }
-
-    @media (max-width: 640px) {
-      .page { margin: 18px 10px; }
-      header { padding: 16px 14px 12px; }
-      main { padding: 14px; }
-    }
-  </style>
+footer{
+padding:12px 18px;
+border-top:1px solid #e5e7eb;
+font-size:11px;
+color:#64748b;
+text-align:right;
+}
+</style>
 </head>
+
 <body>
 
-<!-- 密码锁 -->
 <div id="lock-screen">
-  <div class="lock-box">
-    <div class="lock-title">输入通关暗号</div>
-    <div class="lock-sub">紫微斗数 × 皇极经世流日档案。</div>
-    <input id="password-input" class="lock-input" placeholder="输入密钥" />
-    <button class="lock-btn" onclick="checkPassword()">进入</button>
-    <div id="lock-error"></div>
-  </div>
+<div class="lock-box">
+<div>输入通关暗号</div>
+<input id="password-input" class="lock-input" placeholder="输入密钥">
+<button class="lock-btn" onclick="checkPassword()">进入</button>
+<div id="lock-error" style="color:#b91c1c;margin-top:6px;"></div>
+</div>
 </div>
 
-<!-- 主页面内容 -->
 <div class="page">
-  <header>
-    <div class="top-row">
-      <div class="logo-row">
-        <img src="J.png" alt="logo">
-        <div>
-          <div class="logo-title">紫微斗数 · 流日运势记录</div>
-          <div class="logo-sub">本命四柱：辛巳 壬午 戊子 己申 · 紫微斗数 × 皇极经世流日结构纪要。</div>
-        </div>
-      </div>
-      <div class="small-tag">流日结构纪要</div>
-    </div>
 
-    <nav>
-      <a href="index.html">首页 / 命盘</a>
-      <a href="yunshi.html" class="active">每日运势</a>
-      <a href="links.html">常用链接</a>
-      <a href="talk.html">互动留言</a>
-    </nav>
+<header>
+<div><b>紫微斗数 · 流日运势记录</b></div>
+<nav>
+<a href="index.html">首页 / 命盘</a>
+<a href="yunshi.html" class="active">每日运势</a>
+<a href="links.html">常用链接</a>
+</nav>
+</header>
 
-  </header>
+<main>
 
-  <main>
-    <!-- TODAY -->
-    <section>
-      <div class="section-title">TODAY</div>
-      <div class="date-bar">
-        <div class="date-main">
-          <strong id="today-main">日期：----</strong>
-          <div class="date-sub" id="today-lunar">公历／干支年信息加载中……</div>
-        </div>
-        <div class="date-extra">
-          排盘基准：本命四柱＋紫微星系＋皇极经世岁运节气。
-        </div>
-      </div>
-    </section>
+<div class="section">
+<div class="section-title">四柱 · 命主结构</div>
+辛巳　壬午　戊子　己申 ｜ 命主 · 身主
+</div>
 
-    <!-- OVERVIEW -->
-    <section>
-      <div class="section-title">OVERVIEW</div>
+<div class="section">
+<div class="section-title">主格 · 结构</div>
+羊刃驾杀 ｜ 官杀混杂 ｜ 杀印相生 ｜ 伤官见官 ｜ 伤官佩印
+</div>
 
-      <div class="card">
-        <div class="card-label">SECTION 01</div>
-        <div class="card-title">流日盘总论 · 命身三方四正结构</div>
-        <p id="overall-text">
-命盘底格：辛巳 壬午 戊子 己申 · 偏官格兼伤官佩印。<br>
-流日结构：四化同落命－财－官三合轴，紫微坐命，会禄权科，煞曜退居他宫。<br>
-局象标签：命身得气／三方四正成格／流日配合本命。
-        </p>
-      </div>
+<div class="section">
+<div class="section-title">十四主星</div>
+紫微、天机、太阳、武曲、天同、廉贞、天府、太阴、贪狼、巨门、天相、天梁、七杀、破军
+</div>
 
-      <div class="card">
-        <div class="card-label">SECTION 02</div>
-        <div class="card-title">用事等级 · 按宫位划分当日可用度</div>
-        <table>
-          <thead>
-            <tr>
-              <th>用事等级</th>
-              <th>对应宫位 / 象意</th>
-              <th>结构判断（紫微 / 皇极经世）</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>一等可用</td>
-              <td>命宫 · 官禄宫 · 迁移宫</td>
-              <td>命宫／官禄／迁移三方会禄权科；紫微坐命，官禄带权；皇极：用事日在局。</td>
-            </tr>
-            <tr>
-              <td>二等可用</td>
-              <td>财帛宫 · 田宅宫</td>
-              <td>财帛会禄存与科星并带轻忌；田宅成泄耗位；皇极：调仓阶段。</td>
-            </tr>
-            <tr>
-              <td>谨慎观望</td>
-              <td>夫妻宫 · 兄弟宫 · 朋友宫</td>
-              <td>夫妻、兄弟、交友见煞夹吉；关系宫位气行先于事；皇极：人事小运摇动。</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+<div class="section">
+<div class="section-title">六吉星</div>
+左辅、右弼、文昌、文曲、天魁、天钺
+</div>
 
-    <!-- WORK / ACTION -->
-    <section>
-      <div class="section-title">WORK · 官禄线</div>
-      <div class="card">
-        <div class="card-label">SECTION 03</div>
-        <div class="card-title">官禄宫 · 行动力与执行度</div>
-        <p>
-官禄格局：武曲七杀同度，会化权右弼，三方会迁移宫，官禄轴刚性主导。<br>
-皇极定位：中元「用事局」，官禄线为当值运行主线。<br>
-局象标签：执行轴硬／节点清晰／外缘摩擦度偏高。
-        </p>
-      </div>
-    </section>
+<div class="section">
+<div class="section-title">六煞星</div>
+擎羊、陀罗、火星、铃星、地空、地劫
+</div>
 
-    <!-- MONEY / RESOURCE -->
-    <section>
-      <div class="section-title">MONEY · 财帛线</div>
-      <div class="card">
-        <div class="card-label">SECTION 04</div>
-        <div class="card-title">财帛宫 · 资金流与资源配置</div>
-        <p>
-财帛格局：财帛会禄存与科星，田宅成泄耗位，化忌轻触财线。<br>
-紫微结构：三方得吉、四正带微忌。<br>
-皇极定位：调仓－换气期。<br>
-局象标签：账目整理／结构重排／合约条款校核。
-        </p>
-      </div>
-    </section>
+<div class="section">
+<div class="section-title">四化星</div>
+化禄、化权、化科、化忌
+</div>
 
-    <!-- RELATION / FEEL -->
-    <section>
-      <div class="section-title">RELATION · 人际线</div>
-      <div class="card">
-        <div class="card-label">SECTION 05</div>
-        <div class="card-title">夫妻宫 / 兄弟宫 · 关系与气场流向</div>
-        <p>
-夫妻格局：廉贞、贪狼夹宫，三方轻煞夹吉。<br>
-人际轴线：兄弟宫、交友宫得左辅右弼会照。<br>
-皇极定位：人际小运起伏，大局位阶不动。<br>
-局象标签：情绪放大／结构未破／以节气节点观变。
-        </p>
-      </div>
-    </section>
-  </main>
+<div class="section">
+<div class="section-title">长生十二神</div>
+长生、沐浴、冠带、临官、帝旺、衰、病、死、墓、绝、胎、养
+</div>
 
-  <footer>
-    紫微斗数 × 皇极经世 · 流日结构记录档案。
-  </footer>
+<div class="section">
+<div class="section-title">三方四正 · 十二宫</div>
+命宫、身宫、父母、福德、田宅、官禄、交友、疾厄、财帛、子女、夫妻、兄弟、迁移
+</div>
+
+<div class="section">
+<div class="section-title">经典格局</div>
+机月同梁格、府相朝垣格、紫府同宫、紫相朝垣、武贪同宫、廉贞贪狼、杀破狼格
+</div>
+
+<div class="section">
+<div class="section-title">夹命格</div>
+辅弼夹命、昌曲夹命、魁钺夹命、羊陀夹命、空劫夹命、火铃夹命
+</div>
+
+<div class="section">
+<div class="section-title">煞曜结构</div>
+羊陀火铃、空劫地煞、煞忌同宫、刑忌夹命、囚星入庙
+</div>
+
+</main>
+
+<footer>
+紫微斗数 × 皇极经世 · 纯术语结构存档
+</footer>
+
 </div>
 
 <script>
-  const PASSWORD = "180999";
-  const UNLOCK_KEY = "xd_console_unlocked"; // 和首页 / 链接页共用
+const PASSWORD="180999";
+const UNLOCK_KEY="xd_console_unlocked";
 
-  function unlockPage() {
-    const lock = document.getElementById("lock-screen");
-    if (lock) lock.style.display = "none";
-    document.querySelectorAll(".page").forEach(p => {
-      p.style.display = "block";
-    });
-  }
+function unlockPage(){
+document.getElementById("lock-screen").style.display="none";
+document.querySelector(".page").style.display="block";
+}
 
-  function checkPassword() {
-    const input = document.getElementById("password-input");
-    const err = document.getElementById("lock-error");
-    const v = (input.value || "").trim();
-    if (v === PASSWORD) {
-      try { localStorage.setItem(UNLOCK_KEY, "1"); } catch (e) {}
-      if (err) err.textContent = "";
-      if (input) input.value = "";
-      unlockPage();
-    } else {
-      if (err) err.textContent = "密钥错误。";
-    }
-  }
+function checkPassword(){
+const v=document.getElementById("password-input").value.trim();
+if(v===PASSWORD){
+localStorage.setItem(UNLOCK_KEY,"1");
+unlockPage();
+}else{
+document.getElementById("lock-error").innerText="密钥错误";
+}
+}
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const input = document.getElementById("password-input");
-    if (input) {
-      input.addEventListener("keydown", function (e) {
-        if (e.key === "Enter") checkPassword();
-      });
-    }
-
-    // 进页面先看本机是否已经解锁过
-    try {
-      const flag = localStorage.getItem(UNLOCK_KEY);
-      if (flag === "1") {
-        unlockPage();
-      } else {
-        const lock = document.getElementById("lock-screen");
-        if (lock) lock.style.display = "flex";
-      }
-    } catch (e) {
-      const lock = document.getElementById("lock-screen");
-      if (lock) lock.style.display = "flex";
-    }
-  });
-
-  // 日期 + 干支年提示（简化版）
-  (function () {
-    const elDate = document.getElementById("today-main");
-    const elLunar = document.getElementById("today-lunar");
-    const d = new Date();
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    if (elDate) elDate.textContent = "日期：" + y + "-" + m + "-" + day;
-
-    const ganzhiYear = {
-      2020: "庚子年", 2021: "辛丑年", 2022: "壬寅年",
-      2023: "癸卯年", 2024: "甲辰年", 2025: "乙巳年",
-      2026: "丙午年", 2027: "丁未年", 2028: "戊申年"
-    };
-    const gz = ganzhiYear[y] || "干支年参考略";
-    if (elLunar) {
-      elLunar.textContent = `公历：${y}-${m}-${day} ｜ 年柱参考：${gz}`;
-    }
-  })();
+document.addEventListener("DOMContentLoaded",()=>{
+if(localStorage.getItem(UNLOCK_KEY)==="1"){
+unlockPage();
+}
+});
 </script>
 
 </body>
