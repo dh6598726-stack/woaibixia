@@ -11,23 +11,41 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    :root {
+      --bg-main: #e0f2fe;
+      --bg-panel: rgba(255,255,255,0.96);
+      --text-main: #0f172a;
+      --text-sub: rgba(15,23,42,0.65);
+      --accent: #0ea5e9;
+      --accent-2: #38bdf8;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --shadow-strong: 0 24px 60px rgba(15,23,42,0.18);
+      --shadow-soft: 0 14px 32px rgba(148,163,184,0.35);
+    }
+
     body {
       font-family: "PingFang SC","Microsoft YaHei",sans-serif;
-      background:
-        radial-gradient(circle at 10% 0%, rgba(0,0,0,0.6) 0, rgba(0,0,0,0.9) 55%),
-        url("LL.jpg") center center / cover fixed no-repeat;
-      color: #f9fafb;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: stretch;
+      background:
+        radial-gradient(circle at 22% 8%, rgba(191,219,254,0.95), transparent 55%),
+        radial-gradient(circle at 80% 80%, rgba(224,242,254,0.95), transparent 55%),
+        linear-gradient(180deg,#e0f2fe,#ffffff);
+      color: var(--text-main);
     }
 
+    /* 锁屏：iOS 玻璃卡片风 */
     #lock-screen {
       position: fixed;
       inset: 0;
-      background: rgba(5, 3, 20, 0.94);
-      backdrop-filter: blur(16px);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(191,219,254,0.8), transparent 55%),
+        radial-gradient(circle at 80% 100%, rgba(224,242,254,0.9), transparent 55%),
+        rgba(148,163,184,0.25);
+      backdrop-filter: blur(22px);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -37,29 +55,60 @@
     .lock-box {
       width: 320px;
       padding: 24px 22px 20px;
-      background: linear-gradient(145deg, rgba(35, 26, 74, 0.96), rgba(9, 9, 32, 0.96));
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.96);
+      border-radius: 22px;
+      border: 1px solid rgba(191,219,254,0.95);
       text-align: center;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.7);
+      box-shadow: var(--shadow-strong);
       position: relative;
       overflow: hidden;
     }
 
-    .lock-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-    .lock-sub { font-size: 13px; color: rgba(226,232,240,0.85); margin-bottom: 10px; }
+    .lock-box::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      opacity: .55;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(191,219,254,0.9), transparent 52%),
+        radial-gradient(circle at 100% 100%, rgba(125,211,252,0.8), transparent 55%);
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .lock-title {
+      position: relative;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+      color: var(--text-main);
+    }
+
+    .lock-sub {
+      position: relative;
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-bottom: 10px;
+    }
 
     .lock-input {
+      position: relative;
       width: 100%;
       margin-top: 10px;
       padding: 10px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.24);
-      background: rgba(9,9,29,0.9);
-      color: #fff;
+      border: 1px solid rgba(148,163,184,0.9);
+      background: rgba(248,250,252,0.98);
+      color: var(--text-main);
       font-size: 15px;
       text-align: center;
       outline: none;
+      box-shadow: 0 0 0 1px rgba(203,213,225,0.7);
+    }
+
+    .lock-input::placeholder {
+      color: rgba(148,163,184,0.95);
     }
 
     .lock-btn {
@@ -68,53 +117,168 @@
       padding: 9px 0;
       border-radius: 999px;
       border: none;
-      background: linear-gradient(135deg,#ffce7a,#ff9a46);
-      color: #000;
+      background: linear-gradient(135deg,#7dd3fc,#38bdf8);
+      color: #fff;
       font-weight: 600;
       font-size: 14px;
+      letter-spacing: 1px;
       cursor: pointer;
+      box-shadow: 0 10px 26px rgba(56,189,248,0.55);
+      transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
     }
 
-    #lock-error { margin-top: 6px; font-size: 12px; color: #fecaca; }
+    .lock-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+    }
 
+    .lock-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 6px 18px rgba(56,189,248,0.45);
+    }
+
+    #lock-error {
+      position: relative;
+      margin-top: 6px;
+      font-size: 12px;
+      color: #b91c1c;
+      min-height: 16px;
+    }
+
+    /* 主内容：iOS 玻璃卡片 */
     .page {
       display: none;
       width: 100%;
       max-width: 980px;
       margin: 26px 18px;
-      background: rgba(8,11,30,0.96);
-      border-radius: 22px;
-      border: 1px solid rgba(148,163,184,0.8);
-      box-shadow: 0 18px 45px rgba(0,0,0,0.6);
+      background:
+        radial-gradient(circle at 5% 0, rgba(191,219,254,0.35), transparent 60%),
+        radial-gradient(circle at 95% 100, rgba(224,242,254,0.35), transparent 60%),
+        var(--bg-panel);
+      border-radius: 24px;
+      border: 1px solid rgba(191,219,254,0.95);
+      box-shadow: var(--shadow-strong);
       overflow: hidden;
+      backdrop-filter: blur(24px);
     }
 
-    header { padding: 18px 20px 14px; border-bottom: 1px solid rgba(51,65,85,0.9); }
-
-    .top-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-
-    .title-block { display: flex; align-items: center; gap: 10px; }
-    .logo {
-      width: 30px; height: 30px; border-radius: 30%;
-      background: #1f2937;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 18px;
+    header {
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid rgba(226,232,240,0.9);
+      position: relative;
     }
 
-    nav { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-    nav a {
-      padding: 5px 12px;
+    header::after {
+      content: "";
+      position: absolute;
+      inset-inline: 20px;
+      bottom: 0;
       border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.8);
+      border-bottom: 1px solid rgba(203,213,225,0.9);
+      opacity: .6;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .title-block {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 30%;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,0.8), transparent 60%),
+        #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: #fff;
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.85);
+    }
+
+    .title-text h1 {
+      font-size: 20px;
+      letter-spacing: 1px;
+      color: var(--text-main);
+    }
+
+    .title-text span {
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    nav a {
+      padding: 6px 13px;
+      border-radius: 999px;
+      border: 1px solid rgba(125,211,252,0.9);
       font-size: 12px;
       text-decoration: none;
-      color: #e5e7eb;
-      background: rgba(15,23,42,0.85);
+      color: #0369a1;
+      background: rgba(224,242,254,0.96);
+      backdrop-filter: blur(10px);
+      transition: 0.16s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
-    nav a.active { border-color: #38bdf8; }
+
+    nav a:hover {
+      background: linear-gradient(135deg,#7dd3fc,#38bdf8);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 10px 24px rgba(56,189,248,0.5);
+    }
+
+    nav a.active {
+      background: linear-gradient(135deg,#38bdf8,#0ea5e9);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 10px 24px rgba(56,189,248,0.6);
+    }
 
     main { padding: 16px 18px 20px; }
-    .group-title { font-size: 13px; margin: 14px 0 8px; }
+
+    .section-title {
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: var(--text-sub);
+    }
+
+    .group-title {
+      font-size: 13px;
+      margin: 14px 0 8px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .group-title::before {
+      content: "";
+      width: 16px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg,var(--accent),var(--accent-2));
+    }
 
     .grid {
       display: grid;
@@ -123,39 +287,144 @@
     }
 
     .card {
+      position: relative;
       padding: 11px 12px;
       border-radius: 16px;
-      background: rgba(15,23,42,0.96);
-      border: 1px solid rgba(148,163,184,0.9);
+      background: rgba(255,255,255,0.98);
+      border: 1px solid rgba(191,219,254,0.95);
       font-size: 12px;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease;
     }
 
-    .card-header { display: flex; justify-content: space-between; align-items: center; }
-    .card-main { display: flex; align-items: center; gap: 8px; }
+    .card::after {
+      content: "";
+      position: absolute;
+      inset-inline: -40%;
+      bottom: -45%;
+      height: 60%;
+      background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.7), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.18s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(148,163,184,0.5);
+      border-color: rgba(56,189,248,0.9);
+    }
+
+    .card:hover::after {
+      opacity: 1;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-main {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .card-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      background: rgba(224,242,254,0.96);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 1px rgba(191,219,254,0.95);
+      font-size: 15px;
+    }
+
+    .card-text {
+      min-width: 0;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-desc {
+      font-size: 11px;
+      color: var(--text-sub);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     .card-btn {
       padding: 5px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(248,250,252,0.85);
-      background: rgba(15,23,42,0.9);
-      color: #e5e7eb;
+      border: none;
+      background: linear-gradient(135deg,#7dd3fc,#38bdf8);
+      color: #fff;
       font-size: 11px;
       cursor: pointer;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      box-shadow: 0 8px 20px rgba(56,189,248,0.5);
+      transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
     }
 
-    .card-url { margin-top: 2px; font-size: 11px; color: rgba(156,163,175,0.95); }
+    .card-btn span { font-size: 13px; }
+
+    .card-btn:hover {
+      filter: brightness(1.03);
+      transform: translateY(-1px);
+    }
+
+    .card-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 5px 16px rgba(56,189,248,0.45);
+    }
+
+    .card-url {
+      font-size: 11px;
+      color: rgba(100,116,139,0.98);
+      word-break: break-all;
+    }
 
     footer {
       padding: 10px 18px 14px;
-      border-top: 1px solid rgba(30,41,59,0.96);
+      border-top: 1px solid rgba(226,232,240,0.9);
       font-size: 11px;
-      color: rgba(148,163,184,0.9);
+      color: rgba(100,116,139,0.98);
       text-align: right;
+      background: rgba(248,250,252,0.96);
+    }
+
+    @media (max-width: 640px) {
+      .page { margin: 18px 10px; }
+      header { padding: 16px 14px 12px; }
+      main { padding: 14px; }
+      .top-row { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
 
+<!-- 锁屏 -->
 <div id="lock-screen">
   <div class="lock-box">
     <div class="lock-title">输入通关暗号</div>
@@ -166,18 +435,19 @@
   </div>
 </div>
 
+<!-- 主内容 -->
 <div class="page">
   <header>
     <div class="top-row">
       <div class="title-block">
         <div class="logo">J</div>
-        <div>
+        <div class="title-text">
           <h1>常用链接清单</h1>
-          <span>小东勇闯东南亚</span>
+          <span>小东勇闯东南亚 · 快速入口</span>
         </div>
       </div>
       <nav>
-        <a href="index.html">首页</a>
+        <a href="index.html">首页 / 命盘</a>
         <a href="yunshi.html">每日运势</a>
         <a href="links.html" class="active">常用链接</a>
       </nav>
@@ -185,42 +455,75 @@
   </header>
 
   <main>
+    <div class="section-title">本页仅收自己最常用、最关键的入口。</div>
 
     <!-- 数字资产 -->
-    <div class="group-title">数字资产</div>
+    <div class="group-title">一、数字资产</div>
     <div class="grid">
       <div class="card">
         <div class="card-header">
-          <div class="card-main">🟢 欧易 OKX</div>
-          <button class="card-btn" onclick="window.open('https://www.okx.com/', '_blank')">打开</button>
+          <div class="card-main">
+            <div class="card-icon">🟢</div>
+            <div class="card-text">
+              <div class="card-title">欧易 · OKX</div>
+              <div class="card-desc">主力交易所入口。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://www.okx.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
         </div>
         <div class="card-url">https://www.okx.com/</div>
       </div>
 
       <div class="card">
         <div class="card-header">
-          <div class="card-main">🦊 MetaMask</div>
-          <button class="card-btn" onclick="window.open('https://metamask.io/', '_blank')">打开</button>
+          <div class="card-main">
+            <div class="card-icon">🦊</div>
+            <div class="card-text">
+              <div class="card-title">MetaMask · 狐狸钱包</div>
+              <div class="card-desc">以太坊 / EVM 系链钱包。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://metamask.io/', '_blank')">
+            打开 <span>↗</span>
+          </button>
         </div>
         <div class="card-url">https://metamask.io</div>
       </div>
     </div>
 
     <!-- 搜索工具 -->
-    <div class="group-title">搜索工具</div>
+    <div class="group-title">二、搜索工具</div>
     <div class="grid">
       <div class="card">
         <div class="card-header">
-          <div class="card-main">🔎 Google 搜索</div>
-          <button class="card-btn" onclick="window.open('https://www.google.com/', '_blank')">打开</button>
+          <div class="card-main">
+            <div class="card-icon">🔎</div>
+            <div class="card-text">
+              <div class="card-title">Google 搜索</div>
+              <div class="card-desc">主力英文 / 全局搜索。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://www.google.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
         </div>
         <div class="card-url">https://www.google.com/</div>
       </div>
 
       <div class="card">
         <div class="card-header">
-          <div class="card-main">🖼️ Google 谷歌搜图</div>
-          <button class="card-btn" onclick="window.open('https://images.google.com/', '_blank')">打开</button>
+          <div class="card-main">
+            <div class="card-icon">🖼️</div>
+            <div class="card-text">
+              <div class="card-title">Google 谷歌搜图</div>
+              <div class="card-desc">以图搜图 / 查相似来源。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://images.google.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
         </div>
         <div class="card-url">https://images.google.com/</div>
       </div>
@@ -228,20 +531,56 @@
 
   </main>
 
-  <footer>仅供个人使用</footer>
+  <footer>本页仅供个人使用，链接内容以各站点实际页面为准。</footer>
 </div>
 
 <script>
   const PASSWORD = "180999";
+  const UNLOCK_KEY = "xd_console_unlocked"; // 和首页共用，一个设备输一次就行
+
+  function unlockPage() {
+    const lock = document.getElementById("lock-screen");
+    if (lock) lock.style.display = "none";
+    document.querySelectorAll(".page").forEach(p => {
+      p.style.display = "block";
+    });
+  }
+
   function checkPassword() {
-    const v = document.getElementById("password-input").value.trim();
+    const input = document.getElementById("password-input");
+    const err = document.getElementById("lock-error");
+    const v = (input?.value || "").trim();
     if (v === PASSWORD) {
-      document.getElementById("lock-screen").style.display = "none";
-      document.querySelector(".page").style.display = "block";
+      try { localStorage.setItem(UNLOCK_KEY, "1"); } catch (e) {}
+      if (err) err.textContent = "";
+      if (input) input.value = "";
+      unlockPage();
     } else {
-      document.getElementById("lock-error").textContent = "密码错误";
+      if (err) err.textContent = "密码不对，再试一次。";
     }
   }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const input = document.getElementById("password-input");
+    if (input) {
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") checkPassword();
+      });
+    }
+
+    try {
+      const flag = localStorage.getItem(UNLOCK_KEY);
+      if (flag === "1") {
+        unlockPage();
+      } else {
+        const lock = document.getElementById("lock-screen");
+        if (lock) lock.style.display = "flex";
+      }
+    } catch (e) {
+      const lock = document.getElementById("lock-screen");
+      if (lock) lock.style.display = "flex";
+    }
+  });
 </script>
 
 </body>
