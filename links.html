@@ -10,21 +10,20 @@
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: "PingFang SC","Microsoft YaHei",sans-serif;
-  background:
-    radial-gradient(circle at 10% 0%, rgba(0,0,0,0.6) 0, rgba(0,0,0,0.9) 55%),
-    url("LL.jpg") center center / cover fixed no-repeat;
-  color: #f9fafb;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-}
 
+    body {
+      font-family: "PingFang SC","Microsoft YaHei",sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(0,0,0,0.6) 0, rgba(0,0,0,0.9) 55%),
+        url("LL.jpg") center center / cover fixed no-repeat;
+      color: #f9fafb;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
     }
 
-    /* 密码锁（同一套风格） */
+    /* 密码锁 */
     #lock-screen {
       position: fixed;
       inset: 0;
@@ -127,7 +126,7 @@ body {
       min-height: 16px;
     }
 
-    /* 主内容：初始隐藏，解锁后显示 */
+    /* 主内容 */
     .page {
       display: none;
       width: 100%;
@@ -423,7 +422,7 @@ body {
       本页将常用站点按用途分类整理，当作「索引页」使用：清晰、可长期复用，需要时一眼就能找到出口。
     </p>
 
-    <!-- 图库与素材 -->
+    <!-- 一、图库与素材 -->
     <div class="group-title">一、图库与素材 <span>找图、找灵感用</span></div>
     <div class="grid">
       <div class="card">
@@ -459,7 +458,7 @@ body {
       </div>
     </div>
 
-    <!-- 网络与基础设施 -->
+    <!-- 二、网络与基础设施 -->
     <div class="group-title">二、网络与基础设施 <span>IP、域名、二步验证</span></div>
     <div class="grid">
       <div class="card">
@@ -527,7 +526,7 @@ body {
       </div>
     </div>
 
-    <!-- 内容与 AI 工具 -->
+    <!-- 三、内容与 AI 工具 -->
     <div class="group-title">三、内容与 AI 工具 <span>看片、推演、写东西</span></div>
     <div class="grid">
       <div class="card">
@@ -578,92 +577,428 @@ body {
         <div class="card-url">https://chatgpt.com</div>
       </div>
     </div>
+
+    <!-- 四、数字资产与安全 -->
+    <div class="group-title">四、数字资产与安全 <span>加密通讯、交易与钱包</span></div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">📨</div>
+            <div class="card-text">
+              <div class="card-title">Signal · 加密通讯</div>
+              <div class="card-desc">端到端加密的安全聊天工具，隐私级别极高。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://signal.org/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://signal.org/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">💰</div>
+            <div class="card-text">
+              <div class="card-title">币安 · Binance</div>
+              <div class="card-desc">主流数字货币交易平台，现货、合约、理财全支持。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://www.binance.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://www.binance.com/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">🦊</div>
+            <div class="card-text">
+              <div class="card-title">狐狸钱包 · MetaMask</div>
+              <div class="card-desc">主流以太坊去中心化钱包，支持 Web3、NFT、DeFi。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://metamask.io/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://metamask.io</div>
+      </div>
+    </div>
+
+    <!-- 五、社交与社区 -->
+    <div class="group-title">五、社交与社区 <span>TG、X、朋友圈阵地</span></div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">✈️</div>
+            <div class="card-text">
+              <div class="card-title">Telegram · TG</div>
+              <div class="card-desc">加密聊天与频道订阅，跨平台通讯工具。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://telegram.org/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://telegram.org/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">𝕏</div>
+            <div class="card-text">
+              <div class="card-title">X · 推特</div>
+              <div class="card-desc">世界级信息流和舆论场，一手资讯集中地。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://x.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://x.com/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">📘</div>
+            <div class="card-text">
+              <div class="card-title">Facebook</div>
+              <div class="card-desc">社交网络传统大本营，个人主页与社群。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://www.facebook.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://www.facebook.com/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">📸</div>
+            <div class="card-text">
+              <div class="card-title">Instagram · ins</div>
+              <div class="card-desc">图片与短视频为主的社交平台。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://www.instagram.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://www.instagram.com/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">💬</div>
+            <div class="card-text">
+              <div class="card-title">WhatsApp Web</div>
+              <div class="card-desc">WhatsApp 的网页版入口，配合手机使用。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://web.whatsapp.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://web.whatsapp.com/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">👾</div>
+            <div class="card-text">
+              <div class="card-title">Discord</div>
+              <div class="card-desc">社群、语音频道与游戏圈常用聊天工具。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://discord.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://discord.com/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">👥</div>
+            <div class="card-text">
+              <div class="card-title">Reddit</div>
+              <div class="card-desc">全球论坛社区，信息杂但一手内容很多。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://www.reddit.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://www.reddit.com/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">💼</div>
+            <div class="card-text">
+              <div class="card-title">LinkedIn · 领英</div>
+              <div class="card-desc">职业社交平台，看履历、找人、看职位。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://www.linkedin.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://www.linkedin.com/</div>
+      </div>
+    </div>
+
+    <!-- 六、视频与音乐流媒体 -->
+    <div class="group-title">六、视频与音乐流媒体 <span>主流消遣阵地</span></div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">▶️</div>
+            <div class="card-text">
+              <div class="card-title">YouTube</div>
+              <div class="card-desc">全球最大视频平台，教程、vlog、音乐全都有。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://www.youtube.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://www.youtube.com/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">🎞️</div>
+            <div class="card-text">
+              <div class="card-title">Netflix</div>
+              <div class="card-desc">剧集与电影流媒体平台，全球片源。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://www.netflix.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://www.netflix.com/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">🎵</div>
+            <div class="card-text">
+              <div class="card-title">Spotify</div>
+              <div class="card-desc">主流音乐流媒体，用歌单维持氛围感。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://open.spotify.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://open.spotify.com/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">📱</div>
+            <div class="card-text">
+              <div class="card-title">TikTok</div>
+              <div class="card-desc">短视频平台，节奏快、信息量大。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://www.tiktok.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://www.tiktok.com/</div>
+      </div>
+    </div>
+
+    <!-- 七、搜索与工具 -->
+    <div class="group-title">七、搜索与工具 <span>查资料、买东西</span></div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">🔎</div>
+            <div class="card-text">
+              <div class="card-title">Google 搜索</div>
+              <div class="card-desc">主力英文搜索引擎，查资料用。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://www.google.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://www.google.com/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">✉️</div>
+            <div class="card-text">
+              <div class="card-title">Gmail</div>
+              <div class="card-desc">Google 邮箱入口。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://mail.google.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://mail.google.com/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">☁️</div>
+            <div class="card-text">
+              <div class="card-title">Google Drive</div>
+              <div class="card-desc">云端硬盘，存文件用。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://drive.google.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://drive.google.com/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">🗺️</div>
+            <div class="card-text">
+              <div class="card-title">Google Maps</div>
+              <div class="card-desc">看地图、看街景、查路线。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://maps.google.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://maps.google.com/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">📚</div>
+            <div class="card-text">
+              <div class="card-title">Wikipedia · 维基百科</div>
+              <div class="card-desc">全世界共用的百科，查背景信息用。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://www.wikipedia.org/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://www.wikipedia.org/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">🛒</div>
+            <div class="card-text">
+              <div class="card-title">Amazon</div>
+              <div class="card-desc">全球电商平台，买日常用品电子设备。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://www.amazon.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://www.amazon.com/</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-main">
+            <div class="card-icon">🛍️</div>
+            <div class="card-text">
+              <div class="card-title">eBay</div>
+              <div class="card-desc">传统拍卖 & 二手交易平台。</div>
+            </div>
+          </div>
+          <button class="card-btn" onclick="window.open('https://www.ebay.com/', '_blank')">
+            打开 <span>↗</span>
+          </button>
+        </div>
+        <div class="card-url">https://www.ebay.com/</div>
+      </div>
+    </div>
+
   </main>
-<div class="card">
-  <div class="card-header">
-    <div class="card-main">
-      <div class="card-icon">📨</div>
-      <div class="card-text">
-        <div class="card-title">Signal · 加密通讯</div>
-        <div class="card-desc">端到端加密的安全聊天工具，隐私级别极高。</div>
-      </div>
-    </div>
-    <button class="card-btn" onclick="window.open('https://signal.org/', '_blank')">
-      打开 <span>↗</span>
-    </button>
-  </div>
-  <div class="card-url">https://signal.org/</div>
-</div>
-<div class="card">
-  <div class="card-header">
-    <div class="card-main">
-      <div class="card-icon">💰</div>
-      <div class="card-text">
-        <div class="card-title">币安 · Binance</div>
-        <div class="card-desc">全球最大数字货币交易平台之一，现货、合约、理财全支持。</div>
-      </div>
-    </div>
-    <button class="card-btn" onclick="window.open('https://www.binance.com/', '_blank')">
-      打开 <span>↗</span>
-    </button>
-  </div>
-  <div class="card-url">https://www.binance.com/</div>
-</div>
 
-  <footer><div class="card">
-  <div class="card-header">
-    <div class="card-main">
-      <div class="card-icon">🦊</div>
-      <div class="card-text">
-        <div class="card-title">狐狸钱包 · MetaMask</div>
-        <div class="card-desc">最主流的以太坊去中心化钱包，支持 Web3、NFT、DeFi。</div>
-      </div>
-    </div>
-    <button class="card-btn" onclick="window.open('https://metamask.io/', '_blank')">
-      打开 <span>↗</span>
-    </button>
-  </div>
-  <div class="card-url">https://metamask.io/</div>
-</div>
-<div class="card">
-  <div class="card-header">
-    <div class="card-main">
-      <div class="card-icon">🦊</div>
-      <div class="card-text">
-        <div class="card-title">狐狸钱包 · MetaMask</div>
-        <div class="card-desc">最主流的以太坊去中心化钱包，支持 Web3、NFT、DeFi。</div>
-      </div>
-    </div>
-    <button class="card-btn" onclick="window.open('https://metamask.io/', '_blank')">
-      打开 <span>↗</span>
-    </button>
-  </div>
-  <div class="card-url">https://metamask.io/</div>
-</div>
-
+  <footer>
     本页仅作个人导航使用，链接内容以各站点实际页面为准。
   </footer>
 </div>
 
 <script>
   const PASSWORD = "180999";
+  const UNLOCK_KEY = "xd_console_unlocked";
+
+  function unlockPage() {
+    const lock = document.getElementById("lock-screen");
+    if (lock) lock.style.display = "none";
+    document.querySelectorAll(".page").forEach(p => {
+      p.style.display = "block";
+    });
+  }
 
   function checkPassword() {
     const input = document.getElementById("password-input");
     const err = document.getElementById("lock-error");
-    const v = (input.value || "").trim();
+    const v = (input?.value || "").trim();
     if (v === PASSWORD) {
-      document.getElementById("lock-screen").style.display = "none";
-      document.querySelector(".page").style.display = "block";
-      err.textContent = "";
-      input.value = "";
+      try { localStorage.setItem(UNLOCK_KEY, "1"); } catch (e) {}
+      if (err) err.textContent = "";
+      if (input) input.value = "";
+      unlockPage();
     } else {
-      err.textContent = "密码不对，再试一次。";
+      if (err) err.textContent = "密码不对，再试一次。";
     }
   }
 
-  document.getElementById("password-input").addEventListener("keydown", function (e) {
-    if (e.key === "Enter") checkPassword();
+  document.addEventListener("DOMContentLoaded", function () {
+    const input = document.getElementById("password-input");
+    if (input) {
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") checkPassword();
+      });
+    }
+
+    try {
+      const flag = localStorage.getItem(UNLOCK_KEY);
+      if (flag === "1") {
+        unlockPage();
+      } else {
+        const lock = document.getElementById("lock-screen");
+        if (lock) lock.style.display = "flex";
+      }
+    } catch (e) {
+      const lock = document.getElementById("lock-screen");
+      if (lock) lock.style.display = "flex";
+    }
   });
 </script>
 
