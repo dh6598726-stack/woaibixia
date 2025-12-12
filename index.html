@@ -362,6 +362,47 @@
       border-color: rgba(51,65,85,0.9);
     }
 
+    /* 标签栏 */
+    .tag-bar {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag-pill {
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.85);
+      background: rgba(248,250,252,0.96);
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: 0.16s ease;
+      white-space: nowrap;
+    }
+
+    body.dark-mode .tag-pill {
+      background: rgba(15,23,42,0.98);
+      border-color: rgba(51,65,85,0.9);
+      color: rgba(148,163,184,0.96);
+    }
+
+    .tag-pill:hover {
+      border-color: transparent;
+      background: linear-gradient(135deg,#7dd3fc,#38bdf8);
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(56,189,248,0.45);
+      transform: translateY(-1px);
+    }
+
+    .tag-pill.active {
+      background: linear-gradient(135deg,#38bdf8,#0ea5e9);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 10px 24px rgba(56,189,248,0.6);
+    }
+
     main {
       padding: 16px 18px 20px;
     }
@@ -412,6 +453,11 @@
         radial-gradient(circle at 0 0, rgba(30,64,175,0.55), transparent 55%),
         rgba(15,23,42,0.98);
       border-color: rgba(30,64,175,0.9);
+    }
+
+    .card.favorite {
+      border-color: #fbbf24;
+      box-shadow: 0 16px 40px rgba(251,191,36,0.35);
     }
 
     .card:hover {
@@ -513,6 +559,38 @@
       word-break: break-all;
     }
 
+    .card-meta {
+      margin-top: 2px;
+      font-size: 11px;
+      color: rgba(148,163,184,0.95);
+    }
+
+    .card-meta.hot {
+      color: #b45309;
+      font-weight: 500;
+    }
+
+    .fav-btn {
+      margin-left: 2px;
+      border: none;
+      outline: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 14px;
+      color: rgba(148,163,184,0.9);
+      padding: 0 2px;
+      transition: transform .1s ease, color .1s ease;
+    }
+
+    .fav-btn:hover {
+      transform: translateY(-1px);
+      color: #f59e0b;
+    }
+
+    .fav-btn.active {
+      color: #f59e0b;
+    }
+
     footer {
       padding: 10px 18px 14px;
       border-top: 1px solid rgba(226,232,240,0.9);
@@ -612,6 +690,9 @@
       />
       <div class="time-pill" id="time-pill">--:--:--</div>
     </div>
+
+    <!-- 标签栏：自动按板块生成 + 收藏标签 -->
+    <div class="tag-bar" id="tag-bar"></div>
   </header>
 
   <main>
@@ -1721,6 +1802,14 @@
   const PASSWORD = "180999";
   const UNLOCK_KEY = "xd_console_unlocked";
   const THEME_KEY = "xd_theme_mode";
+  const STATS_KEY = "xd_link_stats_v1";
+  const FAV_KEY = "xd_link_favs_v1";
+
+  let linkStats = {};
+  let favorites = {};
+  let allCards = [];
+  let searchQuery = "";
+  let activeTag = "";
 
   function unlockPage() {
     const lock = document.getElementById("lock-screen");
@@ -1781,34 +1870,149 @@
     el.textContent = mottos[idx];
   }
 
-  function initSearch() {
-    const input = document.getElementById("search-input");
-    if (!input) return;
-    const cards = Array.from(document.querySelectorAll(".card"));
+  function loadState() {
+    try {
+      const s = localStorage.getItem(STATS_KEY);
+      if (s) linkStats = JSON.parse(s) || {};
+    } catch (e) {}
+    try {
+      const f = localStorage.getItem(FAV_KEY);
+      if (f) favorites = JSON.parse(f) || {};
+    } catch (e) {}
+  }
 
-    input.addEventListener("input", () => {
-      const q = input.value.trim().toLowerCase();
-      if (!q) {
-        cards.forEach(card => card.style.display = "");
-        return;
+  function saveStats() {
+    try { localStorage.setItem(STATS_KEY, JSON.stringify(linkStats)); } catch (e) {}
+  }
+
+  function saveFavs() {
+    try { localStorage.setItem(FAV_KEY, JSON.stringify(favorites)); } catch (e) {}
+  }
+
+  function getCardUrl(card) {
+    const el = card.querySelector(".card-url");
+    if (!el) return "";
+    return el.textContent.trim();
+  }
+
+  function formatTimeAgo(ts) {
+    if (!ts) return "尚未访问";
+    const diff = Date.now() - ts;
+    const sec = Math.floor(diff / 1000);
+    if (sec < 60) return "刚刚";
+    const min = Math.floor(sec / 60);
+    if (min < 60) return `${min} 分钟前`;
+    const h = Math.floor(min / 60);
+    if (h < 24) return `${h} 小时前`;
+    const d = Math.floor(h / 24);
+    if (d < 30) return `${d} 天前`;
+    const mo = Math.floor(d / 30);
+    if (mo < 12) return `${mo} 个月前`;
+    const y = Math.floor(mo / 12);
+    return `${y} 年前`;
+  }
+
+  function updateCardMeta(card) {
+    const url = card.dataset.url;
+    const stat = linkStats[url];
+    let meta = card.querySelector(".card-meta");
+    if (!meta) {
+      meta = document.createElement("div");
+      meta.className = "card-meta";
+      card.appendChild(meta);
+    }
+    if (!stat || !stat.count) {
+      meta.textContent = "本地尚未访问";
+      meta.classList.remove("hot");
+    } else {
+      meta.textContent = `本地点击 ${stat.count} 次 · 上次访问 ${formatTimeAgo(stat.last)}`;
+      if (stat.count >= 5) {
+        meta.classList.add("hot");
+      } else {
+        meta.classList.remove("hot");
       }
-      cards.forEach(card => {
-        const text = card.textContent.toLowerCase();
-        card.style.display = text.includes(q) ? "" : "none";
+    }
+  }
+
+  function registerVisit(url, card) {
+    if (!url) return;
+    if (!linkStats[url]) {
+      linkStats[url] = { count: 0, last: 0 };
+    }
+    linkStats[url].count += 1;
+    linkStats[url].last = Date.now();
+    saveStats();
+    if (card) updateCardMeta(card);
+  }
+
+  function initCards() {
+    allCards = Array.from(document.querySelectorAll(".card"));
+    allCards.forEach(card => {
+      const url = getCardUrl(card);
+      if (!url) return;
+      card.dataset.url = url;
+
+      if (!linkStats[url]) {
+        linkStats[url] = { count: 0, last: 0 };
+      }
+      updateCardMeta(card);
+
+      // 捕获点击：只在点击「打开」按钮时记录一次访问
+      card.addEventListener("click", (e) => {
+        if (e.target.closest(".fav-btn")) return; // 收藏按钮不算访问
+        const btn = card.querySelector(".card-btn");
+        if (btn && (btn === e.target || btn.contains(e.target))) {
+          registerVisit(url, card);
+        }
+      }, true);
+    });
+    saveStats();
+  }
+
+  function updateFavVisual(card, btn, isFav) {
+    if (isFav) {
+      card.classList.add("favorite");
+      btn.classList.add("active");
+      btn.textContent = "★";
+    } else {
+      card.classList.remove("favorite");
+      btn.classList.remove("active");
+      btn.textContent = "☆";
+    }
+  }
+
+  function initFavoritesUI() {
+    allCards.forEach(card => {
+      const header = card.querySelector(".card-header");
+      if (!header) return;
+      let favBtn = header.querySelector(".fav-btn");
+      if (!favBtn) {
+        favBtn = document.createElement("button");
+        favBtn.type = "button";
+        favBtn.className = "fav-btn";
+        header.appendChild(favBtn);
+      }
+      const url = card.dataset.url;
+      const isFav = !!favorites[url];
+      updateFavVisual(card, favBtn, isFav);
+
+      favBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        const nowFav = !favorites[url];
+        if (nowFav) {
+          favorites[url] = true;
+        } else {
+          delete favorites[url];
+        }
+        saveFavs();
+        updateFavVisual(card, favBtn, nowFav);
+        applyFilters();
       });
     });
   }
 
-  function applyTheme(theme) {
-    if (theme === "dark") {
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-    }
-  }
-
   function initTheme() {
-    // 从 localStorage 读取
     try {
       const saved = localStorage.getItem(THEME_KEY);
       if (saved === "dark" || saved === "light") {
@@ -1823,6 +2027,14 @@
       const mode = isDark ? "dark" : "light";
       try { localStorage.setItem(THEME_KEY, mode); } catch (e) {}
     });
+  }
+
+  function applyTheme(theme) {
+    if (theme === "dark") {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
   }
 
   function initBackToTop() {
@@ -1841,6 +2053,90 @@
     btn.addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
+  }
+
+  function applyFilters() {
+    allCards.forEach(card => {
+      const url = card.dataset.url || "";
+      const text = card.textContent.toLowerCase();
+      const matchSearch = !searchQuery || text.includes(searchQuery);
+      let matchTag = true;
+
+      if (activeTag && activeTag !== "__fav__") {
+        const tags = card.dataset.tags || "";
+        matchTag = tags.includes(activeTag);
+      } else if (activeTag === "__fav__") {
+        matchTag = !!favorites[url];
+      }
+
+      card.style.display = (matchSearch && matchTag) ? "" : "none";
+    });
+  }
+
+  function initSearch() {
+    const input = document.getElementById("search-input");
+    if (!input) return;
+
+    input.addEventListener("input", () => {
+      searchQuery = input.value.trim().toLowerCase();
+      applyFilters();
+    });
+
+    // Ctrl/Cmd + K 聚焦搜索
+    document.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        input.focus();
+        input.select();
+      }
+    });
+  }
+
+  function initTags() {
+    const bar = document.getElementById("tag-bar");
+    if (!bar) return;
+
+    const tagSet = new Set();
+    let currentSection = "";
+    const main = document.querySelector("main");
+    if (!main) return;
+
+    main.querySelectorAll(".section-title, .card").forEach(node => {
+      if (node.classList.contains("section-title")) {
+        currentSection = node.textContent.trim();
+        if (currentSection) tagSet.add(currentSection);
+      } else if (node.classList.contains("card")) {
+        if (currentSection && !node.dataset.tags) {
+          node.dataset.tags = currentSection;
+        }
+      }
+    });
+
+    const tags = Array.from(tagSet);
+    bar.innerHTML = "";
+
+    const makeBtn = (label, value) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "tag-pill";
+      b.textContent = label;
+      b.dataset.value = value;
+      b.addEventListener("click", () => {
+        activeTag = value;
+        bar.querySelectorAll(".tag-pill").forEach(x => {
+          if (x.dataset.value === value) x.classList.add("active");
+          else x.classList.remove("active");
+        });
+        applyFilters();
+      });
+      bar.appendChild(b);
+      return b;
+    };
+
+    const allBtn = makeBtn("全部", "");
+    allBtn.classList.add("active");
+    makeBtn("⭐ 收藏", "__fav__");
+    tags.forEach(tag => makeBtn(tag, tag));
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -1866,12 +2162,16 @@
       if (lock) lock.style.display = "flex";
     }
 
-    // 初始化好玩的东西
+    loadState();
     initTheme();
     initClock();
     initMotto();
-    initSearch();
     initBackToTop();
+    initSearch();
+    initCards();
+    initTags();
+    initFavoritesUI();
+    applyFilters();
   });
 </script>
 
