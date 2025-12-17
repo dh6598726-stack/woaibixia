@@ -299,23 +299,29 @@
       background: linear-gradient(90deg, var(--accent), var(--accent2));
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 12px;
+    /* === 皇上请看，此处已改为全局列表模式 === */
+    .grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px; /* 卡片之间的垂直间距 */
     }
 
-    .card{
+    .card {
+      /* 让所有卡片都变成横向布局 */
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 18px 24px;
+      min-height: 80px;
+
+      /* 原有样式保留 */
       position: relative;
-      padding: 12px 12px 11px;
       border-radius: var(--r-md);
       background:
         radial-gradient(circle at 0 0, rgba(255,255,255,0.45), transparent 55%),
         var(--card-bg);
       border: 1px solid var(--card-stroke);
       box-shadow: var(--shadow-2);
-      display:flex;
-      flex-direction:column;
       gap: 6px;
       transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
       overflow:hidden;
@@ -344,7 +350,13 @@
       box-shadow: 0 22px 60px rgba(251,191,36,0.18);
     }
 
-    .card-header{
+    /* 在交替列表模式下，隐藏底部的纯文本URL，以免破坏美感 */
+    .card-url {
+      display: none;
+    }
+
+    .card-header {
+      width: 100%;
       display:flex;
       justify-content:space-between;
       align-items:center;
@@ -353,6 +365,36 @@
       z-index: 1;
     }
 
+    /* === 偶数行的反转逻辑 (右图左链) === */
+    .grid .card:nth-child(even) .card-header {
+      flex-direction: row-reverse;
+    }
+
+    .grid .card:nth-child(even) .card-main {
+      flex-direction: row-reverse;
+      text-align: right;
+    }
+
+    .grid .card:nth-child(even) .card-icon {
+      margin-left: 12px;
+      margin-right: 0;
+    }
+
+    .grid .card:nth-child(even) .card-text {
+      align-items: flex-end; /* 文字靠右对齐 */
+    }
+
+    .grid .card:nth-child(even) .card-actions {
+      margin-right: auto; /* 按钮靠左 */
+      margin-left: 12px;
+    }
+
+    /* === 奇数行 (左图右链) 默认样式微调 === */
+    .grid .card:nth-child(odd) .card-actions {
+      margin-left: auto; /* 按钮靠右 */
+    }
+
+    /* === 通用内部样式 === */
     .card-main{
       display:flex;
       align-items:center;
@@ -441,14 +483,6 @@
     }
     .fav-btn:hover{ transform: translateY(-1px); color:#f59e0b; }
     .fav-btn.active{ color:#f59e0b; }
-
-    .card-url{
-      font-size: 11px;
-      color: rgba(148,163,184,0.92);
-      word-break: break-all;
-      position: relative;
-      z-index: 1;
-    }
 
     .card-meta{
       font-size: 11px;
@@ -539,7 +573,6 @@
       </header>
 
       <main>
-        <!-- 一、图库与素材 -->
         <div class="section-title">图库与素材</div>
         <div class="grid">
           <div class="card">
@@ -607,7 +640,6 @@
           </div>
         </div>
 
-        <!-- 二、网络与基础设施 -->
         <div class="section-title">网络与基础设施</div>
         <div class="grid">
           <div class="card">
@@ -675,7 +707,6 @@
           </div>
         </div>
 
-        <!-- 三、内容与 AI 工具 -->
         <div class="section-title">内容与 AI 工具</div>
         <div class="grid">
           <div class="card">
@@ -727,7 +758,6 @@
           </div>
         </div>
 
-        <!-- TJ（新增：你要的炫酷且实用的全部都在这） -->
         <div class="section-title">TJ</div>
         <div class="grid">
           <div class="card">
@@ -907,11 +937,8 @@
           </div>
         </div>
 
-        <!-- 黑科技实验室（你原来的） -->
         <div class="section-title">黑科技实验室</div>
         <div class="grid">
-
-          <!-- ✅ 新增：只加 1 个车相关链接（不影响其它任何网站） -->
           <div class="card">
             <div class="card-header">
               <div class="card-main">
@@ -1105,7 +1132,6 @@
           </div>
         </div>
 
-        <!-- 四、数字资产与安全 -->
         <div class="section-title">数字资产与安全</div>
         <div class="grid">
           <div class="card">
@@ -1173,7 +1199,6 @@
           </div>
         </div>
 
-        <!-- 五、社交与社区 -->
         <div class="section-title">社交与社区</div>
         <div class="grid">
           <div class="card">
@@ -1257,7 +1282,6 @@
           </div>
         </div>
 
-        <!-- 六、视频与音乐流媒体 -->
         <div class="section-title">视频与音乐流媒体</div>
         <div class="grid">
           <div class="card">
@@ -1325,7 +1349,6 @@
           </div>
         </div>
 
-        <!-- 七、搜索与基础工具 -->
         <div class="section-title">搜索与基础工具</div>
         <div class="grid">
           <div class="card">
@@ -1409,7 +1432,6 @@
           </div>
         </div>
 
-        <!-- 八、设计与数据可视化 -->
         <div class="section-title">设计与数据可视化</div>
         <div class="grid">
           <div class="card">
@@ -1493,7 +1515,6 @@
           </div>
         </div>
 
-        <!-- 九、AI 创作与搜索 -->
         <div class="section-title">AI 创作与搜索</div>
         <div class="grid">
           <div class="card">
@@ -1577,7 +1598,6 @@
           </div>
         </div>
 
-        <!-- 十、图片与文件处理 -->
         <div class="section-title">图片与文件处理</div>
         <div class="grid">
           <div class="card">
@@ -1645,7 +1665,6 @@
           </div>
         </div>
 
-        <!-- 十一、开发与前端工具 -->
         <div class="section-title">开发与前端工具</div>
         <div class="grid">
           <div class="card">
@@ -1729,7 +1748,6 @@
           </div>
         </div>
 
-        <!-- 十二、学习与辅助 -->
         <div class="section-title">学习与辅助</div>
         <div class="grid">
           <div class="card">
@@ -1749,7 +1767,6 @@
           </div>
         </div>
 
-        <!-- 十三、邮箱辅助 -->
         <div class="section-title">邮箱辅助</div>
         <div class="grid">
           <div class="card">
@@ -1769,7 +1786,6 @@
           </div>
         </div>
 
-        <!-- 十四、网络检测 -->
         <div class="section-title">网络检测</div>
         <div class="grid">
           <div class="card">
@@ -1789,7 +1805,6 @@
           </div>
         </div>
 
-        <!-- 十五、旅行与航线 -->
         <div class="section-title">旅行与航线</div>
         <div class="grid">
           <div class="card">
@@ -1857,7 +1872,6 @@
           </div>
         </div>
 
-        <!-- 十六、数字内容变现 -->
         <div class="section-title">数字内容变现</div>
         <div class="grid">
           <div class="card">
@@ -1877,7 +1891,6 @@
           </div>
         </div>
 
-        <!-- 十七、网络安全与攻防训练 -->
         <div class="section-title">网络安全与攻防训练</div>
         <div class="grid">
           <div class="card">
