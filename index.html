@@ -15,22 +15,23 @@
     :root{
       --bg1:#e0f2fe;
       --bg2:#ffffff;
-      --panel: rgba(255,255,255,0.72);
+      /* 优化面板透明度，更通透 */
+      --panel: rgba(255,255,255,0.75);
       --text:#0f172a;
-      --sub: rgba(15,23,42,0.62);
+      --sub: rgba(15,23,42,0.65);
       --accent:#0ea5e9;
       --accent2:#38bdf8;
-      --stroke: rgba(255,255,255,0.70);
-      --shadow-1: 0 28px 90px rgba(15,23,42,0.16);
-      --shadow-2: 0 16px 40px rgba(148,163,184,0.22);
+      --stroke: rgba(255,255,255,0.80);
+      --shadow-1: 0 28px 90px rgba(15,23,42,0.12);
+      --shadow-2: 0 16px 40px rgba(148,163,184,0.18);
       --r-lg: 30px;
       --r-md: 22px;
-      --blur: 34px;
-      --sat: 1.55;
-      --pill-bg: rgba(255,255,255,0.62);
-      --pill-stroke: rgba(148,163,184,0.55);
-      --card-bg: rgba(255,255,255,0.70);
-      --card-stroke: rgba(255,255,255,0.66);
+      --blur: 40px; /* 增加模糊度 */
+      --sat: 1.6;
+      --pill-bg: rgba(255,255,255,0.65);
+      --pill-stroke: rgba(148,163,184,0.50);
+      --card-bg: rgba(255,255,255,0.75);
+      --card-stroke: rgba(255,255,255,0.70);
       --focus: rgba(56,189,248,0.55);
       
       /* 封面图的渐变色 */
@@ -40,23 +41,23 @@
     body.dark-mode{
       --bg1:#020617;
       --bg2:#020617;
-      --panel: rgba(15,23,42,0.68);
+      --panel: rgba(15,23,42,0.72);
       --text:#e5e7eb;
-      --sub: rgba(148,163,184,0.86);
-      --stroke: rgba(255,255,255,0.08);
-      --shadow-1: 0 30px 100px rgba(0,0,0,0.72);
-      --shadow-2: 0 18px 46px rgba(0,0,0,0.45);
-      --pill-bg: rgba(2,6,23,0.45);
-      --pill-stroke: rgba(51,65,85,0.72);
-      --card-bg: rgba(2,6,23,0.55);
-      --card-stroke: rgba(30,64,175,0.36);
+      --sub: rgba(148,163,184,0.80);
+      --stroke: rgba(255,255,255,0.10);
+      --shadow-1: 0 30px 100px rgba(0,0,0,0.65);
+      --shadow-2: 0 18px 46px rgba(0,0,0,0.40);
+      --pill-bg: rgba(2,6,23,0.50);
+      --pill-stroke: rgba(51,65,85,0.80);
+      --card-bg: rgba(30, 41, 59, 0.45); /* 深色模式下卡片颜色微调 */
+      --card-stroke: rgba(255,255,255,0.08);
       --focus: rgba(56,189,248,0.45);
       --cover-bg: linear-gradient(135deg, #1e293b, #0f172a);
     }
 
     body{
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
-                   "PingFang SC","Hiragino Sans GB","Microsoft YaHei", system-ui, sans-serif;
+                     "PingFang SC","Hiragino Sans GB","Microsoft YaHei", system-ui, sans-serif;
       color: var(--text);
       min-height: 100vh;
       overflow-y: auto;
@@ -66,22 +67,23 @@
         linear-gradient(180deg, var(--bg1), var(--bg2));
       transition: background .35s ease, color .25s ease;
       -webkit-tap-highlight-color: transparent;
+      scroll-behavior: smooth;
     }
 
     body.dark-mode{
       background:
-        radial-gradient(circle at 18% 10%, rgba(30,64,175,0.55), transparent 58%),
-        radial-gradient(circle at 85% 90%, rgba(8,47,73,0.70), transparent 58%),
+        radial-gradient(circle at 18% 10%, rgba(30,64,175,0.45), transparent 58%),
+        radial-gradient(circle at 85% 90%, rgba(8,47,73,0.60), transparent 58%),
         linear-gradient(180deg, var(--bg1), var(--bg2));
     }
 
     .page{
-      width: min(1100px, calc(100% - 32px)); /* 稍微加宽一点以容纳左右布局 */
+      width: min(1100px, calc(100% - 32px));
       margin: 22px auto 26px;
       border-radius: var(--r-lg);
       background:
-        radial-gradient(circle at 10% 0%, rgba(191,219,254,0.35), transparent 62%),
-        radial-gradient(circle at 92% 100%, rgba(125,211,252,0.22), transparent 62%),
+        radial-gradient(circle at 10% 0%, rgba(191,219,254,0.25), transparent 62%),
+        radial-gradient(circle at 92% 100%, rgba(125,211,252,0.15), transparent 62%),
         var(--panel);
       border: 1px solid var(--stroke);
       box-shadow: var(--shadow-1);
@@ -96,9 +98,9 @@
       position:absolute;
       inset: 0;
       pointer-events:none;
-      opacity: .70;
+      opacity: .60;
       border-radius: var(--r-lg);
-      background: linear-gradient(180deg, rgba(255,255,255,0.40), rgba(255,255,255,0.05));
+      background: linear-gradient(180deg, rgba(255,255,255,0.30), rgba(255,255,255,0.02));
       mix-blend-mode: overlay;
     }
 
@@ -106,11 +108,11 @@
 
     header{
       padding: 18px 24px 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.35);
+      border-bottom: 1px solid rgba(255,255,255,0.25);
       position: relative;
       z-index: 1;
     }
-    body.dark-mode header{ border-bottom-color: rgba(30,64,175,0.35); }
+    body.dark-mode header{ border-bottom-color: rgba(255,255,255,0.08); }
 
     .top-row{ display:flex; justify-content:space-between; align-items:center; gap: 12px; flex-wrap:wrap; }
     .title-block{ display:flex; align-items:center; gap: 12px; cursor: pointer; user-select:none; }
@@ -122,146 +124,130 @@
       box-shadow: 0 12px 30px rgba(56,189,248,0.35), 0 0 0 1px rgba(255,255,255,0.6) inset;
     }
 
-    .title-text h1{ font-size: 20px; font-weight: 900; line-height: 1.1; }
-    .title-text span{ display:block; margin-top: 2px; font-size: 12px; color: var(--sub); }
+    .title-text h1{ font-size: 20px; font-weight: 900; letter-spacing: -0.5px; line-height: 1.1; }
+    .title-text span{ display:block; margin-top: 2px; font-size: 12px; color: var(--sub); letter-spacing: 0.5px; }
 
     nav{ display:flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; align-items:center; }
     .nav-pill{
-      padding: 7px 12px; border-radius: 999px; border: 1px solid var(--pill-stroke); background: var(--pill-bg);
-      color: var(--text); font-size: 12px; text-decoration:none; display:inline-flex; align-items:center; gap: 6px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.06); transition: all .15s ease;
+      padding: 7px 14px; border-radius: 999px; border: 1px solid var(--pill-stroke); background: var(--pill-bg);
+      color: var(--text); font-size: 12px; font-weight: 500; text-decoration:none; display:inline-flex; align-items:center; gap: 6px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04); transition: all .2s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
-    .nav-pill:hover{ transform: translateY(-1px); box-shadow: 0 14px 28px rgba(56,189,248,0.18); }
-    .nav-pill.primary{ border-color: transparent; background: linear-gradient(135deg, #38bdf8, #0ea5e9); color: #fff; box-shadow: 0 16px 40px rgba(56,189,248,0.30); }
+    .nav-pill:hover{ transform: translateY(-2px); box-shadow: 0 8px 20px rgba(56,189,248,0.20); background: rgba(255,255,255,0.9); }
+    body.dark-mode .nav-pill:hover { background: rgba(30, 41, 59, 0.8); border-color: rgba(255,255,255,0.2); }
 
-    .toolbar{ margin-top: 12px; display:flex; gap: 10px; align-items:center; flex-wrap: wrap; }
+    .nav-pill.primary{ border-color: transparent; background: linear-gradient(135deg, #38bdf8, #0ea5e9); color: #fff; box-shadow: 0 8px 20px rgba(56,189,248,0.30); }
+    .nav-pill.primary:hover{ box-shadow: 0 12px 30px rgba(56,189,248,0.45); }
+
+    .toolbar{ margin-top: 14px; display:flex; gap: 10px; align-items:center; flex-wrap: wrap; }
     .search-input{
-      flex: 1; min-width: 220px; padding: 10px 14px; border-radius: 999px; border: 1px solid var(--pill-stroke);
-      background: rgba(255,255,255,0.50); color: var(--text); outline: none; font-size: 12px;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.35) inset; transition: all .18s ease;
+      flex: 1; min-width: 220px; padding: 11px 16px; border-radius: 14px; border: 1px solid var(--pill-stroke);
+      background: rgba(255,255,255,0.45); color: var(--text); outline: none; font-size: 13px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02) inset; transition: all .2s ease;
+      backdrop-filter: blur(10px);
     }
-    body.dark-mode .search-input{ background: rgba(2,6,23,0.38); }
-    .search-input:focus{ border-color: rgba(56,189,248,0.65); box-shadow: 0 0 0 4px var(--focus); }
-    .time-pill{ font-size: 11px; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--pill-stroke); background: var(--pill-bg); color: var(--sub); white-space: nowrap; }
+    body.dark-mode .search-input{ background: rgba(2,6,23,0.30); }
+    .search-input:focus{ border-color: rgba(56,189,248,0.65); box-shadow: 0 0 0 4px var(--focus); background: var(--pill-bg); }
+    .time-pill{ font-size: 12px; font-variant-numeric: tabular-nums; padding: 9px 14px; border-radius: 12px; border: 1px solid var(--pill-stroke); background: var(--pill-bg); color: var(--sub); white-space: nowrap; font-weight: 500;}
 
-    main{ padding: 24px 24px 30px; position: relative; z-index: 1; }
+    main{ padding: 28px 24px 36px; position: relative; z-index: 1; }
 
-    /* === 核心布局修改：板块容器 === */
     .section-block {
-      display: flex;
-      gap: 24px;
-      margin-bottom: 40px; /* 板块间距 */
-      align-items: stretch;
+      display: flex; gap: 26px; margin-bottom: 42px; align-items: stretch;
     }
+    .section-block:nth-of-type(even) { flex-direction: row-reverse; }
 
-    /* 偶数个板块反转顺序：实现“交替下去” */
-    .section-block:nth-of-type(even) {
-      flex-direction: row-reverse;
-    }
-
-    /* 左侧的大图（封面卡片） */
     .section-cover {
-      flex: 0 0 240px; /* 固定宽度 */
+      flex: 0 0 240px;
       background: var(--cover-bg);
       border-radius: var(--r-md);
       border: 1px solid var(--stroke);
       box-shadow: var(--shadow-2);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      padding: 20px; text-align: center; position: relative; overflow: hidden;
       backdrop-filter: blur(var(--blur));
+      transition: transform 0.3s ease;
     }
+    /* 封面悬停微动效果 */
+    .section-cover:hover { transform: scale(1.01); }
 
     .section-cover::after {
       content:""; position:absolute; inset:0; opacity:0.3;
       background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.8), transparent);
     }
+    .cover-icon { font-size: 48px; margin-bottom: 12px; position: relative; z-index: 1; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1)); }
+    .cover-title { font-size: 19px; font-weight: 800; color: var(--text); position: relative; z-index: 1; margin-bottom: 4px; }
+    .cover-desc { font-size: 13px; color: var(--sub); position: relative; z-index: 1; }
 
-    .cover-icon { font-size: 48px; margin-bottom: 12px; position: relative; z-index: 1; }
-    .cover-title { font-size: 18px; font-weight: 800; color: var(--text); position: relative; z-index: 1; }
-    .cover-desc { font-size: 12px; color: var(--sub); margin-top: 6px; position: relative; z-index: 1; }
-
-    /* 右侧的链接网格 */
     .section-links {
       flex: 1;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 12px;
-      align-content: start;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px; align-content: start;
     }
 
-    /* 移动端适配：全都变成上下排列 */
     @media (max-width: 768px) {
-      .section-block, .section-block:nth-of-type(even) {
-        flex-direction: column;
-      }
-      .section-cover {
-        flex: none;
-        width: 100%;
-        min-height: 120px;
-        flex-direction: row; /* 手机上横着放省空间 */
-        justify-content: start;
-        gap: 16px;
-        text-align: left;
-      }
-      .cover-icon { margin-bottom: 0; font-size: 36px; }
+      .section-block, .section-block:nth-of-type(even) { flex-direction: column; gap: 16px; margin-bottom: 32px; }
+      .section-cover { flex: none; width: 100%; min-height: 100px; flex-direction: row; justify-content: start; gap: 18px; text-align: left; padding: 16px 20px; }
+      .cover-icon { margin-bottom: 0; font-size: 38px; }
+      .cover-title { font-size: 17px; margin-bottom: 2px; }
     }
 
-    /* 链接小卡片样式 (保持原样，稍微调整大小适配网格) */
     .card{
-      position: relative; padding: 12px; border-radius: 16px;
-      background: radial-gradient(circle at 0 0, rgba(255,255,255,0.45), transparent 55%), var(--card-bg);
+      position: relative; padding: 14px; border-radius: 18px;
+      background: radial-gradient(circle at 0 0, rgba(255,255,255,0.6), transparent 80%), var(--card-bg);
       border: 1px solid var(--card-stroke); box-shadow: var(--shadow-2);
-      display:flex; flex-direction:column; gap: 8px;
-      transition: all .15s ease; overflow:hidden;
+      display:flex; flex-direction:column; gap: 10px;
+      transition: all .2s cubic-bezier(0.25, 0.46, 0.45, 0.94); overflow:hidden;
       backdrop-filter: blur(12px) saturate(var(--sat));
+      cursor: pointer; /* 增加手型，强调可点击 */
     }
-    .card:hover{ transform: translateY(-2px); border-color: rgba(56,189,248,0.32); }
-    .card.favorite{ border-color: rgba(251,191,36,0.55); }
+    .card:hover{ transform: translateY(-4px); border-color: rgba(56,189,248,0.4); box-shadow: 0 14px 30px rgba(0,0,0,0.06); }
+    body.dark-mode .card:hover { border-color: rgba(56,189,248,0.3); background: rgba(30, 41, 59, 0.6); }
+    .card.favorite{ border-color: rgba(251,191,36,0.6); background: linear-gradient(135deg, rgba(251,191,36,0.05), transparent), var(--card-bg); }
 
     .card-header{ display:flex; justify-content:space-between; align-items:center; gap: 8px; position: relative; z-index: 1; }
-    .card-main{ display:flex; align-items:center; gap: 10px; min-width: 0; }
+    .card-main{ display:flex; align-items:center; gap: 12px; min-width: 0; }
     .card-icon{
-      width: 28px; height: 28px; border-radius: 8px; display:flex; align-items:center; justify-content:center;
-      font-size: 14px; background: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.55); flex-shrink: 0;
+      width: 32px; height: 32px; border-radius: 10px; display:flex; align-items:center; justify-content:center;
+      font-size: 16px; background: rgba(255,255,255,0.65); border: 1px solid rgba(255,255,255,0.5); flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
     }
-    body.dark-mode .card-icon{ background: rgba(2,6,23,0.42); border-color: rgba(30,64,175,0.28); }
+    body.dark-mode .card-icon{ background: rgba(2,6,23,0.5); border-color: rgba(255,255,255,0.1); }
 
-    .card-text{ min-width: 0; display:flex; flex-direction:column; gap: 2px; }
-    .card-title{ font-size: 13px; font-weight: 700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .card-desc{ font-size: 11px; color: var(--sub); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .card-text{ min-width: 0; display:flex; flex-direction:column; gap: 3px; }
+    .card-title{ font-size: 13.5px; font-weight: 700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color: var(--text); }
+    .card-desc{ font-size: 11px; color: var(--sub); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity: 0.9; }
 
-    .card-actions{ flex-shrink: 0; }
+    .card-actions{ flex-shrink: 0; opacity: 0.7; transition: opacity .2s; }
+    .card:hover .card-actions{ opacity: 1; }
+    
     .card-btn{
       padding: 5px 10px; border-radius: 999px; border: 1px solid var(--pill-stroke);
-      background: rgba(255,255,255,0.52); color: var(--text); font-size: 10px; cursor:pointer;
-      display:inline-flex; align-items:center; gap: 4px; transition: all .14s ease;
+      background: rgba(255,255,255,0.6); color: var(--text); font-size: 10px; cursor:pointer;
+      display:inline-flex; align-items:center; gap: 4px; transition: all .2s ease;
     }
-    body.dark-mode .card-btn{ background: rgba(2,6,23,0.38); }
-    .card-btn:hover{ transform: translateY(-1px); border-color: rgba(56,189,248,0.35); }
+    body.dark-mode .card-btn{ background: rgba(2,6,23,0.4); }
+    .card-btn:hover{ transform: scale(1.05); border-color: rgba(56,189,248,0.5); color: var(--accent2); background: #fff; }
+    body.dark-mode .card-btn:hover { background: rgba(30,41,59,1); }
 
-    .fav-btn{ border:none; background: transparent; cursor:pointer; font-size: 14px; color: rgba(148,163,184,0.95); padding: 0 4px; }
-    .fav-btn:hover, .fav-btn.active{ color:#f59e0b; }
+    .fav-btn{ border:none; background: transparent; cursor:pointer; font-size: 15px; color: rgba(148,163,184,0.8); padding: 0 4px; transition: color .2s; }
+    .fav-btn:hover, .fav-btn.active{ color:#f59e0b; transform: scale(1.1); }
 
-    .card-url{ font-size: 10px; color: rgba(148,163,184,0.92); word-break: break-all; position: relative; z-index: 1; margin-top: auto; }
-    .card-meta{ font-size: 10px; color: rgba(148,163,184,0.92); position: relative; z-index: 1; }
-    .card-meta.hot{ color: #b45309; font-weight: 650; }
+    .card-url{ font-size: 10px; color: rgba(148,163,184,0.8); word-break: break-all; position: relative; z-index: 1; margin-top: auto; font-family: monospace; letter-spacing: -0.2px; }
+    .card-meta{ font-size: 10px; color: rgba(148,163,184,0.8); position: relative; z-index: 1; margin-top: 2px; }
+    .card-meta.hot{ color: #d97706; font-weight: 600; }
 
-    footer{ padding: 12px 24px 16px; border-top: 1px solid rgba(255,255,255,0.32); font-size: 11px; color: var(--sub); text-align: right; background: rgba(255,255,255,0.20); }
-    body.dark-mode footer{ border-top-color: rgba(30,64,175,0.28); background: rgba(2,6,23,0.18); }
+    footer{ padding: 20px 24px 24px; border-top: 1px solid rgba(255,255,255,0.25); font-size: 11px; color: var(--sub); text-align: center; background: rgba(255,255,255,0.15); letter-spacing: 0.5px; }
+    body.dark-mode footer{ border-top-color: rgba(255,255,255,0.05); background: rgba(2,6,23,0.15); }
 
     #back-to-top{
-      position: fixed; right: 18px; bottom: 20px; width: 40px; height: 40px; border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.35); background: linear-gradient(135deg, #7dd3fc, #38bdf8);
-      color: #0b1220; font-size: 18px; display:flex; align-items:center; justify-content:center;
-      box-shadow: 0 18px 40px rgba(56,189,248,0.30); cursor:pointer; opacity: 0; pointer-events: none;
-      transform: translateY(10px); transition: all .18s ease; z-index: 99;
+      position: fixed; right: 24px; bottom: 30px; width: 44px; height: 44px; border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.4); background: linear-gradient(135deg, #7dd3fc, #0ea5e9);
+      color: #fff; font-size: 20px; display:flex; align-items:center; justify-content:center;
+      box-shadow: 0 10px 25px rgba(14,165,233,0.4); cursor:pointer; opacity: 0; pointer-events: none;
+      transform: translateY(15px); transition: all .3s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 99;
     }
+    #back-to-top:hover{ transform: translateY(-3px); box-shadow: 0 14px 35px rgba(14,165,233,0.5); }
     #back-to-top.show{ opacity:1; pointer-events:auto; transform: translateY(0); }
   </style>
 </head>
@@ -336,6 +322,14 @@
             <div class="cover-desc">世界各地的窗外与实况</div>
           </div>
           <div class="section-links">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-main"><div class="card-icon">🧭</div><div class="card-text"><div class="card-title">MapCrunch</div><div class="card-desc">全球随机街景</div></div></div>
+                <div class="card-actions"><button class="card-btn" onclick="openLink('https://www.mapcrunch.com')">↗</button></div>
+              </div>
+              <div class="card-url">mapcrunch.com</div>
+            </div>
+
             <div class="card">
               <div class="card-header">
                 <div class="card-main"><div class="card-icon">🪟</div><div class="card-text"><div class="card-title">WindowSwap</div><div class="card-desc">别人的窗外</div></div></div>
@@ -455,6 +449,7 @@
       </div>
       <div class="card-url">2fa.live</div>
     </div>
+    
     <div class="card">
       <div class="card-header">
         <div class="card-main">
@@ -465,10 +460,10 @@
           </div>
         </div>
         <div class="card-actions">
-          <button class="card-btn" onclick="openLink('https://www.ipfoxy.com/')">↗</button>
+          <button class="card-btn" onclick="openLink('https://app.ipfoxy.net/login?_bt=2')">↗</button>
         </div>
       </div>
-      <div class="card-url">ipfoxy.com</div>
+      <div class="card-url">app.ipfoxy.net</div>
     </div>
   </div>
 </div>
@@ -692,6 +687,14 @@
             <div class="cover-desc">通讯 / 交易 / 钱包</div>
           </div>
           <div class="section-links">
+             <div class="card">
+              <div class="card-header">
+                <div class="card-main"><div class="card-icon">📉</div><div class="card-text"><div class="card-title">CryptoPanic</div><div class="card-desc">加密货币资讯</div></div></div>
+                <div class="card-actions"><button class="card-btn" onclick="openLink('https://www.cryptopanic.com')">↗</button></div>
+              </div>
+              <div class="card-url">cryptopanic.com</div>
+            </div>
+
             <div class="card">
               <div class="card-header">
                 <div class="card-main"><div class="card-icon">📨</div><div class="card-text"><div class="card-title">Signal</div><div class="card-desc">加密通讯</div></div></div>
@@ -775,6 +778,14 @@
             <div class="cover-desc">影视与音乐</div>
           </div>
           <div class="section-links">
+             <div class="card">
+              <div class="card-header">
+                <div class="card-main"><div class="card-icon">🎵</div><div class="card-text"><div class="card-title">Every Noise</div><div class="card-desc">流派数据库</div></div></div>
+                <div class="card-actions"><button class="card-btn" onclick="openLink('https://everynoise.com')">↗</button></div>
+              </div>
+              <div class="card-url">everynoise.com</div>
+            </div>
+
             <div class="card">
               <div class="card-header">
                 <div class="card-main"><div class="card-icon">▶️</div><div class="card-text"><div class="card-title">YouTube</div><div class="card-desc">视频主阵地</div></div></div>
@@ -903,6 +914,14 @@
             <div class="cover-desc">生成式 AI 工具集</div>
           </div>
           <div class="section-links">
+             <div class="card">
+              <div class="card-header">
+                <div class="card-main"><div class="card-icon">🟢</div><div class="card-text"><div class="card-title">NVIDIA AI</div><div class="card-desc">官方实验室</div></div></div>
+                <div class="card-actions"><button class="card-btn" onclick="openLink('https://www.nvidia.com/en-us/research/ai-playground')">↗</button></div>
+              </div>
+              <div class="card-url">nvidia.com</div>
+            </div>
+
             <div class="card">
               <div class="card-header">
                 <div class="card-main"><div class="card-icon">🎥</div><div class="card-text"><div class="card-title">Runway ML</div><div class="card-desc">AI 视频</div></div></div>
@@ -1254,7 +1273,6 @@
           const show=c.textContent.toLowerCase().includes(searchQuery);
           c.style.display=show?"flex":"none";
         });
-        // 如果板块内所有卡片都隐藏了，隐藏整个板块
         document.querySelectorAll(".section-block").forEach(block=>{
           const links=block.querySelectorAll(".card");
           const hasVisible=Array.from(links).some(c=>c.style.display!=="none");
@@ -1285,7 +1303,6 @@
 
     document.addEventListener("DOMContentLoaded",()=>{
       loadState(); initTheme(); initClock(); initCards(); initSearch(); initBackToTop();
-      // 随机 Motto
       const ms=["Long live freedom!","保持好奇","BBR"];
       document.getElementById("subtitle").textContent=ms[Math.floor(Math.random()*ms.length)];
     });
