@@ -274,7 +274,51 @@
           <div class="time-pill" id="time-pill">--:--:--</div>
         </div>
       </header>
+<div class="marquee-container">
+        <div class="marquee-content">
+          <span>天下英雄如过江之鲫，人中龙凤尚且举步维艰。我等鱼目，一生命运多舛，颠沛流离，却从未失那颗赤子之心、凌云之志。</span>
+          <span>天下英雄如过江之鲫，人中龙凤尚且举步维艰。我等鱼目，一生命运多舛，颠沛流离，却从未失那颗赤子之心、凌云之志。</span>
+        </div>
+      </div>
 
+      <style>
+        .marquee-container {
+          background: rgba(255, 255, 255, 0.3);
+          border-bottom: 1px solid var(--stroke);
+          overflow: hidden;
+          padding: 8px 0;
+          position: relative;
+          backdrop-filter: blur(5px);
+        }
+        body.dark-mode .marquee-container {
+          background: rgba(15, 23, 42, 0.4);
+        }
+        .marquee-content {
+          display: flex;
+          white-space: nowrap;
+          animation: marquee 35s linear infinite; /* 速度可以根据喜好调整，数字越大越慢 */
+        }
+        .marquee-content span {
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--accent);
+          padding-right: 50px; /* 两个句子之间的间距 */
+          letter-spacing: 1px;
+          text-shadow: 0 0 10px rgba(14, 165, 233, 0.2);
+        }
+        body.dark-mode .marquee-content span {
+          color: var(--accent2);
+          opacity: 0.8;
+        }
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        /* 鼠标悬停时暂停，方便细品 */
+        .marquee-container:hover .marquee-content {
+          animation-play-state: paused;
+        }
+      </style>
       <main>
         
         <div class="section-block">
@@ -1309,3 +1353,4 @@
   </script>
 </body>
 </html>
+
