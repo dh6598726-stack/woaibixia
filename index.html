@@ -14,7 +14,7 @@
 
   <style>
     /* =========================================
-       1. 基础变量区 (保持不变)
+       1. 基础变量区
        ========================================= */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; }
@@ -49,7 +49,7 @@
     }
 
     /* =========================================
-       2. 开屏引导页 CSS (字体修改：俊逸飘洒)
+       2. 开屏引导页 CSS
        ========================================= */
     #splash-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 999999;
@@ -66,7 +66,7 @@
 
     .splash-card {
       position: relative; width: 90%; max-width: 650px;
-      padding: 50px 40px; /* 稍微加大内边距以适应大字体 */
+      padding: 50px 40px;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 24px;
@@ -76,14 +76,13 @@
     }
 
     .splash-text {
-      /* 【修改点】：应用“志莽行书”，俊逸飘洒 */
       font-family: "Zhi Mang Xing", cursive; 
-      font-size: 22px; /* 书法字体通常需要大一点才好看 */
+      font-size: 22px; 
       line-height: 1.8; 
       letter-spacing: 0.08em;
       color: rgba(255, 255, 255, 0.95);
       text-align: left; margin-bottom: 40px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* 增加一点阴影增加质感 */
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
     .splash-text p { margin-bottom: 20px; text-indent: 2em; }
     
@@ -100,7 +99,7 @@
     @keyframes floatUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
     /* =========================================
-       3. 原有布局样式
+       3. 布局样式
        ========================================= */
     body{
       font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", system-ui, sans-serif;
@@ -179,40 +178,82 @@
     .card-url{ font-size: 10px; color: rgba(148,163,184,0.8); word-break: break-all; position: relative; z-index: 1; margin-top: auto; font-family: monospace; letter-spacing: -0.2px; }
 
     /* =========================================
-       4. 修改：顶部文字区域（原跑马灯）
-          需求：改为静止、一段、书法体（潇洒）
+       4. 顶部文字区域（书法体）
        ========================================= */
     .marquee-container { 
       background: rgba(255, 255, 255, 0.3); 
       border-bottom: 1px solid var(--stroke); 
       overflow: hidden; 
-      padding: 12px 24px; /* 增加内边距 */
+      padding: 12px 24px; 
       position: relative; 
       backdrop-filter: blur(5px); 
     }
     body.dark-mode .marquee-container { background: rgba(15, 23, 42, 0.4); }
     
     .marquee-content { 
-      /* 【修改点】：取消动画，改为普通块级元素，居中 */
       display: block; 
-      white-space: normal; /* 允许换行 */
-      text-align: center;  /* 居中 */
-      animation: none;     /* 禁止跑动 */
+      white-space: normal; 
+      text-align: center; 
+      animation: none; 
     }
     
     .marquee-content span { 
-      /* 【修改点】：应用“志莽行书”，潇洒 */
       font-family: "Zhi Mang Xing", cursive;
-      font-size: 20px; /* 加大字号 */
+      font-size: 20px; 
       line-height: 1.5;
-      font-weight: 400; /* 书法字体通常不需要 extra bold */
+      font-weight: 400; 
       color: var(--accent); 
-      padding-right: 0; /* 移除原来的 padding */
+      padding-right: 0; 
       letter-spacing: 1px; 
       text-shadow: 0 0 10px rgba(14, 165, 233, 0.2); 
     }
     body.dark-mode .marquee-content span { color: var(--accent2); opacity: 0.9; }
 
+    /* =========================================
+       5. 幽灵备忘录样式
+       ========================================= */
+    #ghost-memo {
+      position: fixed; bottom: 100px; right: 30px;
+      width: 320px; height: 420px;
+      background: rgba(15, 23, 42, 0.98); 
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 12px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+      z-index: 9999;
+      display: flex; flex-direction: column; overflow: hidden;
+      backdrop-filter: blur(20px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      
+      /* 默认状态：隐形 + 缩小 */
+      opacity: 0; transform: scale(0.9) translateY(20px); pointer-events: none;
+    }
+    /* 激活状态 */
+    #ghost-memo.active { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
+    
+    .memo-header {
+      padding: 10px 14px; background: rgba(0,0,0,0.5);
+      border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+      display: flex; justify-content: space-between; align-items: center; user-select: none;
+    }
+    .memo-title { color: #0ea5e9; font-size: 12px; font-weight: bold; letter-spacing: 1px; font-family: monospace; }
+    .memo-actions { display: flex; gap: 12px; align-items: center; }
+    .action-btn { cursor: pointer; font-size: 14px; color: #64748b; transition: all 0.2s; }
+    .action-btn:hover { color: #fff; transform: scale(1.1); }
+    .close-btn:hover { color: #ef4444; }
+    
+    #memo-content {
+      flex: 1; width: 100%; background: transparent; border: none; padding: 16px;
+      color: #cbd5e1; font-family: "Menlo", "Consolas", monospace; font-size: 13px; line-height: 1.6; resize: none;
+    }
+    #memo-content:focus { outline: none; }
+    #memo-content::-webkit-scrollbar { width: 6px; }
+    #memo-content::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    
+    #time-pill { cursor: pointer; user-select: none; transition: all 0.2s; }
+    #time-pill:active { transform: scale(0.95); background: #0ea5e9; color: white; }
+    
+    footer { text-align: center; color: var(--sub); font-size: 12px; margin-top: 40px; opacity: 0.6; }
+    #back-to-top { position: fixed; bottom: 30px; right: 30px; padding: 10px 15px; border-radius: 50%; border: none; background: var(--pill-bg); box-shadow: var(--shadow-2); cursor: pointer; display: none; z-index: 100; font-weight: bold; }
   </style>
 </head>
 
@@ -259,6 +300,7 @@
         </div>
       </div>
         
+      <main>
        <div class="section-block">
           <div class="section-cover">
             <div class="cover-icon">🖼️</div>
@@ -325,7 +367,6 @@
               </div>
               <div class="card-url">mapcrunch.com</div>
             </div>
-
             <div class="card">
               <div class="card-header">
                 <div class="card-main"><div class="card-icon">🪟</div><div class="card-text"><div class="card-title">WindowSwap</div><div class="card-desc">别人的窗外</div></div></div>
@@ -378,100 +419,98 @@
           </div>
         </div>
 
-    <div class="section-block">
-  <div class="section-cover">
-    <div class="cover-icon">🌐</div>
-    <div class="cover-title">网络与基础设施</div>
-    <div class="cover-desc">IP / 域名 / 源码仓库</div>
-  </div>
-  <div class="section-links">
-    <div class="card">
-      <div class="card-header">
-        <div class="card-main">
-          <div class="card-icon">🌐</div>
-          <div class="card-text">
-            <div class="card-title">Thordata</div>
-            <div class="card-desc">代理控制台</div>
+        <div class="section-block">
+          <div class="section-cover">
+            <div class="cover-icon">🌐</div>
+            <div class="cover-title">网络与基础设施</div>
+            <div class="cover-desc">IP / 域名 / 源码仓库</div>
+          </div>
+          <div class="section-links">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-main">
+                  <div class="card-icon">🌐</div>
+                  <div class="card-text">
+                    <div class="card-title">Thordata</div>
+                    <div class="card-desc">代理控制台</div>
+                  </div>
+                </div>
+                <div class="card-actions">
+                  <button class="card-btn" onclick="openLink('https://dashboard.thordata.com/')">↗</button>
+                </div>
+              </div>
+              <div class="card-url">dashboard.thordata.com</div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-main">
+                  <div class="card-icon">🔑</div>
+                  <div class="card-text">
+                    <div class="card-title">Porkbun</div>
+                    <div class="card-desc">域名管理</div>
+                  </div>
+                </div>
+                <div class="card-actions">
+                  <button class="card-btn" onclick="openLink('https://porkbun.com/account/domainsSpeedy')">↗</button>
+                </div>
+              </div>
+              <div class="card-url">porkbun.com</div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-main">
+                  <div class="card-icon">📦</div>
+                  <div class="card-text">
+                    <div class="card-title">GitHub</div>
+                    <div class="card-desc">woaibixia</div>
+                  </div>
+                </div>
+                <div class="card-actions">
+                  <button class="card-btn" onclick="openLink('https://github.com/dh6598726-stack/woaibixia')">↗</button>
+                </div>
+              </div>
+              <div class="card-url">github.com</div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-main">
+                  <div class="card-icon">🛡️</div>
+                  <div class="card-text">
+                    <div class="card-title">2FA Live</div>
+                    <div class="card-desc">TOTP 令牌</div>
+                  </div>
+                </div>
+                <div class="card-actions">
+                  <button class="card-btn" onclick="openLink('https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq')">↗</button>
+                </div>
+              </div>
+              <div class="card-url">2fa.live</div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-main">
+                  <div class="card-icon">🌐</div>
+                  <div class="card-text">
+                    <div class="card-title">IPFoxy</div>
+                    <div class="card-desc">IP 代理</div>
+                  </div>
+                </div>
+                <div class="card-actions">
+                  <button class="card-btn" onclick="openLink('https://app.ipfoxy.net/login?_bt=2')">↗</button>
+                </div>
+              </div>
+              <div class="card-url">app.ipfoxy.net</div>
+            </div>
           </div>
         </div>
-        <div class="card-actions">
-          <button class="card-btn" onclick="openLink('https://dashboard.thordata.com/')">↗</button>
-        </div>
-      </div>
-      <div class="card-url">dashboard.thordata.com</div>
-    </div>
-    <div class="card">
-      <div class="card-header">
-        <div class="card-main">
-          <div class="card-icon">🔑</div>
-          <div class="card-text">
-            <div class="card-title">Porkbun</div>
-            <div class="card-desc">域名管理</div>
-          </div>
-        </div>
-        <div class="card-actions">
-          <button class="card-btn" onclick="openLink('https://porkbun.com/account/domainsSpeedy')">↗</button>
-        </div>
-      </div>
-      <div class="card-url">porkbun.com</div>
-    </div>
-    <div class="card">
-      <div class="card-header">
-        <div class="card-main">
-          <div class="card-icon">📦</div>
-          <div class="card-text">
-            <div class="card-title">GitHub</div>
-            <div class="card-desc">woaibixia</div>
-          </div>
-        </div>
-        <div class="card-actions">
-          <button class="card-btn" onclick="openLink('https://github.com/dh6598726-stack/woaibixia')">↗</button>
-        </div>
-      </div>
-      <div class="card-url">github.com</div>
-    </div>
-    <div class="card">
-      <div class="card-header">
-        <div class="card-main">
-          <div class="card-icon">🛡️</div>
-          <div class="card-text">
-            <div class="card-title">2FA Live</div>
-            <div class="card-desc">TOTP 令牌</div>
-          </div>
-        </div>
-        <div class="card-actions">
-          <button class="card-btn" onclick="openLink('https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq')">↗</button>
-        </div>
-      </div>
-      <div class="card-url">2fa.live</div>
-    </div>
-    
-    <div class="card">
-      <div class="card-header">
-        <div class="card-main">
-          <div class="card-icon">🌐</div>
-          <div class="card-text">
-            <div class="card-title">IPFoxy</div>
-            <div class="card-desc">IP 代理</div>
-          </div>
-        </div>
-        <div class="card-actions">
-          <button class="card-btn" onclick="openLink('https://app.ipfoxy.net/login?_bt=2')">↗</button>
-        </div>
-      </div>
-      <div class="card-url">app.ipfoxy.net</div>
-    </div>
-  </div>
-</div>
 
-<div class="section-block">
+        <div class="section-block">
           <div class="section-cover">
             <div class="cover-icon">⚡</div>
             <div class="cover-title">暗黑六巨头</div>
             <div class="cover-desc">顶级资源完全体</div>
           </div>
           <div class="section-links">
-            
             <div class="card">
               <div class="card-header">
                 <div class="card-main">
@@ -487,7 +526,6 @@
               </div>
               <div class="card-url">suijidaquan.com</div>
             </div>
-
             <div class="card">
               <div class="card-header">
                 <div class="card-main">
@@ -503,7 +541,6 @@
               </div>
               <div class="card-url">reddit.com</div>
             </div>
-
             <div class="card">
               <div class="card-header">
                 <div class="card-main">
@@ -519,8 +556,7 @@
               </div>
               <div class="card-url">onlyfans.com</div>
             </div>
-
-<div class="card">
+            <div class="card">
               <div class="card-header">
                 <div class="card-main">
                   <div class="card-icon">🐹</div>
@@ -535,7 +571,6 @@
               </div>
               <div class="card-url">xhamster.com</div>
             </div>
-
             <div class="card">
               <div class="card-header">
                 <div class="card-main">
@@ -551,7 +586,6 @@
               </div>
               <div class="card-url">xvideos.com</div>
             </div>
-
             <div class="card">
               <div class="card-header">
                 <div class="card-main">
@@ -567,7 +601,6 @@
               </div>
               <div class="card-url">stripchat.com</div>
             </div>
-
             <div class="card">
               <div class="card-header">
                 <div class="card-main">
@@ -583,7 +616,6 @@
               </div>
               <div class="card-url">eporner.com</div>
             </div>
-
             <div class="card">
               <div class="card-header">
                 <div class="card-main">
@@ -599,7 +631,6 @@
               </div>
               <div class="card-url">erome.com</div>
             </div>
-            
             <div class="card">
               <div class="card-header">
                 <div class="card-main">
@@ -615,7 +646,6 @@
               </div>
               <div class="card-url">tblop.com</div>
             </div>
-
             <div class="card">
               <div class="card-header">
                 <div class="card-main">
@@ -631,7 +661,6 @@
               </div>
               <div class="card-url">theporndude.com</div>
             </div>
-            
             <div class="card">
               <div class="card-header">
                 <div class="card-main">
@@ -647,24 +676,20 @@
               </div>
               <div class="card-url">pornhub.com</div>
             </div>
-
           </div>
         </div>
 
-<div class="section-block">
+        <div class="section-block">
           <div class="section-cover">
             <div class="cover-icon">⚡</div>
             <div class="cover-title">备用油箱</div>
             <div class="cover-desc">同类精品站点</div>
           </div>
           <div class="section-links">
-            
             <div class="card" onclick="window.open('https://netflav.com/', '_blank')">
               <div class="card-header">
                 <div class="card-main">
-                  <div class="card-icon" style="background: #E50914; color: white; font-weight: bold; font-family: sans-serif; font-size: 14px;">
-                    N
-                  </div>
+                  <div class="card-icon" style="background: #E50914; color: white; font-weight: bold; font-family: sans-serif; font-size: 14px;">N</div>
                   <div class="card-text">
                     <div class="card-title">Netflav</div>
                     <div class="card-desc">奈飞版体验</div>
@@ -674,7 +699,6 @@
               </div>
               <div class="card-url">netflav.com</div>
             </div>
-
             <div class="card" onclick="window.open('https://hanime1.me/', '_blank')">
               <div class="card-header">
                 <div class="card-main">
@@ -690,7 +714,6 @@
               </div>
               <div class="card-url">hanime1.me</div>
             </div>
-
             <div class="card" onclick="window.open('https://supjav.com/', '_blank')">
               <div class="card-header">
                 <div class="card-main">
@@ -706,18 +729,16 @@
               </div>
               <div class="card-url">supjav.com</div>
             </div>
-
           </div>
         </div>
 
-<div class="section-block">
+        <div class="section-block">
           <div class="section-cover">
             <div class="cover-icon">🧲</div>
             <div class="cover-title">磁力搜索</div>
             <div class="cover-desc">下载源头/生肉/原盘</div>
           </div>
           <div class="section-links">
-            
             <div class="card" onclick="window.open('https://sukebei.nyaa.si/', '_blank')">
               <div class="card-header">
                 <div class="card-main">
@@ -731,7 +752,6 @@
               </div>
               <div class="card-url">sukebei.nyaa.si</div>
             </div>
-
             <div class="card" onclick="window.open('https://nyaa.si/', '_blank')">
               <div class="card-header">
                 <div class="card-main">
@@ -745,7 +765,6 @@
               </div>
               <div class="card-url">nyaa.si</div>
             </div>
-
             <div class="card" onclick="window.open('https://btsow.motorcycles/', '_blank')">
               <div class="card-header">
                 <div class="card-main">
@@ -759,18 +778,16 @@
               </div>
               <div class="card-url">btsow.com</div>
             </div>
-
           </div>
         </div>
         
-<div class="section-block">
+        <div class="section-block">
           <div class="section-cover">
             <div class="cover-icon">🤖</div>
             <div class="cover-title">内容与 AI 工具</div>
             <div class="cover-desc">视频 / 对话 / 写作</div>
           </div>
           <div class="section-links">
-            
             <div class="card">
               <div class="card-header">
                 <div class="card-main">
@@ -786,7 +803,6 @@
               </div>
               <div class="card-url">nf.video</div>
             </div>
-
             <div class="card">
               <div class="card-header">
                 <div class="card-main">
@@ -802,7 +818,6 @@
               </div>
               <div class="card-url">grok.com</div>
             </div>
-
             <div class="card">
               <div class="card-header">
                 <div class="card-main">
@@ -818,7 +833,6 @@
               </div>
               <div class="card-url">chatgpt.com</div>
             </div>
-
             <div class="card">
               <div class="card-header">
                 <div class="card-main">
@@ -834,7 +848,6 @@
               </div>
               <div class="card-url">gemini.google.com</div>
             </div>
-
           </div>
         </div>
         
@@ -1033,7 +1046,6 @@
               </div>
               <div class="card-url">cryptopanic.com</div>
             </div>
-
             <div class="card">
               <div class="card-header">
                 <div class="card-main"><div class="card-icon">📨</div><div class="card-text"><div class="card-title">Signal</div><div class="card-desc">加密通讯</div></div></div>
@@ -1124,7 +1136,6 @@
               </div>
               <div class="card-url">everynoise.com</div>
             </div>
-
             <div class="card">
               <div class="card-header">
                 <div class="card-main"><div class="card-icon">▶️</div><div class="card-text"><div class="card-title">YouTube</div><div class="card-desc">视频主阵地</div></div></div>
@@ -1561,233 +1572,198 @@
 
   <button id="back-to-top" title="返回顶部">↑</button>
 
-
-
-<style>
-      #ghost-memo {
-        position: fixed; bottom: 100px; right: 30px;
-        width: 320px; height: 420px;
-        background: rgba(15, 23, 42, 0.98); 
-        border: 1px solid rgba(56, 189, 248, 0.3);
-        border-radius: 12px;
-        box-shadow: 0 25px 60px rgba(0,0,0,0.6);
-        z-index: 9999;
-        display: flex; flex-direction: column; overflow: hidden;
-        backdrop-filter: blur(20px);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        
-        /* 默认状态：隐形 + 缩小 */
-        opacity: 0; transform: scale(0.9) translateY(20px); pointer-events: none;
-      }
-      /* 激活状态 */
-      #ghost-memo.active { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
-      
-      .memo-header {
-        padding: 10px 14px; background: rgba(0,0,0,0.5);
-        border-bottom: 1px solid rgba(56, 189, 248, 0.1);
-        display: flex; justify-content: space-between; align-items: center; user-select: none;
-      }
-      .memo-title { color: #0ea5e9; font-size: 12px; font-weight: bold; letter-spacing: 1px; font-family: monospace; }
-      .memo-actions { display: flex; gap: 12px; align-items: center; }
-      .action-btn { cursor: pointer; font-size: 14px; color: #64748b; transition: all 0.2s; }
-      .action-btn:hover { color: #fff; transform: scale(1.1); }
-      .close-btn:hover { color: #ef4444; }
-      
-      #memo-content {
-        flex: 1; width: 100%; background: transparent; border: none; padding: 16px;
-        color: #cbd5e1; font-family: "Menlo", "Consolas", monospace; font-size: 13px; line-height: 1.6; resize: none;
-      }
-      #memo-content:focus { outline: none; }
-      #memo-content::-webkit-scrollbar { width: 6px; }
-      #memo-content::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-      
-      /* 让时间胶囊变成可点击状态 */
-      #time-pill { cursor: pointer; user-select: none; transition: all 0.2s; }
-      #time-pill:active { transform: scale(0.95); background: #0ea5e9; color: white; }
-    </style>
-
-    <div id="ghost-memo" class="hidden">
-      <div class="memo-header">
-        <div class="memo-title">☁️ Cloud Memo</div>
-        <div class="memo-actions">
-          <span id="cloud-status" style="font-size:10px; color:#64748b; margin-right:10px;">就绪</span>
-          <span class="action-btn" id="cloud-sync-btn" title="保存到云端 (Ctrl+S)">🔄</span>
-          <span class="action-btn close-btn" onclick="toggleMemo()">×</span>
-        </div>
+  <div id="ghost-memo" class="hidden">
+    <div class="memo-header">
+      <div class="memo-title">☁️ Cloud Memo</div>
+      <div class="memo-actions">
+        <span id="cloud-status" style="font-size:10px; color:#64748b; margin-right:10px;">就绪</span>
+        <span class="action-btn" id="cloud-sync-btn" title="保存到云端 (Ctrl+S)">🔄</span>
+        <span class="action-btn close-btn" onclick="toggleMemo()">×</span>
       </div>
-      <textarea id="memo-content" placeholder="正在连接卫星... (双击时间隐藏)"></textarea>
     </div>
+    <textarea id="memo-content" placeholder="正在连接卫星... (双击时间隐藏)"></textarea>
+  </div>
 
-    <script>
-      // ==========================================
-      // 🛑 核心配置区 (已帮你填好！)
-      // ==========================================
-      const BIN_ID  = '6971fa00ae596e708fed3908';
-      const API_KEY = '$2a$10$1NEYPXNO1k1GdD2h4JTjCuhT5DHTBsQ6J/yVon6iOoRL5Yk/5sfvS'; 
-      // ==========================================
-
-      // 1. 基础变量
-      const timePill = document.getElementById('time-pill');
-      const ghostMemo = document.getElementById('ghost-memo');
-      const memoContent = document.getElementById('memo-content');
-      const syncBtn = document.getElementById('cloud-sync-btn');
-      const statusText = document.getElementById('cloud-status');
-      const searchInput = document.getElementById('search-input');
-      const contentArea = document.querySelector('main'); // 确保能找到内容区
-
-      // 2. 时间更新 & 胶囊点击事件
-      function updateTime() {
-        const now = new Date();
-        timePill.textContent = now.toLocaleTimeString('zh-CN', { hour12: false });
-      }
-      setInterval(updateTime, 1000);
-      updateTime();
-
-      // 双击时间 -> 切换备忘录
-      timePill.addEventListener('dblclick', toggleMemo);
-      function toggleMemo() {
-        ghostMemo.classList.toggle('active');
-        // 如果打开了，尝试加载数据
-        if (ghostMemo.classList.contains('active')) {
-          memoContent.focus();
-          loadFromCloud();
-        }
-      }
-
-      // 3. 云端功能：读取 (Load)
-      function loadFromCloud() {
-        statusText.textContent = "正在同步...";
-        fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-          method: 'GET',
-          headers: { 'X-Master-Key': API_KEY }
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.record && data.record.text) {
-            memoContent.value = data.record.text;
-            statusText.textContent = "云端已同步";
-            statusText.style.color = "#4ade80"; // 绿
-          } else {
-            statusText.textContent = "云端空数据";
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          statusText.textContent = "连接失败";
-          statusText.style.color = "#ef4444"; // 红
-        });
-      }
-
-      // 4. 云端功能：保存 (Save)
-      function saveToCloud() {
-        const text = memoContent.value;
-        statusText.textContent = "正在上传...";
-        
-        fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Master-Key': API_KEY
-          },
-          body: JSON.stringify({ text: text })
-        })
-        .then(res => res.json())
-        .then(data => {
-          statusText.textContent = "保存成功";
-          statusText.style.color = "#4ade80";
-          setTimeout(() => { statusText.textContent = "就绪"; statusText.style.color = "#64748b"; }, 2000);
-        })
-        .catch(err => {
-          console.error(err);
-          statusText.textContent = "上传失败";
-          statusText.style.color = "#ef4444";
-        });
-      }
-
-      // 绑定保存按钮和快捷键
-      syncBtn.addEventListener('click', saveToCloud);
-      memoContent.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-          e.preventDefault();
-          saveToCloud();
-        }
-      });
-
-      // 5. 夜间模式切换
-      const themeToggle = document.getElementById('theme-toggle');
-      if (themeToggle) {
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.body.classList.add('dark-mode');
-        }
-        themeToggle.addEventListener('click', () => {
-          document.body.classList.toggle('dark-mode');
-        });
-      }
-
-      // 6. 搜索功能
-      if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-          const term = e.target.value.toLowerCase();
-          const cards = document.querySelectorAll('.card');
-          cards.forEach(card => {
-            const title = card.querySelector('.card-title').textContent.toLowerCase();
-            const desc = card.querySelector('.card-desc').textContent.toLowerCase();
-            if (title.includes(term) || desc.includes(term)) {
-              card.parentElement.style.display = ''; 
-              card.style.display = 'flex';
-            } else {
-              card.style.display = 'none'; 
-            }
-          });
-        });
-        searchInput.addEventListener('keypress', (e) => {
-          if (e.key === 'Enter' && searchInput.value) {
-            window.open(`https://www.google.com/search?q=${encodeURIComponent(searchInput.value)}`, '_blank');
-          }
-        });
-        document.addEventListener('keydown', (e) => {
-          if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-            e.preventDefault();
-            searchInput.focus();
-          }
-        });
-      }
-    </script>
   <script>
-  // 1. 【核心修复】定义 openLink 功能
-  // 这就是为什么您之前点按钮没反应的原因
-  function openLink(url) {
-    window.open(url, '_blank');
-  }
+    // ==========================================
+    // 🛑 核心配置区
+    // ==========================================
+    const BIN_ID  = '6971fa00ae596e708fed3908';
+    const API_KEY = '$2a$10$1NEYPXNO1k1GdD2h4JTjCuhT5DHTBsQ6J/yVon6iOoRL5Yk/5sfvS'; 
+    // ==========================================
 
-  // 2. 【体验优化】让整个卡片都能点击
-  // 现在不仅点那个小箭头，点卡片任何地方都能跳转
-  document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('click', function(e) {
-      // 如果点的是那个小按钮，就让按钮自己处理，防止打开两次
-      if (e.target.closest('.card-btn')) return;
+    // 1. 基础变量
+    const timePill = document.getElementById('time-pill');
+    const ghostMemo = document.getElementById('ghost-memo');
+    const memoContent = document.getElementById('memo-content');
+    const syncBtn = document.getElementById('cloud-sync-btn');
+    const statusText = document.getElementById('cloud-status');
+    const searchInput = document.getElementById('search-input');
+    
+    // 定义跳转函数（提前定义，防止报错）
+    function openLink(url) {
+      window.open(url, '_blank');
+    }
 
-      // 找到卡片里按钮上的链接，并打开它
-      const btn = this.querySelector('button[onclick]');
-      if (btn) {
-        const match = btn.getAttribute('onclick').match(/'([^']+)'/);
-        if (match && match[1]) {
-          window.open(match[1], '_blank');
+    // 2. 时间更新 & 胶囊点击事件
+    function updateTime() {
+      const now = new Date();
+      timePill.textContent = now.toLocaleTimeString('zh-CN', { hour12: false });
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // 双击时间 -> 切换备忘录
+    timePill.addEventListener('dblclick', toggleMemo);
+    function toggleMemo() {
+      ghostMemo.classList.toggle('active');
+      // 如果打开了，尝试加载数据
+      if (ghostMemo.classList.contains('active')) {
+        memoContent.focus();
+        loadFromCloud();
+      }
+    }
+
+    // 3. 云端功能：读取 (Load)
+    function loadFromCloud() {
+      statusText.textContent = "正在同步...";
+      fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+        method: 'GET',
+        headers: { 'X-Master-Key': API_KEY }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.record && data.record.text) {
+          memoContent.value = data.record.text;
+          statusText.textContent = "云端已同步";
+          statusText.style.color = "#4ade80"; // 绿
+        } else {
+          statusText.textContent = "云端空数据";
         }
+      })
+      .catch(err => {
+        console.error(err);
+        statusText.textContent = "连接失败";
+        statusText.style.color = "#ef4444"; // 红
+      });
+    }
+
+    // 4. 云端功能：保存 (Save)
+    function saveToCloud() {
+      const text = memoContent.value;
+      statusText.textContent = "正在上传...";
+      
+      fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': API_KEY
+        },
+        body: JSON.stringify({ text: text })
+      })
+      .then(res => res.json())
+      .then(data => {
+        statusText.textContent = "保存成功";
+        statusText.style.color = "#4ade80";
+        setTimeout(() => { statusText.textContent = "就绪"; statusText.style.color = "#64748b"; }, 2000);
+      })
+      .catch(err => {
+        console.error(err);
+        statusText.textContent = "上传失败";
+        statusText.style.color = "#ef4444";
+      });
+    }
+
+    // 绑定保存按钮和快捷键
+    syncBtn.addEventListener('click', saveToCloud);
+    memoContent.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        saveToCloud();
       }
     });
-  });
-    
-</script>
+
+    // 5. 夜间模式切换
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark-mode');
+      }
+      themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+      });
+    }
+
+    // 6. 搜索功能
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+          const title = card.querySelector('.card-title').textContent.toLowerCase();
+          const desc = card.querySelector('.card-desc').textContent.toLowerCase();
+          if (title.includes(term) || desc.includes(term)) {
+            card.parentElement.style.display = ''; 
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none'; 
+          }
+        });
+      });
+      searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && searchInput.value) {
+          window.open(`https://www.google.com/search?q=${encodeURIComponent(searchInput.value)}`, '_blank');
+        }
+      });
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+          e.preventDefault();
+          searchInput.focus();
+        }
+      });
+    }
+
+    // 7. 全局卡片点击优化（委托事件）
+    // 让整个卡片区域都可点击，不仅限于按钮
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        // 如果点的是那个小按钮，就让按钮自己处理，防止打开两次
+        if (e.target.closest('.card-btn')) return;
+
+        // 尝试从 onclick 属性中提取 URL
+        // 优先检查 HTML 行内写的 onclick
+        const onclickAttr = this.getAttribute('onclick');
+        if (onclickAttr) {
+            const match = onclickAttr.match(/'([^']+)'/);
+            if (match && match[1]) {
+                window.open(match[1], '_blank');
+                return;
+            }
+        }
+
+        // 如果没有 onclick 属性，尝试找内部的按钮链接
+        const btn = this.querySelector('button[onclick]');
+        if (btn) {
+          const match = btn.getAttribute('onclick').match(/'([^']+)'/);
+          if (match && match[1]) {
+            window.open(match[1], '_blank');
+          }
+        }
+      });
+    });
+
+    // 8. 返回顶部按钮
+    const backToTopBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTopBtn.style.display = 'block';
+        } else {
+            backToTopBtn.style.display = 'none';
+        }
+    });
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
 </body>
 </html>
-  </div> </body>
-</html>
-
-
-
-
-
-
-
-
