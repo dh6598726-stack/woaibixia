@@ -1450,95 +1450,168 @@
 
   <button id="back-to-top" title="返回顶部">↑</button>
 
-  <script>
-    const THEME_KEY="xd_theme_mode",STATS_KEY="xd_link_stats_v1",FAV_KEY="xd_link_favs_v1";
-    let linkStats={},favorites={},allCards=[],searchQuery="";
 
-    function openLink(url){ registerVisit(url); window.open(url,"_blank","noopener"); }
-    function loadState(){ try{linkStats=JSON.parse(localStorage.getItem(STATS_KEY))||{}; favorites=JSON.parse(localStorage.getItem(FAV_KEY))||{};}catch(e){} }
-    function saveStats(){ try{localStorage.setItem(STATS_KEY,JSON.stringify(linkStats));}catch(e){} }
-    function saveFavs(){ try{localStorage.setItem(FAV_KEY,JSON.stringify(favorites));}catch(e){} }
-    function registerVisit(url){ if(!url)return; if(!linkStats[url])linkStats[url]={count:0,last:0}; linkStats[url].count++; linkStats[url].last=Date.now(); saveStats(); updateCardMeta(allCards.find(c=>c.dataset.url===url)); }
-    function formatTimeAgo(ts){ if(!ts)return""; const s=Math.floor((Date.now()-ts)/1000); if(s<60)return"刚刚"; if(s<3600)return Math.floor(s/60)+"分前"; if(s<86400)return Math.floor(s/3600)+"时前"; return Math.floor(s/86400)+"天前"; }
-    
-    function updateCardMeta(card){
-      if(!card) return;
-      const url=card.dataset.url, stat=linkStats[url];
-      let meta=card.querySelector(".card-meta");
-      if(!meta){ meta=document.createElement("div"); meta.className="card-meta"; card.appendChild(meta); }
-      if(stat && stat.count){ meta.textContent=`${stat.count}次 · ${formatTimeAgo(stat.last)}`; if(stat.count>=5)meta.classList.add("hot"); }
-      else{ meta.textContent=""; }
+
+<script>
+    // ==========================================
+    // 🛑 核心配置区 (你的云端保险箱)
+    // ==========================================
+    const BIN_ID  = '6971fa00ae596e708fed3908';   // ✅ 已帮你填好！
+    const API_KEY = '$2a$10$1NEYPXNO1k1GdD2h4JTjCuhT5DHTBsQ6J/yVon6iOoRL5Yk/5sfvS';       // 👈 只有这里需要你填一下！
+    // ==========================================
+
+    // 1. 链接跳转
+    function openLink(url) { window.open(url, '_blank'); }
+
+    // 2. 时间更新 & 幽灵备忘录
+    const timePill = document.getElementById('time-pill');
+    const ghostMemo = document.getElementById('ghost-memo');
+    const memoContent = document.getElementById('memo-content');
+    const syncBtn = document.getElementById('cloud-sync-btn');
+    const statusText = document.getElementById('cloud-status');
+
+    // 时间显示
+    function updateTime() {
+      const now = new Date();
+      timePill.textContent = now.toLocaleTimeString('zh-CN', { hour12: false });
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // 双击时间开关
+    timePill.addEventListener('dblclick', toggleMemo);
+    function toggleMemo() {
+      ghostMemo.classList.toggle('active');
+      if (ghostMemo.classList.contains('active')) {
+        memoContent.focus();
+        // 打开时自动拉取最新云端数据
+        loadFromCloud(); 
+      }
     }
 
-    function initCards(){
-      allCards=Array.from(document.querySelectorAll(".card"));
-      allCards.forEach(card=>{
-        const urlEl=card.querySelector(".card-url");
-        if(!urlEl)return;
-        const url=card.dataset.url=urlEl.textContent.trim();
-        updateCardMeta(card);
-        const header=card.querySelector(".card-header"), actions=card.querySelector(".card-actions");
-        if(header&&actions){
-          let btn=document.createElement("button"); btn.className="fav-btn"; btn.textContent="☆";
-          actions.appendChild(btn);
-          const updateFav=()=>{ 
-            const isFav=!!favorites[url]; 
-            card.classList.toggle("favorite",isFav); 
-            btn.classList.toggle("active",isFav); 
-            btn.textContent=isFav?"★":"☆"; 
-          };
-          updateFav();
-          btn.onclick=(e)=>{ e.stopPropagation(); if(favorites[url])delete favorites[url]; else favorites[url]=true; saveFavs(); updateFav(); };
+    // === 核心：云端同步功能 (JSONBin API) ===
+    
+    // 从云端读取 (Load)
+    function loadFromCloud() {
+      // 检查用户有没有填 Key
+      if(API_KEY.includes('在这里粘贴') || API_KEY.length < 10) {
+        memoContent.value = "⚠️ 警告：你还没填 API Key！\n请去 jsonbin.io 左下角的 'API KEYS' 复制 Master Key，\n然后填入代码第 5 行。";
+        return;
+      }
+
+      statusText.textContent = "正在下载...";
+      
+      fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+        method: 'GET',
+        headers: {
+          'X-Master-Key': API_KEY
         }
+      })
+      .then(response => response.json())
+      .then(data => {
+        // JSONBin 返回的数据在 record 字段里
+        if (data.record && data.record.text) {
+          memoContent.value = data.record.text;
+          statusText.textContent = "云端已同步";
+          statusText.style.color = "#4ade80"; // 绿色
+        } else {
+          statusText.textContent = "空数据";
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        statusText.textContent = "连接失败";
+        statusText.style.color = "#ef4444"; // 红色
       });
     }
 
-    function initSearch(){
-      const input=document.getElementById("search-input");
-      input.oninput=()=>{
-        searchQuery=input.value.trim().toLowerCase();
-        allCards.forEach(c=>{
-          const show=c.textContent.toLowerCase().includes(searchQuery);
-          c.style.display=show?"flex":"none";
-        });
-        document.querySelectorAll(".section-block").forEach(block=>{
-          const links=block.querySelectorAll(".card");
-          const hasVisible=Array.from(links).some(c=>c.style.display!=="none");
-          block.style.display=hasVisible?"flex":"none";
-        });
-      };
-      document.onkeydown=(e)=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){ e.preventDefault(); input.focus(); } };
+    // 保存到云端 (Save)
+    function saveToCloud() {
+      if(API_KEY.includes('在这里粘贴')) {
+        alert("请先填入 API Key！");
+        return;
+      }
+      
+      const content = memoContent.value;
+      statusText.textContent = "正在上传...";
+
+      fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': API_KEY
+        },
+        body: JSON.stringify({ text: content }) // 把文字包装成 JSON
+      })
+      .then(response => response.json())
+      .then(data => {
+        statusText.textContent = "已保存至云端";
+        statusText.style.color = "#4ade80";
+        
+        // 3秒后恢复默认状态
+        setTimeout(() => {
+          statusText.textContent = "就绪";
+          statusText.style.color = "#64748b";
+        }, 3000);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        statusText.textContent = "上传失败";
+        statusText.style.color = "#ef4444";
+      });
     }
 
-    function initTheme(){
-      const t=localStorage.getItem(THEME_KEY); if(t==="dark")document.body.classList.add("dark-mode");
-      document.getElementById("theme-toggle").onclick=()=>{
-        const isDark=document.body.classList.toggle("dark-mode");
-        localStorage.setItem(THEME_KEY,isDark?"dark":"light");
-      };
-    }
+    // 绑定按钮点击事件 (手动同步)
+    syncBtn.addEventListener('click', saveToCloud);
 
-    function initClock(){
-      const el=document.getElementById("time-pill");
-      setInterval(()=>{ const d=new Date(); el.textContent=d.toTimeString().split(" ")[0]; },1000);
-    }
-    
-    function initBackToTop(){
-      const btn=document.getElementById("back-to-top");
-      window.onscroll=()=>{ btn.classList.toggle("show",window.scrollY>300); };
-      btn.onclick=()=>{ window.scrollTo({top:0,behavior:"smooth"}); };
-    }
-
-    document.addEventListener("DOMContentLoaded",()=>{
-      loadState(); initTheme(); initClock(); initCards(); initSearch(); initBackToTop();
-      const ms=["Long live freedom!","保持好奇","BBR"];
-      document.getElementById("subtitle").textContent=ms[Math.floor(Math.random()*ms.length)];
+    // 绑定快捷键 (Ctrl + S 保存)
+    memoContent.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault(); // 阻止浏览器默认保存网页
+        saveToCloud();
+      }
     });
-  </script>
-</body>
-</html>
 
+    // 3. 夜间模式
+    const themeToggle = document.getElementById('theme-toggle');
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark-mode');
+    }
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+    });
 
+    // 4. 搜索功能
+    const searchInput = document.getElementById('search-input');
+    const contentArea = document.getElementById('content-area');
+    
+    searchInput.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase();
+      const cards = contentArea.querySelectorAll('.card');
+      cards.forEach(card => {
+        const title = card.querySelector('.card-title').textContent.toLowerCase();
+        const desc = card.querySelector('.card-desc').textContent.toLowerCase();
+        if (title.includes(term) || desc.includes(term)) {
+          card.parentElement.style.display = ''; 
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none'; 
+        }
+      });
+    });
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const query = searchInput.value;
+        if (query) window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInput.focus();
+      }
+    });
+</script>
 
 
 
