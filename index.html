@@ -73,19 +73,19 @@
       margin-bottom: 30px; padding-left: 8px; cursor: pointer;
     }
     
-    /* 修改点：Logo 图标样式调整，应用书法字体 */
+    /* Logo 字体样式 */
     .brand-logo {
       width: 36px; height: 36px; background: var(--text-main); color: var(--bg-app);
       border-radius: 10px; display: flex; align-items: center; justify-content: center;
-      font-family: "Zhi Mang Xing", cursive; /* 新增字体 */
+      font-family: "Zhi Mang Xing", cursive;
       font-weight: 400; 
-      font-size: 22px; /* 稍微调大以匹配书法体 */
+      font-size: 22px;
     }
     
-    /* 修改点：品牌文字样式调整，应用书法字体 */
+    /* 品牌名 字体样式 */
     .brand-text h1 { 
-      font-family: "Zhi Mang Xing", cursive; /* 新增字体 */
-      font-size: 24px; /* 调大字号 */
+      font-family: "Zhi Mang Xing", cursive;
+      font-size: 24px;
       font-weight: 400; 
       line-height: 1;
       letter-spacing: 0.5px; 
@@ -232,9 +232,7 @@
     .enter-btn:hover { border-color: var(--text-main); }
     .hidden { opacity: 0; pointer-events: none; }
 
-    /* =========================================
-       ★ 修复：备忘录与悬浮按钮
-       ========================================= */
+    /* 备忘录按钮 */
     #fab-memo {
       position: fixed; bottom: 30px; right: 30px;
       width: 50px; height: 50px;
@@ -244,13 +242,13 @@
       font-size: 24px; cursor: pointer;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       transition: transform 0.2s, background 0.3s;
-      z-index: 101; /* 必须高于 ghost-memo */
+      z-index: 101; 
     }
     #fab-memo:hover { transform: scale(1.1); }
     #fab-memo:active { transform: scale(0.9); }
 
     #ghost-memo {
-      position: fixed; bottom: 90px; right: 30px; /* 在按钮上方 */
+      position: fixed; bottom: 90px; right: 30px; 
       width: 320px; height: 400px;
       background: var(--bg-card); color: var(--text-main);
       border: 1px solid var(--border);
@@ -267,19 +265,13 @@
       color: var(--text-main); font-family: monospace; font-size: 13px; line-height: 1.6; resize: none; margin-top: 10px;
     }
 
-    /* 移动端适配 */
     @media (max-width: 768px) {
       #app { grid-template-columns: 1fr; }
       aside { display: none; }
       main { padding: 20px; }
       .hero-quote { padding: 20px; }
       .quote-text { font-size: 22px; }
-      
-      /* 手机端备忘录全屏 */
-      #ghost-memo {
-        width: 90%; left: 5%; right: 5%; bottom: 100px;
-        height: 60vh;
-      }
+      #ghost-memo { width: 90%; left: 5%; right: 5%; bottom: 100px; height: 60vh; }
     }
   </style>
 </head>
@@ -328,6 +320,89 @@
         </div>
         <div class="quote-sub">Long live freedom / The Visual Archive</div>
       </div>
+
+      <div class="section-block">
+        <div class="section-header">
+          <div class="section-title"><i class="ri-flashlight-line"></i> Latest Updates</div>
+          <div class="section-count">03 ITEMS</div>
+        </div>
+        
+        <div class="grid">
+          <div class="card">
+            <div class="card-head">
+              <div class="icon-box"><i class="ri-article-line"></i></div>
+              <i class="ri-arrow-right-up-line link-arrow"></i>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Design Principles</div>
+              <div class="card-desc">Exploring the future of digital typography and space.</div>
+            </div>
+          </div>
+
+          <div class="card sensitive-zone">
+            <div class="sensitive-mask"><span class="mask-badge">Private</span></div>
+            <div class="sensitive-blur">
+               <div class="card-head">
+                <div class="icon-box"><i class="ri-lock-2-line"></i></div>
+                <i class="ri-arrow-right-up-line link-arrow"></i>
+              </div>
+              <div class="card-body">
+                <div class="card-title">Project X</div>
+                <div class="card-desc">Confidential data structure analysis.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div class="icon-box"><i class="ri-camera-3-line"></i></div>
+              <i class="ri-arrow-right-up-line link-arrow"></i>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Street Photography</div>
+              <div class="card-desc">Tokyo / 2024 / Midnight series.</div>
+            </div>
+          </div>
+           <div class="card">
+            <div class="card-head">
+              <div class="icon-box"><i class="ri-music-2-line"></i></div>
+              <i class="ri-arrow-right-up-line link-arrow"></i>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Midnight Jazz</div>
+              <div class="card-desc">A curated playlist for deep work.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <div class="section-header">
+           <div class="section-title"><i class="ri-book-open-line"></i> Reading List</div>
+           <div class="section-count">12 ITEMS</div>
+        </div>
+         <div class="grid">
+            <div class="card">
+              <div class="card-head">
+                 <div class="icon-box"><i class="ri-double-quotes-l"></i></div>
+              </div>
+              <div class="card-body">
+                 <div class="card-title">Philosophy of Art</div>
+                 <div class="card-desc">Understanding aesthetics in modern era.</div>
+              </div>
+            </div>
+             <div class="card">
+              <div class="card-head">
+                 <div class="icon-box"><i class="ri-code-s-slash-line"></i></div>
+              </div>
+              <div class="card-body">
+                 <div class="card-title">Clean Code</div>
+                 <div class="card-desc">Refactoring legacy systems.</div>
+              </div>
+            </div>
+         </div>
+      </div>
+
     </main>
   </div>
     
@@ -340,10 +415,6 @@
   </div>
 
   <script>
-    /* =========================================
-       逻辑脚本
-       ========================================= */
-    
     // 1. 开屏逻辑
     function closeSplash() {
       const splash = document.getElementById('splash');
@@ -362,7 +433,7 @@
     setInterval(updateTime, 1000);
     updateTime();
 
-    // 3. 动态导航生成 (模拟数据)
+    // 3. 动态导航生成
     const navItems = [
       { name: "Overview", icon: "ri-dashboard-line", active: true },
       { name: "Projects", icon: "ri-folder-2-line" },
@@ -400,7 +471,6 @@
       }
     }
     fabMemo.addEventListener('click', toggleMemo);
-
   </script>
 </body>
 </html>
@@ -1137,6 +1207,7 @@
   </script>
 </body>
 </html>
+
 
 
 
