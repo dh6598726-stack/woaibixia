@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>JIN Tong｜Archive</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
   <link rel="icon" href="J.png" type="image/png" />
   <link rel="shortcut icon" href="J.png" type="image/png" />
@@ -15,7 +15,7 @@
 
   <style>
     /* =========================================
-       0. 视频背景核心样式 (新增)
+       0. 视频背景核心样式 
        ========================================= */
     #bg-video {
         position: fixed;
@@ -25,53 +25,50 @@
         min-height: 100%;
         width: auto;
         height: auto;
-        z-index: -999; /* 置于最底层 */
-        object-fit: cover; /* 保持比例铺满 */
+        z-index: -999;
+        object-fit: cover;
+        /* PC端保持视频，默认开启 */
+        display: block; 
     }
 
     /* =========================================
-       1. 设计系统 (已调整为半透明玻璃风)
+       1. 设计系统
        ========================================= */
     :root {
-      /* 这里的背景色改为半透明，为了让视频透出来 */
       --bg-app: transparent; 
-      /* 侧边栏：白色，85%不透明度 */
-      --bg-sidebar: rgba(255, 255, 255, 0.85); 
-      /* 卡片：白色，85%不透明度 */
-      --bg-card: rgba(255, 255, 255, 0.85); 
-      --border: rgba(229, 229, 234, 0.6);
+      --bg-sidebar: rgba(255, 255, 255, 0.75); 
+      --bg-card: rgba(255, 255, 255, 0.75); 
+      --border: rgba(255, 255, 255, 0.4);
       --border-hover: #1c1c1e;
       --text-main: #1c1c1e;
-      --text-sub: #555555; /* 加深一点字色防止背景干扰 */
+      --text-sub: #444444; 
       --accent: #007aff;
-      --shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* 玻璃质感阴影 */
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
       --radius: 14px;
-      --blur-val: 20px; /* 毛玻璃模糊度 */
+      --blur-val: 20px; 
     }
 
     body.dark-mode {
       --bg-app: transparent;
-      /* 暗黑模式侧边栏：深灰，85%不透明度 */
-      --bg-sidebar: rgba(28, 28, 30, 0.85);
-      /* 暗黑模式卡片 */
-      --bg-card: rgba(28, 28, 30, 0.85);
-      --border: rgba(44, 44, 46, 0.6);
+      --bg-sidebar: rgba(28, 28, 30, 0.75);
+      --bg-card: rgba(28, 28, 30, 0.75);
+      --border: rgba(255, 255, 255, 0.1);
       --border-hover: #ffffff;
       --text-main: #f2f2f7;
-      --text-sub: #98989d;
+      --text-sub: #a1a1a6;
       --accent: #0a84ff;
       --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     
     body {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
-      background-color: var(--bg-app); /* 此时是透明的 */
+      background-color: var(--bg-app);
       color: var(--text-main);
       height: 100vh;
       overflow: hidden;
-      transition: background 0.4s ease;
+      transition: background 0.3s ease;
     }
 
     #app {
@@ -80,10 +77,10 @@
       height: 100%;
     }
 
-    /* 侧边栏 - 增加毛玻璃效果 */
+    /* 侧边栏 */
     aside {
       background: var(--bg-sidebar);
-      backdrop-filter: blur(var(--blur-val)); /* 关键：模糊背景 */
+      backdrop-filter: blur(var(--blur-val));
       -webkit-backdrop-filter: blur(var(--blur-val));
       border-right: 1px solid var(--border);
       padding: 30px 20px;
@@ -96,7 +93,6 @@
       margin-bottom: 30px; padding-left: 8px; cursor: pointer;
     }
     
-    /* Logo 字体样式 */
     .brand-logo {
       width: 36px; height: 36px; background: var(--text-main); color: var(--bg-app);
       border-radius: 10px; display: flex; align-items: center; justify-content: center;
@@ -105,7 +101,6 @@
       font-size: 22px;
     }
     
-    /* 品牌名 字体样式 */
     .brand-text h1 { 
       font-family: "Zhi Mang Xing", cursive;
       font-size: 24px;
@@ -119,7 +114,7 @@
     .search-box { position: relative; margin-bottom: 20px; }
     .search-input {
       width: 100%; padding: 10px 12px 10px 36px;
-      background: rgba(128,128,128, 0.1); /* 搜索框微调 */
+      background: rgba(128,128,128, 0.1);
       border: 1px solid transparent;
       border-radius: 10px; color: var(--text-main); font-size: 13px;
       transition: all 0.2s;
@@ -129,7 +124,7 @@
 
     .nav-scroll { flex: 1; overflow-y: auto; padding-right: 5px; }
     .nav-scroll::-webkit-scrollbar { width: 4px; }
-    .nav-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .nav-scroll::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.3); border-radius: 4px; }
     
     .nav-item {
       padding: 10px 12px;
@@ -139,7 +134,7 @@
       transition: all 0.2s; cursor: pointer; margin-bottom: 2px;
     }
     .nav-item:hover { background: rgba(128,128,128, 0.1); color: var(--text-main); }
-    .nav-item.active { background: var(--text-main); color: var(--bg-sidebar); } /* 文字颜色反转适配 */
+    .nav-item.active { background: var(--text-main); color: var(--bg-sidebar); }
     .nav-icon { font-size: 16px; opacity: 0.8; }
 
     .aside-footer { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
@@ -153,18 +148,21 @@
       padding: 40px 80px;
       overflow-y: auto;
       scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch; /* iOS 惯性滚动 */
     }
 
     .hero-quote {
       margin-bottom: 60px;
       padding: 40px;
       background: var(--bg-card);
-      backdrop-filter: blur(var(--blur-val)); /* 毛玻璃 */
+      backdrop-filter: blur(var(--blur-val));
       -webkit-backdrop-filter: blur(var(--blur-val));
       border-radius: 20px;
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
       position: relative; overflow: hidden;
+      /* 性能优化：提升为合成层 */
+      transform: translateZ(0);
     }
     .hero-quote::after {
         content:""; position: absolute; top:0; right:0; width: 100px; height: 100px;
@@ -182,37 +180,38 @@
       display: flex; align-items: baseline; justify-content: space-between;
       margin-bottom: 20px; padding-bottom: 8px;
       border-bottom: 1px solid var(--border);
-      /* 为了让标题在视频上清楚，可以加一点背景或者阴影，这里保持简约 */
     }
     .section-title { font-size: 16px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; }
     .section-count { font-size: 11px; color: var(--text-sub); font-family: "SF Mono", monospace; text-transform: uppercase; }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* 略微减小最小宽度，适应小屏 */
       gap: 16px;
     }
 
-    /* 卡片 - 增加毛玻璃 */
+    /* 卡片样式优化 */
     .card {
       background: var(--bg-card);
-      backdrop-filter: blur(var(--blur-val)); /* 毛玻璃 */
+      backdrop-filter: blur(var(--blur-val));
       -webkit-backdrop-filter: blur(var(--blur-val));
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 16px;
       cursor: pointer;
       display: flex; flex-direction: column; gap: 10px;
-      transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      /* 性能优化 */
+      will-change: transform; 
     }
     .card:hover {
       border-color: var(--border-hover);
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      background: rgba(255,255,255, 0.95); /* Hover时稍微变实一点 */
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      background: rgba(255,255,255, 0.9);
     }
     body.dark-mode .card:hover {
-        background: rgba(40,40,40, 0.95);
+        background: rgba(40,40,40, 0.9);
     }
 
     .card-head { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -249,17 +248,17 @@
     /* 开屏 */
     #splash {
       position: fixed; inset: 0; z-index: 9999;
-      background: #f2f2f7; /* ⚠️这里强制实色背景，否则开屏会透视 */
+      background: #f2f2f7; 
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       transition: opacity 0.6s ease;
       user-select: none; 
     }
-    body.dark-mode #splash { background: #000000; } /* 暗黑模式开屏背景 */
+    body.dark-mode #splash { background: #000000; }
 
     .splash-quote { 
         font-family: "Zhi Mang Xing", cursive; font-size: 32px; 
         text-align: center; max-width: 600px; line-height: 1.6; margin-bottom: 40px; padding: 0 20px;
-        color: #1c1c1e; /* 强制颜色 */
+        color: #1c1c1e;
     }
     body.dark-mode .splash-quote { color: #f2f2f7; }
 
@@ -269,22 +268,24 @@
     #fab-memo {
       position: fixed; bottom: 30px; right: 30px;
       width: 50px; height: 50px;
-      background: var(--text-main); color: var(--bg-sidebar); /* 颜色适配 */
+      background: var(--text-main); color: var(--bg-sidebar);
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-size: 24px; cursor: pointer;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       transition: transform 0.2s, background 0.3s;
       z-index: 101; 
+      /* PC端不透明度调整 */
+      opacity: 0.9;
     }
-    #fab-memo:hover { transform: scale(1.1); }
+    #fab-memo:hover { transform: scale(1.1); opacity: 1; }
     #fab-memo:active { transform: scale(0.9); }
 
     #ghost-memo {
       position: fixed; bottom: 90px; right: 30px; 
       width: 320px; height: 400px;
       background: var(--bg-card); color: var(--text-main);
-      backdrop-filter: blur(var(--blur-val)); /* 毛玻璃 */
+      backdrop-filter: blur(var(--blur-val));
       -webkit-backdrop-filter: blur(var(--blur-val));
       border: 1px solid var(--border);
       border-radius: 16px; padding: 20px;
@@ -300,13 +301,56 @@
       color: var(--text-main); font-family: monospace; font-size: 13px; line-height: 1.6; resize: none; margin-top: 10px;
     }
 
+    /* =========================================
+       移动端专属优化 (Max-Width 768px)
+       ========================================= */
     @media (max-width: 768px) {
+      /* 1. 禁用视频，改用静态图背景 */
+      #bg-video { 
+        display: none !important; 
+      }
+      
+      body {
+        /* 使用海报图作为背景，如果海报图透明，则用 fallback 颜色 */
+        background-color: #f2f2f7; 
+        background-image: url('J.png'); 
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed; /* 视差效果 */
+      }
+      body.dark-mode {
+        background-color: #000;
+      }
+
       #app { grid-template-columns: 1fr; }
       aside { display: none; }
-      main { padding: 20px; }
-      .hero-quote { padding: 20px; }
+      
+      /* 2. 移除毛玻璃 (极大幅度提升滑动帧率) */
+      .hero-quote, .card, #ghost-memo, .mask-badge {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
+
+      /* 3. 调整背景不透明度 (因为没了毛玻璃，需要更实一点) */
+      :root {
+        --bg-card: rgba(255, 255, 255, 0.96); 
+      }
+      body.dark-mode {
+        --bg-card: rgba(28, 28, 30, 0.96);
+      }
+
+      /* 4. 间距和布局微调 */
+      main { padding: 16px 16px 80px 16px; } /* 底部留白给 FAB */
+      .hero-quote { padding: 24px; margin-bottom: 30px; }
       .quote-text { font-size: 22px; }
-      #ghost-memo { width: 90%; left: 5%; right: 5%; bottom: 100px; height: 60vh; }
+      
+      /* 5. 备忘录全屏适配 */
+      #ghost-memo { width: auto; left: 16px; right: 16px; bottom: 90px; height: 50vh; }
+      
+      /* 6. 搜索框吸顶 (可选，提升体验) */
+      /* 如果需要在手机端显示搜索框，可以在这里加样式，
+         但当前结构搜索框在 aside 里被隐藏了。
+         如果想在手机端搜，建议把搜索入口移出来，这里保持原样 */
     }
   </style>
 </head>
@@ -1235,4 +1279,3 @@
   </script>
 </body>
 </html>
-
