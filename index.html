@@ -15,7 +15,7 @@
 
   <style>
     /* =========================================
-       1. 设计系统
+       1. 设计系统 (配色与基础)
        ========================================= */
     :root {
       --bg-app: #f2f2f7;
@@ -59,7 +59,9 @@
       height: 100%;
     }
 
-    /* 侧边栏 */
+    /* =========================================
+       2. 侧边栏 (Sidebar)
+       ========================================= */
     aside {
       background: var(--bg-sidebar);
       border-right: 1px solid var(--border);
@@ -73,25 +75,38 @@
       margin-bottom: 30px; padding-left: 8px; cursor: pointer;
     }
     
-    /* Logo 字体样式 */
+    /* ★★★ 修改重点：Logo 字体样式 ★★★ */
     .brand-logo {
-      width: 36px; height: 36px; background: var(--text-main); color: var(--bg-app);
-      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; 
+      background: var(--text-main); color: var(--bg-app);
+      border-radius: 10px; 
+      display: flex; align-items: center; justify-content: center;
+      /* 使用书法字体，不需要加粗 */
       font-family: "Zhi Mang Xing", cursive;
       font-weight: 400; 
-      font-size: 22px;
+      font-size: 22px; 
+      line-height: 1;
     }
     
-    /* 品牌名 字体样式 */
+    /* ★★★ 修改重点：品牌名 字体样式 ★★★ */
     .brand-text h1 { 
       font-family: "Zhi Mang Xing", cursive;
-      font-size: 24px;
+      font-size: 26px; /* 稍微调大一点更有气势 */
       font-weight: 400; 
       line-height: 1;
       letter-spacing: 0.5px; 
+      color: var(--text-main);
     }
     
-    .brand-text span { font-size: 10px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 2px;}
+    .brand-text span { 
+      font-family: -apple-system, sans-serif; /* 下面的小字保持无衬线体更易读 */
+      font-size: 10px; 
+      color: var(--text-sub); 
+      text-transform: uppercase; 
+      letter-spacing: 1px; 
+      display: block; 
+      margin-top: 4px;
+    }
 
     .search-box { position: relative; margin-bottom: 20px; }
     .search-input {
@@ -124,7 +139,9 @@
       background: var(--bg-app); padding: 4px 8px; border-radius: 6px; cursor: default;
     }
 
-    /* 主区域 */
+    /* =========================================
+       3. 主内容区 (Main)
+       ========================================= */
     main {
       padding: 40px 80px;
       overflow-y: auto;
@@ -166,7 +183,7 @@
       gap: 16px;
     }
 
-    /* 卡片 */
+    /* 卡片样式 */
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -195,7 +212,7 @@
     .card-title { font-size: 13px; font-weight: 600; color: var(--text-main); }
     .card-desc { font-size: 11px; color: var(--text-sub); opacity: 0.8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    /* 敏感内容 */
+    /* 敏感内容模糊效果 */
     .sensitive-zone { position: relative; }
     .sensitive-blur { filter: blur(10px); opacity: 0.4; transition: 0.4s; }
     .sensitive-mask {
@@ -212,7 +229,7 @@
     .sensitive-zone:hover .sensitive-blur { filter: blur(0); opacity: 1; }
     .sensitive-zone:hover .mask-badge { opacity: 0; transform: scale(0.9); }
 
-    /* 开屏 */
+    /* 开屏动画 */
     #splash {
       position: fixed; inset: 0; z-index: 9999;
       background: var(--bg-app);
@@ -232,7 +249,7 @@
     .enter-btn:hover { border-color: var(--text-main); }
     .hidden { opacity: 0; pointer-events: none; }
 
-    /* 备忘录按钮 */
+    /* 悬浮按钮 (FAB) */
     #fab-memo {
       position: fixed; bottom: 30px; right: 30px;
       width: 50px; height: 50px;
@@ -247,6 +264,7 @@
     #fab-memo:hover { transform: scale(1.1); }
     #fab-memo:active { transform: scale(0.9); }
 
+    /* 备忘录弹窗 */
     #ghost-memo {
       position: fixed; bottom: 90px; right: 30px; 
       width: 320px; height: 400px;
@@ -363,46 +381,8 @@
               <div class="card-desc">Tokyo / 2024 / Midnight series.</div>
             </div>
           </div>
-           <div class="card">
-            <div class="card-head">
-              <div class="icon-box"><i class="ri-music-2-line"></i></div>
-              <i class="ri-arrow-right-up-line link-arrow"></i>
-            </div>
-            <div class="card-body">
-              <div class="card-title">Midnight Jazz</div>
-              <div class="card-desc">A curated playlist for deep work.</div>
-            </div>
-          </div>
         </div>
       </div>
-
-      <div class="section-block">
-        <div class="section-header">
-           <div class="section-title"><i class="ri-book-open-line"></i> Reading List</div>
-           <div class="section-count">12 ITEMS</div>
-        </div>
-         <div class="grid">
-            <div class="card">
-              <div class="card-head">
-                 <div class="icon-box"><i class="ri-double-quotes-l"></i></div>
-              </div>
-              <div class="card-body">
-                 <div class="card-title">Philosophy of Art</div>
-                 <div class="card-desc">Understanding aesthetics in modern era.</div>
-              </div>
-            </div>
-             <div class="card">
-              <div class="card-head">
-                 <div class="icon-box"><i class="ri-code-s-slash-line"></i></div>
-              </div>
-              <div class="card-body">
-                 <div class="card-title">Clean Code</div>
-                 <div class="card-desc">Refactoring legacy systems.</div>
-              </div>
-            </div>
-         </div>
-      </div>
-
     </main>
   </div>
     
@@ -415,7 +395,7 @@
   </div>
 
   <script>
-    // 1. 开屏逻辑
+    // 开屏逻辑
     function closeSplash() {
       const splash = document.getElementById('splash');
       splash.style.opacity = '0';
@@ -424,16 +404,17 @@
       }, 600);
     }
 
-    // 2. 时间显示
+    // 时间显示
     function updateTime() {
       const now = new Date();
       const timeStr = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
-      document.getElementById('time-pill').textContent = timeStr;
+      const pill = document.getElementById('time-pill');
+      if(pill) pill.textContent = timeStr;
     }
     setInterval(updateTime, 1000);
     updateTime();
 
-    // 3. 动态导航生成
+    // 动态导航生成
     const navItems = [
       { name: "Overview", icon: "ri-dashboard-line", active: true },
       { name: "Projects", icon: "ri-folder-2-line" },
@@ -444,25 +425,30 @@
     ];
 
     const navContainer = document.getElementById('nav-container');
-    navItems.forEach(item => {
-      const el = document.createElement('div');
-      el.className = `nav-item ${item.active ? 'active' : ''}`;
-      el.innerHTML = `<i class="${item.icon} nav-icon"></i> ${item.name}`;
-      navContainer.appendChild(el);
-    });
+    if(navContainer) {
+      navItems.forEach(item => {
+        const el = document.createElement('div');
+        el.className = `nav-item ${item.active ? 'active' : ''}`;
+        el.innerHTML = `<i class="${item.icon} nav-icon"></i> ${item.name}`;
+        navContainer.appendChild(el);
+      });
+    }
 
-    // 4. 深色模式切换
+    // 深色模式切换
     const themeToggle = document.getElementById('theme-toggle');
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-    });
+    if(themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+      });
+    }
 
-    // 5. 备忘录逻辑
+    // 备忘录逻辑
     const fabMemo = document.getElementById('fab-memo');
     const ghostMemo = document.getElementById('ghost-memo');
     let isMemoOpen = false;
 
     function toggleMemo() {
+      if(!ghostMemo) return;
       isMemoOpen = !isMemoOpen;
       if (isMemoOpen) {
         ghostMemo.classList.add('active');
@@ -470,7 +456,7 @@
         ghostMemo.classList.remove('active');
       }
     }
-    fabMemo.addEventListener('click', toggleMemo);
+    if(fabMemo) fabMemo.addEventListener('click', toggleMemo);
   </script>
 </body>
 </html>
@@ -1207,6 +1193,7 @@
   </script>
 </body>
 </html>
+
 
 
 
