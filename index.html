@@ -218,18 +218,15 @@
       background: var(--bg-app);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       transition: opacity 0.6s ease;
+      /* 确保禁止选择，防止用户通过全选文字发现暗门 */
+      user-select: none; 
     }
     .splash-quote { 
         font-family: "Zhi Mang Xing", cursive; font-size: 32px; 
         text-align: center; max-width: 600px; line-height: 1.6; margin-bottom: 40px; padding: 0 20px;
     }
-    .enter-btn {
-      padding: 10px 24px; border: 1px solid var(--border);
-      background: transparent; color: var(--text-main);
-      border-radius: 99px; cursor: pointer; transition: all 0.3s;
-      font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
-    }
-    .enter-btn:hover { border-color: var(--text-main); }
+    /* 移除了 .enter-btn 的样式 */
+    
     .hidden { opacity: 0; pointer-events: none; }
 
     /* 备忘录按钮 */
@@ -288,12 +285,11 @@
       世事无常，我们所能做的就是欣赏每一次花开，观赏每一处风景。<br>
       现在想想，那些难以接受的事情，也在自愿或者被迫中慢慢接受了。<br>
       <br>
-      回头看，轻舟已过万重山；<br>
+      回头看，<span onclick="closeSplash()" style="cursor: default;">轻舟</span>已过万重山；<br>
       向前看，长路漫漫亦灿烂。
     </p>
   </div>
-  <button class="enter-btn" onclick="closeSplash()">Enter Archive</button>
-</div>
+  </div>
 <div id="fab-memo" title="Open Cloud Memo">
     <i class="ri-cloud-line"></i>
   </div>
