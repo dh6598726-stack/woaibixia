@@ -5,8 +5,7 @@
   <title>JIN Tong｜Archive</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-  <link rel="icon" href="J.png" type="image/png" />
-  <link rel="shortcut icon" href="J.png" type="image/png" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='red' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/><path stroke='white' stroke-width='2' stroke-linecap='round' d='M2 2l20 20M2 7V2h5M17 22h5v-5'/></svg>">
     
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,19 +14,15 @@
 
   <style>
     /* =========================================
-       0. 全局背景设置 (核心修改)
+       背景设置 (laopo.png)
        ========================================= */
     body {
-        /* 设置背景图片为 laopo.png */
         background-image: url('laopo.png');
-        
-        /* 让图片铺满屏幕且不重复 */
         background-size: cover;
         background-position: center center;
         background-repeat: no-repeat;
-        background-attachment: fixed; /* 固定背景，滑动时不随内容滚动 */
-        
-        background-color: #f2f2f7; /* 图片加载失败时的底色 */
+        background-attachment: fixed;
+        background-color: #f2f2f7; 
         font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
         color: var(--text-main);
         height: 100vh;
@@ -36,12 +31,9 @@
         transition: background 0.3s ease;
     }
 
-    /* =========================================
-       1. 设计系统 (已优化透明度)
-       ========================================= */
+    /* 设计系统 */
     :root {
       --bg-app: transparent; 
-      /* 稍微增加不透明度，防止背景图太花导致看不清字 */
       --bg-sidebar: rgba(255, 255, 255, 0.85); 
       --bg-card: rgba(255, 255, 255, 0.80); 
       --border: rgba(255, 255, 255, 0.5);
@@ -51,7 +43,7 @@
       --accent: #007aff;
       --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
       --radius: 14px;
-      --blur-val: 30px; /* 增加模糊度提升质感 */
+      --blur-val: 30px; 
     }
 
     body.dark-mode {
@@ -295,11 +287,8 @@
       color: var(--text-main); font-family: monospace; font-size: 13px; line-height: 1.6; resize: none; margin-top: 10px;
     }
 
-    /* =========================================
-       移动端专属优化 (Max-Width 768px)
-       ========================================= */
+    /* 移动端专属优化 */
     @media (max-width: 768px) {
-      /* 手机端背景图片设置 */
       body {
         background-image: url('laopo.png'); 
         background-size: cover;
@@ -311,7 +300,6 @@
       aside { display: none; }
       
       .hero-quote, .card, #ghost-memo, .mask-badge {
-        /* 手机性能优化：保留轻微透明度 */
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
         background: rgba(255, 255, 255, 0.92);
@@ -330,9 +318,7 @@
   </style>
 </head>
 <body>
-  
-）去掉就行。
--->
+
 <div id="splash">
   <div class="splash-quote">
     <p style="font-size: 24px; text-align: left; line-height: 1.8;">
@@ -344,7 +330,7 @@
       世事无常，我们所能做的就是欣赏每一次花开，观赏每一处风景。<br>
       现在想想，那些难以接受的事情，也在自愿或者被迫中慢慢接受了。<br>
       <br>
-      回头看，<span onclick="closeSplash()" style="cursor: pointer;">轻舟</span>已过万重山；
+      回头看，<span onclick="closeSplash()" style="cursor: pointer; color: #007aff; border-bottom: 1px dashed #007aff;">轻舟</span>已过万重山；<br>
       向前看，长路漫漫亦灿烂。
     </p>
   </div>
@@ -1252,4 +1238,3 @@
   </script>
 </body>
 </html>
-
