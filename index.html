@@ -13,7 +13,7 @@
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
 
   <style>
-    /* 全局背景 - 已改为纯色，去掉了背景图 */
+    /* 全局背景 */
     body {
         background-color: #f2f2f7; 
         font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
@@ -51,7 +51,6 @@
       --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
     }
     
-    /* 深色模式下的背景微调 */
     body.dark-mode {
         background-color: #000000;
     }
@@ -89,15 +88,14 @@
       70% { transform: scale(1); }
     }
 
-    /* Logo 样式修改：去除黑框，改为红色爱心 */
     .brand-logo {
       width: 36px; height: 36px; 
-      background: transparent; /* 去掉背景色 */
-      color: #ff3b30; /* 红色 */
+      background: transparent; 
+      color: #ff3b30; 
       border-radius: 10px; 
       display: flex; align-items: center; justify-content: center;
       font-size: 24px;
-      animation: heartbeat 1.3s infinite ease-in-out; /* 添加心跳动画 */
+      animation: heartbeat 1.3s infinite ease-in-out; 
     }
     
     .brand-text h1 { 
@@ -142,7 +140,6 @@
       background: rgba(128,128,128, 0.1); padding: 4px 8px; border-radius: 6px; cursor: default;
     }
 
-    /* 主区域 */
     main {
       padding: 40px 80px;
       overflow-y: auto;
@@ -150,49 +147,43 @@
       -webkit-overflow-scrolling: touch; 
     }
 
-    /* 顶部语录区域 - 背景图只在这里显示 */
     .hero-quote {
       margin-bottom: 60px;
       padding: 50px;
-      /* 这里设置你的背景图 */
       background-image: url('laopo.png'); 
       background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
-      
       border-radius: 20px;
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
       position: relative; 
       overflow: hidden;
-      color: white; /* 强制文字变白，防止背景太花 */
+      color: white; 
     }
     
-    /* 增加一个深色遮罩，保证文字清晰 */
     .hero-quote::before {
         content: "";
         position: absolute;
         inset: 0;
-        background: rgba(0, 0, 0, 0.3); /* 遮罩透明度，可自己调 */
+        background: rgba(0, 0, 0, 0.3); 
         z-index: 1;
     }
 
-    /* 文字层级要高于遮罩 */
     .quote-text, .quote-sub {
         position: relative;
         z-index: 2;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* 文字阴影 */
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5); 
     }
 
     .quote-text {
       font-family: "Zhi Mang Xing", cursive;
       font-size: 28px; line-height: 1.6; 
-      color: #ffffff; /* 确保是白色 */
+      color: #ffffff; 
       margin-bottom: 12px;
     }
     .quote-sub { font-size: 12px; color: rgba(255,255,255,0.8); letter-spacing: 2px; text-transform: uppercase; }
 
-    /* 神秘触发器样式 */
     .secret-trigger {
         cursor: pointer;
         border-bottom: 1px dashed rgba(255,255,255,0.4);
@@ -219,7 +210,6 @@
       gap: 16px;
     }
 
-    /* 卡片样式 */
     .card {
       background: var(--bg-card);
       backdrop-filter: blur(var(--blur-val));
@@ -256,8 +246,12 @@
     .card-title { font-size: 13px; font-weight: 600; color: var(--text-main); }
     .card-desc { font-size: 11px; color: var(--text-sub); opacity: 0.8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    /* 敏感内容 */
+    /* 敏感内容 - 默认隐藏 (The Vault) */
     .sensitive-zone { position: relative; }
+    
+    /* 增加一个 locked 类，用于完全隐藏 */
+    .locked { display: none !important; }
+
     .sensitive-blur { filter: blur(10px); opacity: 0.4; transition: 0.4s; }
     .sensitive-mask {
       position: absolute; inset: 0;
@@ -292,10 +286,7 @@
 
     .hidden { opacity: 0; pointer-events: none; }
 
-    /* 备忘录按钮 - 已隐藏 */
-    #fab-memo {
-      display: none; /* 隐藏按钮 */
-    }
+    #fab-memo { display: none; }
 
     #ghost-memo {
       position: fixed; bottom: 90px; right: 30px; 
@@ -317,14 +308,18 @@
       color: var(--text-main); font-family: monospace; font-size: 13px; line-height: 1.6; resize: none; margin-top: 10px;
     }
 
+    /* 老板键伪装层 */
+    #panic-overlay {
+      position: fixed; inset: 0; background: #ffffff; z-index: 99999;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; opacity: 0; pointer-events: none; transition: 0.1s;
+    }
+    #panic-overlay.active { opacity: 1; pointer-events: auto; }
+
     /* 移动端专属优化 */
     @media (max-width: 768px) {
-      body {
-        /* 移动端背景也改为纯色 */
-        background-color: #f2f2f7;
-      }
+      body { background-color: #f2f2f7; }
       body.dark-mode { background-color: #000000; }
-
       #app { grid-template-columns: 1fr; }
       aside { display: none; }
       
@@ -337,22 +332,27 @@
       body.dark-mode .card {
           background: rgba(20, 20, 22, 0.92);
       }
-      /* 移动端 Hero 区域保持背景图 */
       .hero-quote {
           background-image: url('laopo.png');
           background-size: cover;
           color: white;
       }
-
       main { padding: 16px 16px 80px 16px; }
       .hero-quote { padding: 24px; margin-bottom: 30px; }
       .quote-text { font-size: 22px; }
-      
       #ghost-memo { width: auto; left: 16px; right: 16px; bottom: 90px; height: 50vh; }
     }
   </style>
 </head>
 <body>
+
+<div id="panic-overlay">
+  <div>
+    <h1 style="font-size: 80px; margin: 0; color: #333;">404</h1>
+    <p style="font-size: 24px; color: #666; font-family: sans-serif;">Not Found</p>
+    <div style="margin-top: 20px; font-family: monospace; color: #999;">nginx/1.18.0 (Ubuntu)</div>
+  </div>
+</div>
 
 <div id="splash">
   <div class="splash-quote">
@@ -982,7 +982,7 @@
          </div>
       </div>
 
-      <div class="section-block sensitive-zone" id="sec-abyss" data-icon="ri-eye-off-line">
+      <div class="section-block sensitive-zone locked" id="sec-abyss" data-icon="ri-eye-off-line">
         <div class="sensitive-mask"><div class="mask-badge">Confidential</div></div>
         <div class="sensitive-blur">
           <div class="section-header"><div class="section-title">特殊资源</div><span class="section-count">Hidden</span></div>
@@ -1090,7 +1090,6 @@
       sections.forEach(sec => {
         const id = sec.id;
         const iconClass = sec.dataset.icon || 'ri-links-line';
-        // 直接获取修改后的中文标题
         const title = sec.querySelector('.section-title').textContent.trim();
         
         const link = document.createElement('a');
@@ -1141,8 +1140,41 @@
       });
     });
 
+    // 监听键盘事件：老板键 + 隐形资源区解锁
+    let secretCode = '';
     document.addEventListener('keydown', (e) => {
+      // 1. 老板键: ESC
+      if (e.key === 'Escape') {
+        const panicOverlay = document.getElementById('panic-overlay');
+        const app = document.getElementById('app');
+        if (panicOverlay.classList.contains('active')) {
+          panicOverlay.classList.remove('active');
+          app.style.filter = 'none';
+        } else {
+          panicOverlay.classList.add('active');
+          app.style.filter = 'blur(10px)'; // 模糊背景防止透视
+        }
+      }
+
+      // 2. 快捷键聚焦搜索
       if((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); searchInput.focus(); }
+
+      // 3. 隐形资源区解锁逻辑 (输入 'open')
+      // 如果正在输入框打字，不触发
+      if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      
+      secretCode += e.key.toLowerCase();
+      // 只保留最后4个字符
+      if (secretCode.length > 4) secretCode = secretCode.slice(-4);
+      
+      if (secretCode === 'open') {
+        const abyss = document.getElementById('sec-abyss');
+        abyss.classList.toggle('locked');
+        if (!abyss.classList.contains('locked')) {
+            abyss.scrollIntoView({ behavior: 'smooth' });
+        }
+        secretCode = ''; // 重置
+      }
     });
 
     // 主题
@@ -1160,7 +1192,6 @@
     const memoContent = document.getElementById('memo-content');
     const statusText = document.getElementById('cloud-status');
 
-    // 以前是 FAB 触发，现在被“凌云”文字触发，这里保留函数供调用
     function toggleMemo() {
       ghostMemo.classList.toggle('active');
       if(ghostMemo.classList.contains('active')) loadFromCloud();
