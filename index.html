@@ -148,7 +148,7 @@
     }
 
     .hero-quote {
-      margin-bottom: 60px;
+      margin-bottom: 30px; /* 稍微缩小这个间距，因为下面加了Archive */
       padding: 50px;
       background-image: url('laopo.png'); 
       background-size: cover;
@@ -183,6 +183,58 @@
       margin-bottom: 12px;
     }
     .quote-sub { font-size: 12px; color: rgba(255,255,255,0.8); letter-spacing: 2px; text-transform: uppercase; }
+
+    /* === Internet Archive 特别样式 (新增) === */
+    .time-capsule {
+        margin-bottom: 50px; /* 与下方 Grid 拉开距离 */
+        padding: 20px 24px;
+        /* 深色渐变背景，营造神秘感，不受主题影响，保持独立 */
+        background: linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
+        border-radius: var(--radius);
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: space-between;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        border: 1px solid rgba(255,255,255,0.15);
+        position: relative; overflow: hidden;
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        color: #fff;
+    }
+    .time-capsule:hover {
+        transform: scale(1.01) translateY(-2px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+        border-color: rgba(255,255,255,0.4);
+    }
+    /* 扫光动效 */
+    .time-capsule::before {
+        content: ''; position: absolute;
+        top: 0; left: -100%; width: 50%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        transform: skewX(-20deg); transition: 0s;
+    }
+    .time-capsule:hover::before {
+        left: 200%; transition: 0.8s ease-in-out;
+    }
+    .capsule-left { display: flex; align-items: center; gap: 16px; z-index: 2; }
+    .capsule-icon-box {
+        width: 44px; height: 44px;
+        background: rgba(255,255,255,0.15);
+        backdrop-filter: blur(5px);
+        border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 22px; color: #fff;
+    }
+    .capsule-info { display: flex; flex-direction: column; }
+    .capsule-title { color: #fff; font-size: 15px; font-weight: 700; letter-spacing: 0.5px; font-family: -apple-system, sans-serif; }
+    .capsule-desc { color: rgba(255,255,255,0.6); font-size: 11px; margin-top: 3px; font-weight: 400; }
+    .capsule-arrow {
+        width: 32px; height: 32px; border-radius: 50%;
+        background: #fff; color: #000;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 18px; opacity: 0; transform: translateX(-15px);
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 2;
+    }
+    .time-capsule:hover .capsule-arrow { opacity: 1; transform: translateX(0); }
+    /* === 结束 === */
 
     .secret-trigger {
         cursor: pointer;
@@ -338,7 +390,7 @@
           color: white;
       }
       main { padding: 16px 16px 80px 16px; }
-      .hero-quote { padding: 24px; margin-bottom: 30px; }
+      .hero-quote { padding: 24px; margin-bottom: 20px; }
       .quote-text { font-size: 22px; }
       #ghost-memo { width: auto; left: 16px; right: 16px; bottom: 90px; height: 50vh; }
     }
@@ -406,7 +458,19 @@
         </div>
         <div class="quote-sub">Long live freedom / The Visual Archive</div>
       </div>
-      
+
+      <div class="time-capsule" onclick="openLink('https://archive.org/')">
+        <div class="capsule-left">
+            <div class="capsule-icon-box">
+                <i class="ri-bank-line"></i>
+            </div>
+            <div class="capsule-info">
+                <span class="capsule-title">Internet Archive</span>
+                <span class="capsule-desc">互联网时光机 · 备份人类文明的火种</span>
+            </div>
+        </div>
+        <div class="capsule-arrow"><i class="ri-arrow-right-line"></i></div>
+      </div>
       <div class="section-block" id="sec-daily" data-icon="ri-newspaper-line">
         <div class="section-header">
           <div class="section-title">日常必看</div>
@@ -430,12 +494,12 @@
              <div class="card-body"><div class="card-title">新产品榜</div><div class="card-desc">国外新奇特</div></div>
           </div>
           <div class="card" onclick="openLink('https://www.topgear.com/car-news')">
-             <div class="card-head"><div class="icon-box">🚗</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-             <div class="card-body"><div class="card-title">TopGear</div><div class="card-desc">顶级汽车</div></div>
+              <div class="card-head"><div class="icon-box">🚗</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">TopGear</div><div class="card-desc">顶级汽车</div></div>
           </div>
           <div class="card" onclick="openLink('https://thegadgetflow.com/')">
-             <div class="card-head"><div class="icon-box">🧰</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-             <div class="card-body"><div class="card-title">硬件流</div><div class="card-desc">极客装备</div></div>
+              <div class="card-head"><div class="icon-box">🧰</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">硬件流</div><div class="card-desc">极客装备</div></div>
           </div>
            <div class="card" onclick="openLink('https://www.dudeiwantthat.com/')">
              <div class="card-head"><div class="icon-box">🛒</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
